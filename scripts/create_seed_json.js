@@ -1,0 +1,459 @@
+import fs from "fs";
+import path from "path";
+
+const orgId = "org-001";
+const teacherId = "user-teacher-01";
+const projectId = "proj-khtn8-midterm";
+
+const organizations = [{
+  id: orgId,
+  name: "Trường THCS Chu Văn An",
+  address: "10 Thụy Khuê, Tây Hồ, Hà Nội",
+  logoUrl: "/logo-school.png",
+  departments: ["Tổ Tự Nhiên", "Tổ Xã Hội", "Tổ Toán - Tin", "Tổ Ngoại Ngữ"]
+}];
+
+const users = [
+  { id: "user-admin-01", fullName: "Quản trị viên Hệ thống", email: "admin@edutest.vn", role: "R01_SYSTEM_ADMIN", organizationId: orgId, createdAt: "2026-01-01T00:00:00.000Z" },
+  { id: "user-school-admin-01", fullName: "Thầy Hiệu trưởng Trần Văn Bình", email: "bgh@chuvanan.edu.vn", role: "R02_SCHOOL_ADMIN", organizationId: orgId, department: "Ban Giám Hiệu", createdAt: "2026-01-01T00:00:00.000Z" },
+  { id: "user-head-01", fullName: "Cô Tổ trưởng Nguyễn Thị Mai", email: "totruong.tunhien@chuvanan.edu.vn", role: "R03_HEAD_OF_DEPT", organizationId: orgId, department: "Tổ Tự Nhiên", createdAt: "2026-01-01T00:00:00.000Z" },
+  { id: teacherId, fullName: "Thầy Giáo viên Nguyễn Văn An", email: "giaovien.an@chuvanan.edu.vn", role: "R04_TEACHER", organizationId: orgId, department: "Tổ Tự Nhiên", createdAt: "2026-01-01T00:00:00.000Z" },
+  { id: "user-reviewer-01", fullName: "Thầy Phản biện Lê Quốc Hưng", email: "phanbien.hung@chuvanan.edu.vn", role: "R05_REVIEWER", organizationId: orgId, department: "Tổ Tự Nhiên", createdAt: "2026-01-01T00:00:00.000Z" },
+  { id: "user-viewer-01", fullName: "Thầy Khảo thí Hoàng Đức", email: "khaothi@chuvanan.edu.vn", role: "R06_VIEWER", organizationId: orgId, createdAt: "2026-01-01T00:00:00.000Z" }
+];
+
+const projects = [
+  {
+    id: projectId,
+    name: "Đề kiểm tra Giữa kì I - Môn KHTN 8 (Năm học 2026-2027)",
+    subject: "Khoa học tự nhiên",
+    grade: 8,
+    textbookSeries: "Kết nối tri thức với cuộc sống",
+    semester: "HK1",
+    examPeriod: "GIUA_KY",
+    durationMinutes: 60,
+    totalScore: 10.0,
+    status: "APPROVED",
+    organizationId: orgId,
+    authorId: teacherId,
+    authorName: "Nguyễn Văn An",
+    organizationName: "Trường THCS Chu Văn An",
+    ruleProfileId: "KHTN_8",
+    createdAt: "2026-08-20T08:00:00.000Z",
+    updatedAt: "2026-08-28T10:30:00.000Z",
+    version: 3
+  },
+  {
+    id: "proj-toan9-hk1",
+    name: "Đề kiểm tra Cuối kì I - Môn Toán 9",
+    subject: "Toán học",
+    grade: 9,
+    textbookSeries: "Chân trời sáng tạo",
+    semester: "HK1",
+    examPeriod: "CUOI_KY",
+    durationMinutes: 90,
+    totalScore: 10.0,
+    status: "DRAFT",
+    organizationId: orgId,
+    authorId: teacherId,
+    authorName: "Nguyễn Văn An",
+    organizationName: "Trường THCS Chu Văn An",
+    ruleProfileId: "TOAN_9",
+    createdAt: "2026-08-25T09:00:00.000Z",
+    updatedAt: "2026-08-25T09:00:00.000Z",
+    version: 1
+  }
+];
+
+const sources = [
+  {
+    id: "src-sgk-khtn8-ch1",
+    projectId: projectId,
+    fileName: "SGK_KHTN_8_Chuong1_PhanUngHoaHoc.pdf",
+    fileType: "PDF",
+    fileSize: 4520000,
+    fileUrl: "/uploads/SGK_KHTN_8_Chuong1_PhanUngHoaHoc.pdf",
+    hash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    sourceType: "SGK",
+    status: "EXTRACTED",
+    pageCount: 38,
+    createdAt: "2026-08-20T08:05:00.000Z"
+  }
+];
+
+const sourceFragments = [
+  { id: "frag-1", sourceId: "src-sgk-khtn8-ch1", pageNumber: 12, content: "Hiện tượng vật lí là hiện tượng chất biến đổi về trạng thái, hình dạng nhưng vẫn giữ nguyên là chất đó. Hiện tượng hóa học là hiện tượng chất có sự biến đổi tạo ra chất mới.", topicRef: "Phản ứng hóa học" },
+  { id: "frag-2", sourceId: "src-sgk-khtn8-ch1", pageNumber: 16, content: "Định luật bảo toàn khối lượng: Trong một phản ứng hóa học, tổng khối lượng của các chất sản phẩm bằng tổng khối lượng của các chất tham gia phản ứng. mA + mB = mC + mD.", topicRef: "Định luật bảo toàn khối lượng" },
+  { id: "frag-3", sourceId: "src-sgk-khtn8-ch1", pageNumber: 22, content: "Mol là lượng chất có chứa 6,022 x 10^23 hạt nguyên tử hoặc phân tử. Thể tích mol chất khí ở đkc là 24,79 L/mol, V = n * 24,79.", topicRef: "Mol và tỉ khối của chất khí" },
+  { id: "frag-4", sourceId: "src-sgk-khtn8-ch1", pageNumber: 30, content: "Nồng độ phần trăm C% = (m_ct / m_dd) * 100%. Nồng độ mol CM = n / V.", topicRef: "Dung dịch và nồng độ" }
+];
+
+const dataPack = {
+  projectId,
+  isApproved: true,
+  approvedAt: "2026-08-21T09:00:00.000Z",
+  approvedBy: "Nguyễn Văn An",
+  version: 1,
+  topics: [
+    { id: "top-1", code: "CD1", name: "Chất và sự biến đổi của chất", order: 1 },
+    { id: "top-2", code: "CD2", name: "Khối lượng riêng và áp suất", order: 2 }
+  ],
+  units: [
+    { id: "unit-1-1", topicId: "top-1", code: "B1", name: "Phản ứng hóa học và Biến đổi hóa học", order: 1 },
+    { id: "unit-1-2", topicId: "top-1", code: "B2", name: "Định luật bảo toàn khối lượng và phương trình hóa học", order: 2 },
+    { id: "unit-1-3", topicId: "top-1", code: "B3", name: "Mol, tỉ khối chất khí và nồng độ dung dịch", order: 3 },
+    { id: "unit-2-1", topicId: "top-2", code: "B4", name: "Khối lượng riêng và Áp suất chất lỏng", order: 1 }
+  ],
+  yccds: [
+    { id: "yccd-1", unitId: "unit-1-1", code: "YCCD_KHTN8_01", description: "Phân biệt được hiện tượng vật lí và hiện tượng hóa học trong thực tế.", cognitiveLevelDefault: "NB", competencyCode: "NTHK", sourceReference: "SGK KHTN 8 - Bài 2, tr.12-14" },
+    { id: "yccd-2", unitId: "unit-1-2", code: "YCCD_KHTN8_02", description: "Phát biểu được định luật bảo toàn khối lượng và vận dụng tính khối lượng trong phản ứng.", cognitiveLevelDefault: "TH", competencyCode: "VD_KTKN", sourceReference: "SGK KHTN 8 - Bài 3, tr.16-19" },
+    { id: "yccd-3", unitId: "unit-1-3", code: "YCCD_KHTN8_03", description: "Tính được khối lượng mol, thể tích mol chất khí ở đkc (V = n * 24,79) và nồng độ dung dịch.", cognitiveLevelDefault: "VD", competencyCode: "VD_KTKN", sourceReference: "SGK KHTN 8 - Bài 4, tr.22-31" },
+    { id: "yccd-4", unitId: "unit-2-1", code: "YCCD_KHTN8_04", description: "Vận dụng công thức khối lượng riêng D = m/V và áp suất p = F/S giải quyết bài toán thực tế.", cognitiveLevelDefault: "VDC", competencyCode: "THTN", sourceReference: "SGK KHTN 8 - Bài 14, tr.60-65" }
+  ]
+};
+
+const blueprint = {
+  id: "bp-khtn8",
+  projectId,
+  totalScore: 10.0,
+  durationMinutes: 60,
+  cognitiveWeights: { NB: 40, TH: 30, VD: 20, VDC: 10 },
+  questionTypeConfigs: [
+    { type: "MULTIPLE_CHOICE", count: 16, pointsPerItem: 0.25, totalScore: 4.0 },
+    { type: "TRUE_FALSE_4", count: 2, pointsPerItem: 1.0, totalScore: 2.0 },
+    { type: "SHORT_ANSWER", count: 4, pointsPerItem: 0.5, totalScore: 2.0 },
+    { type: "ESSAY", count: 2, pointsPerItem: 1.0, totalScore: 2.0 }
+  ],
+  topicAllocations: [
+    { topicId: "top-1", targetScore: 7.0, targetPercentage: 70 },
+    { topicId: "top-2", targetScore: 3.0, targetPercentage: 30 }
+  ],
+  updatedAt: "2026-08-21T10:00:00.000Z"
+};
+
+const matrix = {
+  id: "mat-khtn8",
+  projectId,
+  isApproved: true,
+  approvedAt: "2026-08-22T08:30:00.000Z",
+  approvedBy: "Nguyễn Thị Mai",
+  version: 1,
+  updatedAt: "2026-08-22T08:30:00.000Z",
+  cells: [
+    { id: "mc-1", topicId: "top-1", unitId: "unit-1-1", questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 6, pointsPerItem: 0.25, totalScore: 1.5 },
+    { id: "mc-2", topicId: "top-1", unitId: "unit-1-2", questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 4, pointsPerItem: 0.25, totalScore: 1.0 },
+    { id: "mc-3", topicId: "top-1", unitId: "unit-1-3", questionType: "MULTIPLE_CHOICE", cognitiveLevel: "TH", count: 2, pointsPerItem: 0.25, totalScore: 0.5 },
+    { id: "mc-4", topicId: "top-1", unitId: "unit-1-1", questionType: "TRUE_FALSE_4", cognitiveLevel: "TH", count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
+    { id: "mc-5", topicId: "top-1", unitId: "unit-1-3", questionType: "SHORT_ANSWER", cognitiveLevel: "TH", count: 2, pointsPerItem: 0.5, totalScore: 1.0 },
+    { id: "mc-6", topicId: "top-1", unitId: "unit-1-3", questionType: "SHORT_ANSWER", cognitiveLevel: "VD", count: 2, pointsPerItem: 0.5, totalScore: 1.0 },
+    { id: "mc-7", topicId: "top-1", unitId: "unit-1-2", questionType: "ESSAY", cognitiveLevel: "VD", count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
+    { id: "mc-8", topicId: "top-2", unitId: "unit-2-1", questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 4, pointsPerItem: 0.25, totalScore: 1.0 },
+    { id: "mc-9", topicId: "top-2", unitId: "unit-2-1", questionType: "TRUE_FALSE_4", cognitiveLevel: "TH", count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
+    { id: "mc-10", topicId: "top-2", unitId: "unit-2-1", questionType: "ESSAY", cognitiveLevel: "VDC", count: 1, pointsPerItem: 1.0, totalScore: 1.0 }
+  ]
+};
+
+const specification = {
+  id: "spec-khtn8",
+  projectId,
+  isApproved: true,
+  approvedAt: "2026-08-22T10:00:00.000Z",
+  approvedBy: "Nguyễn Thị Mai",
+  version: 1,
+  updatedAt: "2026-08-22T10:00:00.000Z",
+  rows: [
+    { id: "spec-row-1", matrixCellId: "mc-1", topicId: "top-1", unitId: "unit-1-1", yccdId: "yccd-1", yccdText: "Nhận biết được hiện tượng vật lí và hiện tượng hóa học trong đời sống.", cognitiveLevel: "NB", questionType: "MULTIPLE_CHOICE", count: 6, score: 1.5, competency: "Nhận thức khoa học tự nhiên", sourceReference: "SGK KHTN 8 - Bài 2, tr.12-14" },
+    { id: "spec-row-2", matrixCellId: "mc-2", topicId: "top-1", unitId: "unit-1-2", yccdId: "yccd-2", yccdText: "Nhận biết các dấu hiệu phản ứng hóa học xảy ra và định luật bảo toàn khối lượng.", cognitiveLevel: "NB", questionType: "MULTIPLE_CHOICE", count: 4, score: 1.0, competency: "Nhận thức khoa học tự nhiên", sourceReference: "SGK KHTN 8 - Bài 3, tr.16-19" },
+    { id: "spec-row-3", matrixCellId: "mc-3", topicId: "top-1", unitId: "unit-1-3", yccdId: "yccd-3", yccdText: "Hiểu khái niệm mol, khối lượng mol và thể tích mol chất khí ở điều kiện chuẩn.", cognitiveLevel: "TH", questionType: "MULTIPLE_CHOICE", count: 2, score: 0.5, competency: "Tìm hiểu tự nhiên", sourceReference: "SGK KHTN 8 - Bài 4, tr.22-26" },
+    { id: "spec-row-4", matrixCellId: "mc-4", topicId: "top-1", unitId: "unit-1-1", yccdId: "yccd-1", yccdText: "Phân tích các hiện tượng thực tế xác định biến đổi vật lí hoặc hóa học qua 4 nhận định.", cognitiveLevel: "TH", questionType: "TRUE_FALSE_4", count: 1, score: 1.0, competency: "Tìm hiểu tự nhiên", sourceReference: "SGK KHTN 8 - Bài 2, tr.13" },
+    { id: "spec-row-5", matrixCellId: "mc-5", topicId: "top-1", unitId: "unit-1-3", yccdId: "yccd-3", yccdText: "Tính toán số mol, thể tích chất khí $V = n \\times 24,79$ ở điều kiện chuẩn.", cognitiveLevel: "TH", questionType: "SHORT_ANSWER", count: 2, score: 1.0, competency: "Vận dụng kiến thức, kĩ năng", sourceReference: "SGK KHTN 8 - Bài 4, tr.25" },
+    { id: "spec-row-6", matrixCellId: "mc-6", topicId: "top-1", unitId: "unit-1-3", yccdId: "yccd-3", yccdText: "Tính nồng độ phần trăm ($C\\%$) và nồng độ mol ($C_M$) của dung dịch thu được sau phản ứng.", cognitiveLevel: "VD", questionType: "SHORT_ANSWER", count: 2, score: 1.0, competency: "Vận dụng kiến thức, kĩ năng", sourceReference: "SGK KHTN 8 - Bài 5, tr.30" },
+    { id: "spec-row-7", matrixCellId: "mc-7", topicId: "top-1", unitId: "unit-1-2", yccdId: "yccd-2", yccdText: "Lập phương trình hóa học và vận dụng định luật bảo toàn khối lượng tính khối lượng sản phẩm.", cognitiveLevel: "VD", questionType: "ESSAY", count: 1, score: 1.0, competency: "Vận dụng kiến thức, kĩ năng", sourceReference: "SGK KHTN 8 - Bài 3, tr.18" },
+    { id: "spec-row-8", matrixCellId: "mc-8", topicId: "top-2", unitId: "unit-2-1", yccdId: "yccd-4", yccdText: "Nhận biết đơn vị khối lượng riêng, công thức tính áp suất $p = \\frac{F}{S}$.", cognitiveLevel: "NB", questionType: "MULTIPLE_CHOICE", count: 4, score: 1.0, competency: "Nhận thức khoa học tự nhiên", sourceReference: "SGK KHTN 8 - Bài 14, tr.60-63" },
+    { id: "spec-row-9", matrixCellId: "mc-9", topicId: "top-2", unitId: "unit-2-1", yccdId: "yccd-4", yccdText: "Đánh giá đúng/sai về áp suất chất lỏng trong bình trụ qua 4 nhận định.", cognitiveLevel: "TH", questionType: "TRUE_FALSE_4", count: 1, score: 1.0, competency: "Tìm hiểu tự nhiên", sourceReference: "SGK KHTN 8 - Bài 16, tr.68-71" },
+    { id: "spec-row-10", matrixCellId: "mc-10", topicId: "top-2", unitId: "unit-2-1", yccdId: "yccd-4", yccdText: "Vận dụng kiến thức áp suất và khối lượng riêng giải bài toán áp suất lên mặt sàn.", cognitiveLevel: "VDC", questionType: "ESSAY", count: 1, score: 1.0, competency: "Vận dụng kiến thức, kĩ năng", sourceReference: "SGK KHTN 8 - Bài 17, tr.74-78" }
+  ]
+};
+
+const mcStems = [
+  "Hiện tượng nào sau đây là hiện tượng hóa học?",
+  "Dấu hiệu nào sau đây chứng tỏ có phản ứng hóa học xảy ra?",
+  "Quá trình nào sau đây diễn ra sự biến đổi vật lí?",
+  "Trong phản ứng hóa học, hạt vi mô nào được bảo toàn?",
+  "Phản ứng tỏa nhiệt là phản ứng hóa học có đặc điểm nào sau đây?",
+  "Quá trình nào sau đây là phản ứng thu nhiệt?",
+  "Định luật bảo toàn khối lượng được phát biểu bởi nhà khoa học nào?",
+  "Cho phản ứng: $A + B \\rightarrow C$. Biểu thức đúng theo định luật bảo toàn khối lượng là:",
+  "Hệ số cân bằng thích hợp điền vào phương trình hóa học: $?Fe + 3Cl_2 \\xrightarrow{t^\\circ} 2FeCl_3$ là:",
+  "Phương trình hóa học nào sau đây đã được cân bằng chính xác?",
+  "Ở điều kiện chuẩn ($25^\\circ C$ và $1\\text{ bar}$), thể tích của $1\\text{ mol}$ chất khí bất kì là bao nhiêu?",
+  "Tỉ khối của khí oxygen ($O_2$) đối với khí hydrogen ($H_2$) là bao nhiêu?",
+  "Đơn vị đo chuẩn của khối lượng riêng trong hệ SI là:",
+  "Công thức tính áp suất chất rắn tác dụng lên bề mặt bị ép là:",
+  "$1\\text{ Pascal (Pa)}$ tương đương với đơn vị nào sau đây?",
+  "Để tăng áp suất tác dụng lên mặt tiếp xúc, người ta thường dùng biện pháp nào?"
+];
+
+const mcOptionsList = [
+  [{ id: "o1", label: "A", content: "Nước đá tan thành nước lỏng", isCorrect: false }, { id: "o2", label: "B", content: "Thanh sắt để lâu ngoài không khí bị gỉ", isCorrect: true }, { id: "o3", label: "C", content: "Cồn bay hơi khi mở nắp", isCorrect: false }, { id: "o4", label: "D", content: "Hòa tan đường vào nước", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "Có chất mới tạo thành kèm đổi màu/kết tủa/chất khí", isCorrect: true }, { id: "o2", label: "B", content: "Chỉ thay đổi kích thước", isCorrect: false }, { id: "o3", label: "C", content: "Chuyển từ lỏng sang khí", isCorrect: false }, { id: "o4", label: "D", content: "Nghiền nhỏ thành bột", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "Đốt cháy que diêm", isCorrect: false }, { id: "o2", label: "B", content: "Thủy tinh nóng chảy thổi thành bóng đèn", isCorrect: true }, { id: "o3", label: "C", content: "Sữa tươi bị chua", isCorrect: false }, { id: "o4", label: "D", content: "Lên men tinh bột thành rượu", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "Số phân tử", isCorrect: false }, { id: "o2", label: "B", content: "Số nguyên tử mỗi nguyên tố", isCorrect: true }, { id: "o3", label: "C", content: "Liên kết giữa các nguyên tử", isCorrect: false }, { id: "o4", label: "D", content: "Thể tích", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "Giải phóng năng lượng dưới dạng nhiệt ra môi trường", isCorrect: true }, { id: "o2", label: "B", content: "Hấp thụ nhiệt từ môi trường", isCorrect: false }, { id: "o3", label: "C", content: "Làm nhiệt độ môi trường giảm", isCorrect: false }, { id: "o4", label: "D", content: "Không trao đổi năng lượng", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "Đốt cháy than củi", isCorrect: false }, { id: "o2", label: "B", content: "Nung đá vôi ($CaCO_3$) ở nhiệt độ cao", isCorrect: true }, { id: "o3", label: "C", content: "Hòa vôi sống vào nước", isCorrect: false }, { id: "o4", label: "D", content: "Đốt khí gas nấu ăn", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "Lô-mô-nô-xốp và La-voa-di-ê", isCorrect: true }, { id: "o2", label: "B", content: "Niu-tơn và Men-đen", isCorrect: false }, { id: "o3", label: "C", content: "A-vô-ga-đrô và Đan-tơn", isCorrect: false }, { id: "o4", label: "D", content: "Men-đê-lê-ép và Bơ-rơ-xơ-li-ut", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "$m_A + m_B = m_C$", isCorrect: true }, { id: "o2", label: "B", content: "$m_A - m_B = m_C$", isCorrect: false }, { id: "o3", label: "C", content: "$m_A + m_C = m_B$", isCorrect: false }, { id: "o4", label: "D", content: "$m_A \\times m_B = m_C$", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "1", isCorrect: false }, { id: "o2", label: "B", content: "2", isCorrect: true }, { id: "o3", label: "C", content: "3", isCorrect: false }, { id: "o4", label: "D", content: "4", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "$2H_2 + O_2 \\xrightarrow{t^\\circ} 2H_2O$", isCorrect: true }, { id: "o2", label: "B", content: "$H_2 + O_2 \\xrightarrow{t^\\circ} H_2O$", isCorrect: false }, { id: "o3", label: "C", content: "$Fe + O_2 \\xrightarrow{t^\\circ} Fe_3O_4$", isCorrect: false }, { id: "o4", label: "D", content: "$Al + HCl \\rightarrow AlCl_3 + H_2$", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "$22,4\\text{ lít}$", isCorrect: false }, { id: "o2", label: "B", content: "$24,79\\text{ lít}$", isCorrect: true }, { id: "o3", label: "C", content: "$24,0\\text{ lít}$", isCorrect: false }, { id: "o4", label: "D", content: "$22,7\\text{ lít}$", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "8", isCorrect: false }, { id: "o2", label: "B", content: "16", isCorrect: true }, { id: "o3", label: "C", content: "32", isCorrect: false }, { id: "o4", label: "D", content: "64", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "$\\text{kg/m}^3$", isCorrect: true }, { id: "o2", label: "B", content: "$\\text{g/cm}^3$", isCorrect: false }, { id: "o3", label: "C", content: "$\\text{N/m}^3$", isCorrect: false }, { id: "o4", label: "D", content: "$\\text{kg/L}$", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "$p = \\frac{F}{S}$", isCorrect: true }, { id: "o2", label: "B", content: "$p = F \\times S$", isCorrect: false }, { id: "o3", label: "C", content: "$p = \\frac{S}{F}$", isCorrect: false }, { id: "o4", label: "D", content: "$p = \\frac{m}{V}$", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "$1\\text{ N/m}^2$", isCorrect: true }, { id: "o2", label: "B", content: "$1\\text{ N/cm}^2$", isCorrect: false }, { id: "o3", label: "C", content: "$1\\text{ kg/m}^2$", isCorrect: false }, { id: "o4", label: "D", content: "$1\\text{ N.m}$", isCorrect: false }],
+  [{ id: "o1", label: "A", content: "Tăng áp lực và giảm diện tích bị ép", isCorrect: true }, { id: "o2", label: "B", content: "Giảm áp lực và tăng diện tích bị ép", isCorrect: false }, { id: "o3", label: "C", content: "Giảm áp lực và giảm diện tích", isCorrect: false }, { id: "o4", label: "D", content: "Tăng diện tích bị ép thật lớn", isCorrect: false }]
+];
+
+const questionsList = [];
+
+for (let i = 1; i <= 16; i++) {
+  questionsList.push({
+    id: `q-mc-${String(i).padStart(2, "0")}`,
+    projectId,
+    specificationId: i <= 6 ? "spec-row-1" : i <= 10 ? "spec-row-2" : i <= 12 ? "spec-row-3" : "spec-row-8",
+    section: "PHAN_1",
+    orderNumber: i,
+    type: "MULTIPLE_CHOICE",
+    stem: mcStems[i - 1],
+    score: 0.25,
+    cognitiveLevel: i <= 10 || i >= 13 ? "NB" : "TH",
+    topicId: i <= 12 ? "top-1" : "top-2",
+    unitId: i <= 6 ? "unit-1-1" : i <= 10 ? "unit-1-2" : i <= 12 ? "unit-1-3" : "unit-2-1",
+    yccdId: i <= 6 ? "yccd-1" : i <= 10 ? "yccd-2" : i <= 12 ? "yccd-3" : "yccd-4",
+    sourceReference: i <= 12 ? "SGK KHTN 8 - Bài 2, tr.12" : "SGK KHTN 8 - Bài 14, tr.60",
+    explanation: "Đáp án chuẩn xác theo chương trình GDPT 2018.",
+    mcOptions: mcOptionsList[i - 1],
+    aiGenerated: false,
+    status: "APPROVED",
+    createdAt: "2026-08-23T08:00:00.000Z",
+    updatedAt: "2026-08-23T08:00:00.000Z"
+  });
+}
+
+questionsList.push(
+  {
+    id: "q-tf-01",
+    projectId,
+    specificationId: "spec-row-4",
+    section: "PHAN_2",
+    orderNumber: 17,
+    type: "TRUE_FALSE_4",
+    stem: "Xét các hiện tượng thực tế và sự biến đổi chất diễn ra trong đời sống hàng ngày:",
+    score: 1.0,
+    cognitiveLevel: "TH",
+    topicId: "top-1",
+    unitId: "unit-1-1",
+    yccdId: "yccd-1",
+    sourceReference: "SGK KHTN 8 - Bài 2, tr.13",
+    explanation: "Ý a, b, d đúng; ý c sai.",
+    tfItems: [
+      { id: "tf-1-a", label: "a", content: "Cồn để hở trong lọ bị bay hơi dần là hiện tượng biến đổi vật lí.", isCorrect: true, explanation: "Chỉ là sự chuyển từ thể lỏng sang thể hơi." },
+      { id: "tf-1-b", label: "b", content: "Đốt cháy củi than trong không khí tạo ra khí carbon dioxide là biến đổi hóa học.", isCorrect: true, explanation: "Có chất mới CO2 sinh ra." },
+      { id: "tf-1-c", label: "c", content: "Hòa tan muối ăn vào nước tạo dung dịch nước muối là hiện tượng hóa học.", isCorrect: false, explanation: "Đây là hiện tượng biến đổi vật lí." },
+      { id: "tf-1-d", label: "d", content: "Đinh sắt để ngoài không khí ẩm bị gỉ sét màu nâu đỏ là hiện tượng hóa học.", isCorrect: true, explanation: "Tạo thành gỉ sắt oxit sắt là chất mới." }
+    ],
+    aiGenerated: false,
+    status: "APPROVED",
+    createdAt: "2026-08-23T08:00:00.000Z",
+    updatedAt: "2026-08-23T08:00:00.000Z"
+  },
+  {
+    id: "q-tf-02",
+    projectId,
+    specificationId: "spec-row-9",
+    section: "PHAN_2",
+    orderNumber: 18,
+    type: "TRUE_FALSE_4",
+    stem: "Xét áp suất chất lỏng trong một bình trụ chứa nước ở điều kiện yên tĩnh:",
+    score: 1.0,
+    cognitiveLevel: "TH",
+    topicId: "top-2",
+    unitId: "unit-2-1",
+    yccdId: "yccd-4",
+    sourceReference: "SGK KHTN 8 - Bài 16, tr.69",
+    explanation: "Chất lỏng gây áp suất theo mọi phương lên đáy và thành bình.",
+    tfItems: [
+      { id: "tf-2-a", label: "a", content: "Chất lỏng chỉ gây ra áp suất lên đáy bình theo phương thẳng đứng.", isCorrect: false, explanation: "Chất lỏng gây áp suất theo mọi phương." },
+      { id: "tf-2-b", label: "b", content: "Trong cùng một chất lỏng, áp suất tại các điểm ở cùng một độ sâu là như nhau.", isCorrect: true, explanation: "Các điểm cùng độ sâu h có cùng áp suất p = d * h." },
+      { id: "tf-2-c", label: "c", content: "Khi độ sâu h trong lòng chất lỏng tăng lên thì áp suất chất lỏng giảm đi.", isCorrect: false, explanation: "Độ sâu tăng thì áp suất chất lỏng tăng." },
+      { id: "tf-2-d", label: "d", content: "Tàu ngầm lặn càng sâu thì vỏ tàu phải chịu áp lực từ nước biển càng lớn.", isCorrect: true, explanation: "Áp suất ở độ sâu lớn tăng cao." }
+    ],
+    aiGenerated: false,
+    status: "APPROVED",
+    createdAt: "2026-08-23T08:00:00.000Z",
+    updatedAt: "2026-08-23T08:00:00.000Z"
+  },
+  {
+    id: "q-sa-01",
+    projectId,
+    specificationId: "spec-row-5",
+    section: "PHAN_3",
+    orderNumber: 19,
+    type: "SHORT_ANSWER",
+    stem: "Tính thể tích (theo đơn vị lít) của $0,2\\text{ mol}$ khí $CO_2$ ở điều kiện chuẩn ($25^\\circ C$ và $1\\text{ bar}$):",
+    score: 0.5,
+    cognitiveLevel: "TH",
+    topicId: "top-1",
+    unitId: "unit-1-3",
+    yccdId: "yccd-3",
+    sourceReference: "SGK KHTN 8 - Bài 4, tr.25",
+    explanation: "V = 0.2 * 24.79 = 4.96 L",
+    saSpec: { expectedAnswer: "4,96", unit: "lít", tolerance: 0.01, alternativeAnswers: ["4.96", "4,958"] },
+    aiGenerated: false,
+    status: "APPROVED",
+    createdAt: "2026-08-23T08:00:00.000Z",
+    updatedAt: "2026-08-23T08:00:00.000Z"
+  },
+  {
+    id: "q-sa-02",
+    projectId,
+    specificationId: "spec-row-5",
+    section: "PHAN_3",
+    orderNumber: 20,
+    type: "SHORT_ANSWER",
+    stem: "Số mol của $8\\text{ gam}$ khí oxygen ($O_2$, khối lượng mol $M = 32\\text{ g/mol}$) là bao nhiêu mol?",
+    score: 0.5,
+    cognitiveLevel: "TH",
+    topicId: "top-1",
+    unitId: "unit-1-3",
+    yccdId: "yccd-3",
+    sourceReference: "SGK KHTN 8 - Bài 4, tr.23",
+    explanation: "n = 8 / 32 = 0.25 mol",
+    saSpec: { expectedAnswer: "0,25", unit: "mol", tolerance: 0, alternativeAnswers: ["0.25", "1/4"] },
+    aiGenerated: false,
+    status: "APPROVED",
+    createdAt: "2026-08-23T08:00:00.000Z",
+    updatedAt: "2026-08-23T08:00:00.000Z"
+  },
+  {
+    id: "q-sa-03",
+    projectId,
+    specificationId: "spec-row-6",
+    section: "PHAN_3",
+    orderNumber: 21,
+    type: "SHORT_ANSWER",
+    stem: "Hòa tan hoàn toàn $10\\text{ g}$ muối ăn ($NaCl$) vào $90\\text{ g}$ nước cất. Nồng độ phần trăm ($C\\%$) của dung dịch nước muối thu được là bao nhiêu %?",
+    score: 0.5,
+    cognitiveLevel: "VD",
+    topicId: "top-1",
+    unitId: "unit-1-3",
+    yccdId: "yccd-3",
+    sourceReference: "SGK KHTN 8 - Bài 5, tr.30",
+    explanation: "C% = (10 / 100) * 100% = 10%",
+    saSpec: { expectedAnswer: "10", unit: "%", tolerance: 0, alternativeAnswers: ["10%", "10.0"] },
+    aiGenerated: false,
+    status: "APPROVED",
+    createdAt: "2026-08-23T08:00:00.000Z",
+    updatedAt: "2026-08-23T08:00:00.000Z"
+  },
+  {
+    id: "q-sa-04",
+    projectId,
+    specificationId: "spec-row-6",
+    section: "PHAN_3",
+    orderNumber: 22,
+    type: "SHORT_ANSWER",
+    stem: "Hòa tan $0,5\\text{ mol}$ $NaOH$ vào nước để được $250\\text{ mL}$ ($0,25\\text{ L}$) dung dịch. Nồng độ mol ($C_M$) của dung dịch $NaOH$ là bao nhiêu M?",
+    score: 0.5,
+    cognitiveLevel: "VD",
+    topicId: "top-1",
+    unitId: "unit-1-3",
+    yccdId: "yccd-3",
+    sourceReference: "SGK KHTN 8 - Bài 5, tr.31",
+    explanation: "CM = 0.5 / 0.25 = 2 M",
+    saSpec: { expectedAnswer: "2", unit: "M", tolerance: 0, alternativeAnswers: ["2.0", "2M"] },
+    aiGenerated: false,
+    status: "APPROVED",
+    createdAt: "2026-08-23T08:00:00.000Z",
+    updatedAt: "2026-08-23T08:00:00.000Z"
+  },
+  {
+    id: "q-es-01",
+    projectId,
+    specificationId: "spec-row-7",
+    section: "PHAN_4",
+    orderNumber: 23,
+    type: "ESSAY",
+    stem: "Đốt cháy hoàn toàn $5,6\\text{ gam}$ bột sắt ($Fe$) trong bình chứa khí chlorine ($Cl_2$) dư thu được muối sắt(III) chloride ($FeCl_3$).\na) Viết phương trình hóa học của phản ứng và cho biết tỉ lệ số nguyên tử Fe và số phân tử $Cl_2$.\nb) Dựa vào định luật bảo toàn khối lượng, tính khối lượng khí $Cl_2$ đã phản ứng biết khối lượng $FeCl_3$ tạo thành là $16,25\\text{ gam}$.",
+    score: 1.0,
+    cognitiveLevel: "VD",
+    topicId: "top-1",
+    unitId: "unit-1-2",
+    yccdId: "yccd-2",
+    sourceReference: "SGK KHTN 8 - Bài 3, tr.18",
+    explanation: "PTHH 2Fe + 3Cl2 -> 2FeCl3. m_Cl2 = 16.25 - 5.6 = 10.65 gam.",
+    rubricSteps: [
+      { id: "rub-1-1", stepNumber: 1, criterion: "Viết đúng PTHH có cân bằng và điều kiện nhiệt độ", expectedContent: "PTHH: $2Fe + 3Cl_2 \\xrightarrow{t^\\circ} 2FeCl_3$. Tỉ lệ $2 : 3$.", score: 0.5 },
+      { id: "rub-1-2", stepNumber: 2, criterion: "Áp dụng định luật bảo toàn khối lượng tính $m_{Cl_2}$", expectedContent: "Theo ĐLBTKL: $m_{Cl_2} = 16,25 - 5,6 = 10,65\\text{ gam}$.", score: 0.5 }
+    ],
+    aiGenerated: false,
+    status: "APPROVED",
+    createdAt: "2026-08-23T08:00:00.000Z",
+    updatedAt: "2026-08-23T08:00:00.000Z"
+  },
+  {
+    id: "q-es-02",
+    projectId,
+    specificationId: "spec-row-10",
+    section: "PHAN_4",
+    orderNumber: 24,
+    type: "ESSAY",
+    stem: "Một khối bê tông hình hộp chữ nhật có khối lượng $m = 240\\text{ kg}$, kích thước các cạnh lần lượt là $0,8\\text{ m} \\times 0,5\\text{ m} \\times 0,2\\text{ m}$. Cho trọng lượng $P = 10 \\times m$.\na) Tính áp lực do khối bê tông tác dụng lên mặt sàn nằm ngang.\nb) Tính áp suất nhỏ nhất và áp suất lớn nhất mà khối bê tông có thể tác dụng lên mặt sàn khi đặt theo các mặt khác nhau.",
+    score: 1.0,
+    cognitiveLevel: "VDC",
+    topicId: "top-2",
+    unitId: "unit-2-1",
+    yccdId: "yccd-4",
+    sourceReference: "SGK KHTN 8 - Bài 15, tr.66",
+    explanation: "F = 2400 N. S_max = 0.4 m2, S_min = 0.1 m2. p_max = 24000 Pa, p_min = 6000 Pa.",
+    rubricSteps: [
+      { id: "rub-2-1", stepNumber: 1, criterion: "Tính đúng trọng lượng và áp lực F", expectedContent: "Áp lực: $F = P = 10 \\times 240 = 2400\\text{ N}$.", score: 0.25 },
+      { id: "rub-2-2", stepNumber: 2, criterion: "Xác định diện tích các mặt tiếp xúc", expectedContent: "$S_{max} = 0,4\\text{ m}^2, S_{min} = 0,1\\text{ m}^2$.", score: 0.25 },
+      { id: "rub-2-3", stepNumber: 3, criterion: "Tính áp suất lớn nhất $p_{max}$", expectedContent: "$p_{max} = 24000\\text{ Pa}$.", score: 0.25 },
+      { id: "rub-2-4", stepNumber: 4, criterion: "Tính áp suất nhỏ nhất $p_{min}$", expectedContent: "$p_{min} = 6000\\text{ Pa}$.", score: 0.25 }
+    ],
+    aiGenerated: false,
+    status: "APPROVED",
+    createdAt: "2026-08-23T08:00:00.000Z",
+    updatedAt: "2026-08-23T08:00:00.000Z"
+  }
+);
+
+const auditLogs = [
+  { id: "log-1", userId: teacherId, userName: "Nguyễn Văn An", action: "CREATE_PROJECT", targetType: "PROJECT", targetId: projectId, projectId, details: "Tạo mới dự án đề kiểm tra Giữa kì I KHTN 8", timestamp: "2026-08-20T08:00:00.000Z" },
+  { id: "log-2", userId: teacherId, userName: "Nguyễn Văn An", action: "APPROVE_DATAPACK", targetType: "DATAPACK", targetId: projectId, projectId, details: "Giáo viên xác nhận Data Pack", timestamp: "2026-08-21T09:00:00.000Z" },
+  { id: "log-3", userId: "user-head-01", userName: "Nguyễn Thị Mai", action: "APPROVE_MATRIX", targetType: "MATRIX", targetId: projectId, projectId, details: "Tổ trưởng chuyên môn phê duyệt Ma trận", timestamp: "2026-08-22T08:30:00.000Z" }
+];
+
+const aiUsageLogs = [
+  { id: "ai-log-1", moduleCode: "AI01_SOURCE_EXTRACTOR", projectId, promptVersion: "v1.2", status: "SUCCESS", inputTokens: 1250, outputTokens: 890, durationMs: 1420, timestamp: "2026-08-20T08:05:00.000Z" },
+  { id: "ai-log-2", moduleCode: "AI02_CURRICULUM_MAPPER", projectId, promptVersion: "v1.3", status: "SUCCESS", inputTokens: 1890, outputTokens: 1450, durationMs: 1850, timestamp: "2026-08-20T08:10:00.000Z" }
+];
+
+const fullDb = {
+  users,
+  organizations,
+  projects,
+  sources,
+  sourceFragments,
+  dataPacks: { [projectId]: dataPack },
+  blueprints: { [projectId]: blueprint },
+  matrices: { [projectId]: matrix },
+  specifications: { [projectId]: specification },
+  questions: { [projectId]: questionsList },
+  auditLogs,
+  aiUsageLogs
+};
+
+fs.mkdirSync("server/data", { recursive: true });
+fs.writeFileSync("server/data/db.json", JSON.stringify(fullDb, null, 2), "utf-8");
+console.log("[DB SEED JSON CREATED] server/data/db.json");
