@@ -43,9 +43,15 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 }
 
 export const api = {
-  // Auth
+  // Auth & Subscription
   getMe: () => request<{ user: User }>("/auth/me"),
   login: (email: string) => request<{ token: string; user: User }>("/auth/login", { method: "POST", body: JSON.stringify({ email }) }),
+  register: (data: { fullName: string; email: string; schoolName?: string; subject?: string }) =>
+    request<{ success: boolean; token: string; user: User; message: string }>("/auth/register", { method: "POST", body: JSON.stringify(data) }),
+  activateSubscription: (email: string, activationCode?: string) =>
+    request<{ success: boolean; message: string; user: User }>("/auth/activate", { method: "POST", body: JSON.stringify({ email, activationCode }) }),
+  getSubscriptionInfo: () =>
+    request<{ masterEmail: string; annualFee: number; trialDays: number; bankInfo: any }>("/auth/subscription-info"),
   getUsers: () => request<User[]>("/auth/users"),
 
   // Projects

@@ -78,7 +78,7 @@
       "examPeriod": "GIUA_KY",
       "durationMinutes": 90,
       "totalScore": 10,
-      "status": "MATRIX_GENERATED",
+      "status": "QUESTIONS_GENERATED",
       "organizationId": "org-001",
       "authorId": "user-teacher-01",
       "authorName": "Thầy Giáo viên Nguyễn Văn An",
@@ -671,7 +671,7 @@
       "projectId": "proj-1788148956682",
       "isApproved": false,
       "version": 1,
-      "updatedAt": "2026-08-31T05:33:42.312Z",
+      "updatedAt": "2026-08-31T06:23:50.126Z",
       "cells": [
         {
           "id": "mc-1",
@@ -686,7 +686,7 @@
         {
           "id": "mc-2",
           "topicId": "top-1",
-          "unitId": "unit-2",
+          "unitId": "unit-1",
           "questionType": "MULTIPLE_CHOICE",
           "cognitiveLevel": "NB",
           "count": 4,
@@ -696,6 +696,16 @@
         {
           "id": "mc-3",
           "topicId": "top-1",
+          "unitId": "unit-2",
+          "questionType": "MULTIPLE_CHOICE",
+          "cognitiveLevel": "NB",
+          "count": 4,
+          "pointsPerItem": 0.25,
+          "totalScore": 1
+        },
+        {
+          "id": "mc-4",
+          "topicId": "top-1",
           "unitId": "unit-1",
           "questionType": "TRUE_FALSE_4",
           "cognitiveLevel": "TH",
@@ -704,9 +714,19 @@
           "totalScore": 1
         },
         {
-          "id": "mc-4",
+          "id": "mc-5",
           "topicId": "top-1",
           "unitId": "unit-2",
+          "questionType": "TRUE_FALSE_4",
+          "cognitiveLevel": "TH",
+          "count": 1,
+          "pointsPerItem": 1,
+          "totalScore": 1
+        },
+        {
+          "id": "mc-6",
+          "topicId": "top-1",
+          "unitId": "unit-1",
           "questionType": "SHORT_ANSWER",
           "cognitiveLevel": "TH",
           "count": 2,
@@ -714,11 +734,31 @@
           "totalScore": 1
         },
         {
-          "id": "mc-5",
+          "id": "mc-7",
           "topicId": "top-1",
           "unitId": "unit-2",
+          "questionType": "SHORT_ANSWER",
+          "cognitiveLevel": "VD",
+          "count": 2,
+          "pointsPerItem": 0.5,
+          "totalScore": 1
+        },
+        {
+          "id": "mc-8",
+          "topicId": "top-1",
+          "unitId": "unit-1",
           "questionType": "ESSAY",
           "cognitiveLevel": "VD",
+          "count": 1,
+          "pointsPerItem": 1,
+          "totalScore": 1
+        },
+        {
+          "id": "mc-9",
+          "topicId": "top-1",
+          "unitId": "unit-1",
+          "questionType": "ESSAY",
+          "cognitiveLevel": "VDC",
           "count": 1,
           "pointsPerItem": 1,
           "totalScore": 1
@@ -869,7 +909,7 @@
       "projectId": "proj-1788148956682",
       "isApproved": false,
       "version": 1,
-      "updatedAt": "2026-08-31T05:32:28.328Z",
+      "updatedAt": "2026-08-31T06:24:00.503Z",
       "rows": [
         {
           "id": "spec-row-1",
@@ -889,6 +929,20 @@
           "id": "spec-row-2",
           "matrixCellId": "mc-2",
           "topicId": "top-1",
+          "unitId": "unit-1",
+          "yccdId": "yccd-1",
+          "yccdText": "Nhận biết đơn thức, đa thức nhiều biến, bậc của đa thức và thu gọn đa thức.",
+          "cognitiveLevel": "NB",
+          "questionType": "MULTIPLE_CHOICE",
+          "count": 4,
+          "score": 1,
+          "competency": "TD_TOAN",
+          "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14"
+        },
+        {
+          "id": "spec-row-3",
+          "matrixCellId": "mc-3",
+          "topicId": "top-1",
           "unitId": "unit-2",
           "yccdId": "yccd-3",
           "yccdText": "Vận dụng được 7 hằng đẳng thức đáng nhớ để khai triển và tính nhanh giá trị biểu thức.",
@@ -900,8 +954,8 @@
           "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38"
         },
         {
-          "id": "spec-row-3",
-          "matrixCellId": "mc-3",
+          "id": "spec-row-4",
+          "matrixCellId": "mc-4",
           "topicId": "top-1",
           "unitId": "unit-1",
           "yccdId": "yccd-2",
@@ -914,32 +968,74 @@
           "sourceReference": "SGK Toán 8 Tập 1 - Bài 4 & 5, tr.18-24"
         },
         {
-          "id": "spec-row-4",
-          "matrixCellId": "mc-4",
+          "id": "spec-row-5",
+          "matrixCellId": "mc-5",
           "topicId": "top-1",
           "unitId": "unit-2",
           "yccdId": "yccd-3",
           "yccdText": "Vận dụng được 7 hằng đẳng thức đáng nhớ để khai triển và tính nhanh giá trị biểu thức.",
           "cognitiveLevel": "TH",
-          "questionType": "SHORT_ANSWER",
-          "count": 2,
+          "questionType": "TRUE_FALSE_4",
+          "count": 1,
           "score": 1,
           "competency": "TD_TOAN",
           "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38"
         },
         {
-          "id": "spec-row-5",
-          "matrixCellId": "mc-5",
+          "id": "spec-row-6",
+          "matrixCellId": "mc-6",
+          "topicId": "top-1",
+          "unitId": "unit-1",
+          "yccdId": "yccd-2",
+          "yccdText": "Thực hiện được phép nhân đơn thức với đa thức, đa thức với đa thức và phép chia đa thức cho đơn thức.",
+          "cognitiveLevel": "TH",
+          "questionType": "SHORT_ANSWER",
+          "count": 2,
+          "score": 1,
+          "competency": "GQVD_TOAN",
+          "sourceReference": "SGK Toán 8 Tập 1 - Bài 4 & 5, tr.18-24"
+        },
+        {
+          "id": "spec-row-7",
+          "matrixCellId": "mc-7",
           "topicId": "top-1",
           "unitId": "unit-2",
           "yccdId": "yccd-4",
           "yccdText": "Vận dụng các phương pháp đặt nhân tử chung, dùng hằng đẳng thức và nhóm hạng tử để phân tích đa thức thành nhân tử.",
           "cognitiveLevel": "VD",
-          "questionType": "ESSAY",
-          "count": 1,
+          "questionType": "SHORT_ANSWER",
+          "count": 2,
           "score": 1,
           "competency": "GQVD_TOAN",
           "sourceReference": "SGK Toán 8 Tập 1 - Bài 8 & 9, tr.40-48"
+        },
+        {
+          "id": "spec-row-8",
+          "matrixCellId": "mc-8",
+          "topicId": "top-1",
+          "unitId": "unit-1",
+          "yccdId": "yccd-1",
+          "yccdText": "Nhận biết đơn thức, đa thức nhiều biến, bậc của đa thức và thu gọn đa thức.",
+          "cognitiveLevel": "VD",
+          "questionType": "ESSAY",
+          "count": 1,
+          "score": 1,
+          "competency": "TD_TOAN",
+          "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14"
+        },
+        {
+          "id": "spec-row-9",
+          "matrixCellId": "mc-9",
+          "topicId": "top-1",
+          "unitId": "unit-1",
+          "yccdId": "yccd-1",
+          "yccdText": "Nhận biết đơn thức, đa thức nhiều biến, bậc của đa thức và thu gọn đa thức.",
+          "cognitiveLevel": "VDC",
+          "questionType": "ESSAY",
+          "count": 1,
+          "score": 1,
+          "competency": "TD_TOAN",
+          "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14"
         }
       ]
     }
@@ -1987,1028 +2083,1042 @@
     ],
     "proj-1788148956682": [
       {
-        "id": "q-proj-1788148956682-mc-1",
+        "id": "q-proj-1788148956682-multiple_choice-1",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-1",
         "section": "PHAN_1",
         "orderNumber": 1,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 1 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Trong các biểu thức đại số sau, biểu thức nào là đơn thức?",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
         "unitId": "unit-1",
         "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "explanation": "Đơn thức là biểu thức đại số chỉ gồm một số, hoặc một biến, hoặc một tích giữa các số và các biến.",
         "mcOptions": [
           {
-            "id": "opt-1-a",
+            "id": "opt-m1-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "$\\frac{2}{3}x^2y$",
             "isCorrect": true
           },
           {
-            "id": "opt-1-b",
+            "id": "opt-m1-b",
             "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "content": "$2x + y$",
             "isCorrect": false
           },
           {
-            "id": "opt-1-c",
+            "id": "opt-m1-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "$\\frac{x - 1}{y}$",
             "isCorrect": false
           },
           {
-            "id": "opt-1-d",
+            "id": "opt-m1-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "$x^2 - 4$",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:11.496Z",
+        "updatedAt": "2026-08-31T06:25:11.496Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-2",
+        "id": "q-proj-1788148956682-multiple_choice-2",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-1",
         "section": "PHAN_1",
         "orderNumber": 2,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 2 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Bậc của đa thức $A = 4x^3y^2 - 2x^4y + 5x^2y^2 - 1$ là:",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
         "unitId": "unit-1",
         "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "explanation": "Hạng tử có bậc cao nhất là $4x^3y^2$ và $-2x^4y$ đều có bậc $3 + 2 = 5$ và $4 + 1 = 5$.",
         "mcOptions": [
           {
-            "id": "opt-2-a",
+            "id": "opt-m2-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "4",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-m2-b",
+            "label": "B",
+            "content": "5",
             "isCorrect": true
           },
           {
-            "id": "opt-2-b",
-            "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-2-c",
+            "id": "opt-m2-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "3",
             "isCorrect": false
           },
           {
-            "id": "opt-2-d",
+            "id": "opt-m2-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "6",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:12.412Z",
+        "updatedAt": "2026-08-31T06:25:12.412Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-3",
+        "id": "q-proj-1788148956682-multiple_choice-3",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-1",
         "section": "PHAN_1",
         "orderNumber": 3,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 3 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Hằng đẳng thức hiệu hai bình phương $A^2 - B^2$ bằng biểu thức nào sau đây?",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
         "unitId": "unit-1",
         "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "explanation": "Hiệu hai bình phương của hai biểu thức bằng tích của hiệu hai biểu thức với tổng của chúng: $A^2 - B^2 = (A - B)(A + B)$.",
         "mcOptions": [
           {
-            "id": "opt-3-a",
+            "id": "opt-m3-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "$(A - B)(A + B)$",
             "isCorrect": true
           },
           {
-            "id": "opt-3-b",
+            "id": "opt-m3-b",
             "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "content": "$(A - B)^2$",
             "isCorrect": false
           },
           {
-            "id": "opt-3-c",
+            "id": "opt-m3-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "$A^2 - 2AB + B^2$",
             "isCorrect": false
           },
           {
-            "id": "opt-3-d",
+            "id": "opt-m3-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "$(A + B)^2$",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:13.315Z",
+        "updatedAt": "2026-08-31T06:25:13.315Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-4",
+        "id": "q-proj-1788148956682-multiple_choice-4",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-1",
         "section": "PHAN_1",
         "orderNumber": 4,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 4 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Khai triển của hằng đẳng thức $(x - 3)^2$ là:",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
         "unitId": "unit-1",
         "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "explanation": "$(x - 3)^2 = x^2 - 2 \\cdot x \\cdot 3 + 3^2 = x^2 - 6x + 9$.",
         "mcOptions": [
           {
-            "id": "opt-4-a",
+            "id": "opt-m4-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "$x^2 - 6x + 9$",
             "isCorrect": true
           },
           {
-            "id": "opt-4-b",
+            "id": "opt-m4-b",
             "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "content": "$x^2 - 9$",
             "isCorrect": false
           },
           {
-            "id": "opt-4-c",
+            "id": "opt-m4-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "$x^2 + 6x + 9$",
             "isCorrect": false
           },
           {
-            "id": "opt-4-d",
+            "id": "opt-m4-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "$x^2 - 3x + 9$",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:14.398Z",
+        "updatedAt": "2026-08-31T06:25:14.398Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-5",
+        "id": "q-proj-1788148956682-multiple_choice-5",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-1",
         "section": "PHAN_1",
         "orderNumber": 5,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 5 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Điều kiện xác định của phân thức đại số $\\frac{3x - 1}{x - 2}$ là:",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
         "unitId": "unit-1",
         "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "explanation": "Phân thức xác định khi mẫu thức khác 0: $x - 2 \\neq 0 \\Leftrightarrow x \\neq 2$.",
         "mcOptions": [
           {
-            "id": "opt-5-a",
+            "id": "opt-m5-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "$x \\neq 2$",
             "isCorrect": true
           },
           {
-            "id": "opt-5-b",
+            "id": "opt-m5-b",
             "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "content": "$x \\neq -2$",
             "isCorrect": false
           },
           {
-            "id": "opt-5-c",
+            "id": "opt-m5-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "$x \\neq \\frac{1}{3}$",
             "isCorrect": false
           },
           {
-            "id": "opt-5-d",
+            "id": "opt-m5-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "$x = 2$",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:15.197Z",
+        "updatedAt": "2026-08-31T06:25:15.197Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-6",
+        "id": "q-proj-1788148956682-multiple_choice-6",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-1",
         "section": "PHAN_1",
         "orderNumber": 6,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 6 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Tứ giác có 4 cạnh bằng nhau là hình gì?",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
         "unitId": "unit-1",
         "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "explanation": "Theo định nghĩa: Hình thoi là tứ giác có bốn cạnh bằng nhau.",
         "mcOptions": [
           {
-            "id": "opt-6-a",
+            "id": "opt-m6-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "Hình thoi",
             "isCorrect": true
           },
           {
-            "id": "opt-6-b",
+            "id": "opt-m6-b",
             "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "content": "Hình chữ nhật",
             "isCorrect": false
           },
           {
-            "id": "opt-6-c",
+            "id": "opt-m6-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "Hình thang cân",
             "isCorrect": false
           },
           {
-            "id": "opt-6-d",
+            "id": "opt-m6-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "Hình bình hành",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:16.837Z",
+        "updatedAt": "2026-08-31T06:25:16.837Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-7",
+        "id": "q-proj-1788148956682-multiple_choice-7",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-1",
         "section": "PHAN_1",
         "orderNumber": 7,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 7 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Tứ giác có hai đường chéo bằng nhau và cắt nhau tại trung điểm của mỗi đường là hình gì?",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
         "unitId": "unit-1",
         "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "explanation": "Hình bình hành có hai đường chéo bằng nhau là hình chữ nhật.",
         "mcOptions": [
           {
-            "id": "opt-7-a",
+            "id": "opt-m7-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "Hình chữ nhật",
             "isCorrect": true
           },
           {
-            "id": "opt-7-b",
+            "id": "opt-m7-b",
             "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "content": "Hình thoi",
             "isCorrect": false
           },
           {
-            "id": "opt-7-c",
+            "id": "opt-m7-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "Hình thang",
             "isCorrect": false
           },
           {
-            "id": "opt-7-d",
+            "id": "opt-m7-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "Hình vuông",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:17.698Z",
+        "updatedAt": "2026-08-31T06:25:17.698Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-8",
+        "id": "q-proj-1788148956682-multiple_choice-8",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-1",
         "section": "PHAN_1",
         "orderNumber": 8,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 8 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Tổng các góc trong một tứ giác lồi bất kì bằng:",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
         "unitId": "unit-1",
         "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "explanation": "Tổng các góc trong một tứ giác bằng $360^\\circ$.",
         "mcOptions": [
           {
-            "id": "opt-8-a",
+            "id": "opt-m8-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "$360^\\circ$",
             "isCorrect": true
           },
           {
-            "id": "opt-8-b",
+            "id": "opt-m8-b",
             "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "content": "$180^\\circ$",
             "isCorrect": false
           },
           {
-            "id": "opt-8-c",
+            "id": "opt-m8-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "$90^\\circ$",
             "isCorrect": false
           },
           {
-            "id": "opt-8-d",
+            "id": "opt-m8-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "$540^\\circ$",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:18.481Z",
+        "updatedAt": "2026-08-31T06:25:18.481Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-9",
+        "id": "q-proj-1788148956682-multiple_choice-9",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-1",
+        "specificationId": "spec-row-2",
         "section": "PHAN_1",
         "orderNumber": 9,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 9 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Trong các biểu thức đại số sau, biểu thức nào là đơn thức?",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
         "unitId": "unit-1",
         "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "explanation": "Đơn thức là biểu thức đại số chỉ gồm một số, hoặc một biến, hoặc một tích giữa các số và các biến.",
         "mcOptions": [
           {
-            "id": "opt-9-a",
+            "id": "opt-m1-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "$\\frac{2}{3}x^2y$",
             "isCorrect": true
           },
           {
-            "id": "opt-9-b",
+            "id": "opt-m1-b",
             "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "content": "$2x + y$",
             "isCorrect": false
           },
           {
-            "id": "opt-9-c",
+            "id": "opt-m1-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "$\\frac{x - 1}{y}$",
             "isCorrect": false
           },
           {
-            "id": "opt-9-d",
+            "id": "opt-m1-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "$x^2 - 4$",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:19.246Z",
+        "updatedAt": "2026-08-31T06:25:19.246Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-10",
+        "id": "q-proj-1788148956682-multiple_choice-10",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-1",
+        "specificationId": "spec-row-2",
         "section": "PHAN_1",
         "orderNumber": 10,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 10 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Bậc của đa thức $A = 4x^3y^2 - 2x^4y + 5x^2y^2 - 1$ là:",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
         "unitId": "unit-1",
         "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "explanation": "Hạng tử có bậc cao nhất là $4x^3y^2$ và $-2x^4y$ đều có bậc $3 + 2 = 5$ và $4 + 1 = 5$.",
         "mcOptions": [
           {
-            "id": "opt-10-a",
+            "id": "opt-m2-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "4",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-m2-b",
+            "label": "B",
+            "content": "5",
             "isCorrect": true
           },
           {
-            "id": "opt-10-b",
-            "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-10-c",
+            "id": "opt-m2-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "3",
             "isCorrect": false
           },
           {
-            "id": "opt-10-d",
+            "id": "opt-m2-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "6",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:20.020Z",
+        "updatedAt": "2026-08-31T06:25:20.020Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-11",
+        "id": "q-proj-1788148956682-multiple_choice-11",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-1",
+        "specificationId": "spec-row-2",
         "section": "PHAN_1",
         "orderNumber": 11,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 11 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Hằng đẳng thức hiệu hai bình phương $A^2 - B^2$ bằng biểu thức nào sau đây?",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
         "unitId": "unit-1",
         "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "explanation": "Hiệu hai bình phương của hai biểu thức bằng tích của hiệu hai biểu thức với tổng của chúng: $A^2 - B^2 = (A - B)(A + B)$.",
         "mcOptions": [
           {
-            "id": "opt-11-a",
+            "id": "opt-m3-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "$(A - B)(A + B)$",
             "isCorrect": true
           },
           {
-            "id": "opt-11-b",
+            "id": "opt-m3-b",
             "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "content": "$(A - B)^2$",
             "isCorrect": false
           },
           {
-            "id": "opt-11-c",
+            "id": "opt-m3-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "$A^2 - 2AB + B^2$",
             "isCorrect": false
           },
           {
-            "id": "opt-11-d",
+            "id": "opt-m3-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "$(A + B)^2$",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:20.863Z",
+        "updatedAt": "2026-08-31T06:25:20.863Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-12",
+        "id": "q-proj-1788148956682-multiple_choice-12",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-1",
+        "specificationId": "spec-row-2",
         "section": "PHAN_1",
         "orderNumber": 12,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 12 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Khai triển của hằng đẳng thức $(x - 3)^2$ là:",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
         "unitId": "unit-1",
         "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "explanation": "$(x - 3)^2 = x^2 - 2 \\cdot x \\cdot 3 + 3^2 = x^2 - 6x + 9$.",
         "mcOptions": [
           {
-            "id": "opt-12-a",
+            "id": "opt-m4-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "$x^2 - 6x + 9$",
             "isCorrect": true
           },
           {
-            "id": "opt-12-b",
+            "id": "opt-m4-b",
             "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "content": "$x^2 - 9$",
             "isCorrect": false
           },
           {
-            "id": "opt-12-c",
+            "id": "opt-m4-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "$x^2 + 6x + 9$",
             "isCorrect": false
           },
           {
-            "id": "opt-12-d",
+            "id": "opt-m4-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "$x^2 - 3x + 9$",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:21.575Z",
+        "updatedAt": "2026-08-31T06:25:21.575Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-13",
+        "id": "q-proj-1788148956682-multiple_choice-13",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-1",
+        "specificationId": "spec-row-3",
         "section": "PHAN_1",
         "orderNumber": 13,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 13 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Điều kiện xác định của phân thức đại số $\\frac{3x - 1}{x - 2}$ là:",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
-        "unitId": "unit-1",
-        "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "unitId": "unit-2",
+        "yccdId": "yccd-3",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38",
+        "explanation": "Phân thức xác định khi mẫu thức khác 0: $x - 2 \\neq 0 \\Leftrightarrow x \\neq 2$.",
         "mcOptions": [
           {
-            "id": "opt-13-a",
+            "id": "opt-m5-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "$x \\neq 2$",
             "isCorrect": true
           },
           {
-            "id": "opt-13-b",
+            "id": "opt-m5-b",
             "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "content": "$x \\neq -2$",
             "isCorrect": false
           },
           {
-            "id": "opt-13-c",
+            "id": "opt-m5-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "$x \\neq \\frac{1}{3}$",
             "isCorrect": false
           },
           {
-            "id": "opt-13-d",
+            "id": "opt-m5-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "$x = 2$",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:22.319Z",
+        "updatedAt": "2026-08-31T06:25:22.319Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-14",
+        "id": "q-proj-1788148956682-multiple_choice-14",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-1",
+        "specificationId": "spec-row-3",
         "section": "PHAN_1",
         "orderNumber": 14,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 14 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Tứ giác có 4 cạnh bằng nhau là hình gì?",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
-        "unitId": "unit-1",
-        "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "unitId": "unit-2",
+        "yccdId": "yccd-3",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38",
+        "explanation": "Theo định nghĩa: Hình thoi là tứ giác có bốn cạnh bằng nhau.",
         "mcOptions": [
           {
-            "id": "opt-14-a",
+            "id": "opt-m6-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "Hình thoi",
             "isCorrect": true
           },
           {
-            "id": "opt-14-b",
+            "id": "opt-m6-b",
             "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "content": "Hình chữ nhật",
             "isCorrect": false
           },
           {
-            "id": "opt-14-c",
+            "id": "opt-m6-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "Hình thang cân",
             "isCorrect": false
           },
           {
-            "id": "opt-14-d",
+            "id": "opt-m6-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "Hình bình hành",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:23.098Z",
+        "updatedAt": "2026-08-31T06:25:23.098Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-15",
+        "id": "q-proj-1788148956682-multiple_choice-15",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-1",
+        "specificationId": "spec-row-3",
         "section": "PHAN_1",
         "orderNumber": 15,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 15 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Tứ giác có hai đường chéo bằng nhau và cắt nhau tại trung điểm của mỗi đường là hình gì?",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
-        "unitId": "unit-1",
-        "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "unitId": "unit-2",
+        "yccdId": "yccd-3",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38",
+        "explanation": "Hình bình hành có hai đường chéo bằng nhau là hình chữ nhật.",
         "mcOptions": [
           {
-            "id": "opt-15-a",
+            "id": "opt-m7-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "Hình chữ nhật",
             "isCorrect": true
           },
           {
-            "id": "opt-15-b",
+            "id": "opt-m7-b",
             "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "content": "Hình thoi",
             "isCorrect": false
           },
           {
-            "id": "opt-15-c",
+            "id": "opt-m7-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "Hình thang",
             "isCorrect": false
           },
           {
-            "id": "opt-15-d",
+            "id": "opt-m7-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "Hình vuông",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:23.842Z",
+        "updatedAt": "2026-08-31T06:25:23.842Z"
       },
       {
-        "id": "q-proj-1788148956682-mc-16",
+        "id": "q-proj-1788148956682-multiple_choice-16",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-1",
+        "specificationId": "spec-row-3",
         "section": "PHAN_1",
         "orderNumber": 16,
         "type": "MULTIPLE_CHOICE",
-        "stem": "Câu hỏi trắc nghiệm 16 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "stem": "Tổng các góc trong một tứ giác lồi bất kì bằng:",
         "score": 0.25,
         "cognitiveLevel": "NB",
         "topicId": "top-1",
-        "unitId": "unit-1",
-        "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
-        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "unitId": "unit-2",
+        "yccdId": "yccd-3",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38",
+        "explanation": "Tổng các góc trong một tứ giác bằng $360^\\circ$.",
         "mcOptions": [
           {
-            "id": "opt-16-a",
+            "id": "opt-m8-a",
             "label": "A",
-            "content": "Khẳng định A (Đáp án đúng)",
+            "content": "$360^\\circ$",
             "isCorrect": true
           },
           {
-            "id": "opt-16-b",
+            "id": "opt-m8-b",
             "label": "B",
-            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "content": "$180^\\circ$",
             "isCorrect": false
           },
           {
-            "id": "opt-16-c",
+            "id": "opt-m8-c",
             "label": "C",
-            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "content": "$90^\\circ$",
             "isCorrect": false
           },
           {
-            "id": "opt-16-d",
+            "id": "opt-m8-d",
             "label": "D",
-            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "content": "$540^\\circ$",
             "isCorrect": false
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:24.637Z",
+        "updatedAt": "2026-08-31T06:25:24.637Z"
       },
       {
-        "id": "q-proj-1788148956682-tf-1",
+        "id": "q-proj-1788148956682-true_false_4-17",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-4",
         "section": "PHAN_2",
         "orderNumber": 17,
         "type": "TRUE_FALSE_4",
-        "stem": "Xét tính đúng/sai của các nhận định sau trong môn Toán học 8:",
+        "stem": "Cho các đẳng thức biến đổi hằng đẳng thức và đa thức sau:",
         "score": 1,
         "cognitiveLevel": "TH",
         "topicId": "top-1",
         "unitId": "unit-1",
         "yccdId": "yccd-2",
-        "sourceReference": "SGK Toán học 8 - Bài 2, tr.14",
-        "explanation": "Ý a, c đúng; ý b, d sai.",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 4 & 5, tr.18-24",
+        "explanation": "a, c đúng theo công thức chuẩn; b, d sai dấu và hệ số.",
         "tfItems": [
           {
-            "id": "tf-1-a",
+            "id": "tf-m1-a",
             "label": "a",
-            "content": "Nhận định a đúng về mặt lý thuyết.",
+            "content": "$(2x + y)^2 = 4x^2 + 4xy + y^2$",
             "isCorrect": true,
-            "explanation": "Đúng theo định nghĩa."
+            "explanation": "Khai triển đúng bình phương của tổng."
           },
           {
-            "id": "tf-1-b",
+            "id": "tf-m1-b",
             "label": "b",
-            "content": "Nhận định b mô tả sai quy luật biến đổi.",
+            "content": "$(x - 2y)^2 = x^2 - 2xy + 4y^2$",
             "isCorrect": false,
-            "explanation": "Sai quy luật."
+            "explanation": "Sai hệ số hạng tử giữa (phải là -4xy)."
           },
           {
-            "id": "tf-1-c",
+            "id": "tf-m1-c",
             "label": "c",
-            "content": "Nhận định c áp dụng đúng công thức tính toán.",
+            "content": "$x^3 - 8 = (x - 2)(x^2 + 2x + 4)$",
             "isCorrect": true,
-            "explanation": "Đúng công thức."
+            "explanation": "Hằng đẳng thức hiệu hai lập phương."
           },
           {
-            "id": "tf-1-d",
+            "id": "tf-m1-d",
             "label": "d",
-            "content": "Nhận định d áp dụng sai điều kiện thực tiễn.",
+            "content": "$(x + 1)^3 = x^3 + 3x^2 + 3x + 3$",
             "isCorrect": false,
-            "explanation": "Sai điều kiện."
+            "explanation": "Hạng tử tự do phải là 1 (1^3 = 1)."
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:25.356Z",
+        "updatedAt": "2026-08-31T06:25:25.356Z"
       },
       {
-        "id": "q-proj-1788148956682-tf-2",
+        "id": "q-proj-1788148956682-true_false_4-18",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-4",
+        "specificationId": "spec-row-5",
         "section": "PHAN_2",
         "orderNumber": 18,
         "type": "TRUE_FALSE_4",
-        "stem": "Xét tính đúng/sai của các nhận định sau trong môn Toán học 8:",
+        "stem": "Cho tứ giác $ABCD$ có $AB // CD$ và $AD // BC$. Xét tính đúng/sai của các nhận định sau:",
         "score": 1,
         "cognitiveLevel": "TH",
         "topicId": "top-1",
-        "unitId": "unit-1",
-        "yccdId": "yccd-2",
-        "sourceReference": "SGK Toán học 8 - Bài 2, tr.14",
-        "explanation": "Ý a, c đúng; ý b, d sai.",
+        "unitId": "unit-2",
+        "yccdId": "yccd-3",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38",
+        "explanation": "Tứ giác ABCD là hình bình hành, suy ra các tính chất tương ứng.",
         "tfItems": [
           {
-            "id": "tf-2-a",
+            "id": "tf-m2-a",
             "label": "a",
-            "content": "Nhận định a đúng về mặt lý thuyết.",
+            "content": "Tứ giác $ABCD$ là hình bình hành.",
             "isCorrect": true,
-            "explanation": "Đúng theo định nghĩa."
+            "explanation": "Đúng theo dấu hiệu hai cặp cạnh đối song song."
           },
           {
-            "id": "tf-2-b",
+            "id": "tf-m2-b",
             "label": "b",
-            "content": "Nhận định b mô tả sai quy luật biến đổi.",
-            "isCorrect": false,
-            "explanation": "Sai quy luật."
-          },
-          {
-            "id": "tf-2-c",
-            "label": "c",
-            "content": "Nhận định c áp dụng đúng công thức tính toán.",
+            "content": "Các cạnh đối $AB = CD$ và $AD = BC$.",
             "isCorrect": true,
-            "explanation": "Đúng công thức."
+            "explanation": "Đúng tính chất hình bình hành."
           },
           {
-            "id": "tf-2-d",
-            "label": "d",
-            "content": "Nhận định d áp dụng sai điều kiện thực tiễn.",
+            "id": "tf-m2-c",
+            "label": "c",
+            "content": "Hai đường chéo $AC$ và $BD$ luôn vuông góc với nhau.",
             "isCorrect": false,
-            "explanation": "Sai điều kiện."
+            "explanation": "Chỉ vuông góc khi là hình thoi."
+          },
+          {
+            "id": "tf-m2-d",
+            "label": "d",
+            "content": "Hai góc đối $\\widehat{A} = \\widehat{C}$ và $\\widehat{B} = \\widehat{D}$.",
+            "isCorrect": true,
+            "explanation": "Đúng tính chất các góc đối bằng nhau."
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:26.063Z",
+        "updatedAt": "2026-08-31T06:25:26.063Z"
       },
       {
-        "id": "q-proj-1788148956682-sa-1",
+        "id": "q-proj-1788148956682-short_answer-19",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-6",
         "section": "PHAN_3",
         "orderNumber": 19,
         "type": "SHORT_ANSWER",
-        "stem": "Tính giá trị của đại lượng trong bài toán 1 môn Toán học 8:",
+        "stem": "Thực hiện phép tính rút gọn biểu thức $P = (x + 2)^2 - x(x + 4)$. Giá trị của $P$ bằng bao nhiêu?",
         "score": 0.5,
         "cognitiveLevel": "TH",
         "topicId": "top-1",
         "unitId": "unit-1",
-        "yccdId": "yccd-3",
-        "sourceReference": "SGK Toán học 8 - Bài 4, tr.25",
-        "explanation": "Thực hiện phép tính ra kết quả 10.",
+        "yccdId": "yccd-2",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 4 & 5, tr.18-24",
+        "explanation": "P = x^2 + 4x + 4 - x^2 - 4x = 4.",
         "saSpec": {
-          "expectedAnswer": "10",
+          "expectedAnswer": "4",
           "unit": "",
           "tolerance": 0,
           "alternativeAnswers": [
-            "10",
-            "10.0"
+            "4.0",
+            "+4"
           ]
         },
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.737Z",
-        "updatedAt": "2026-08-31T05:26:41.737Z"
+        "createdAt": "2026-08-31T06:25:26.754Z",
+        "updatedAt": "2026-08-31T06:25:26.754Z"
       },
       {
-        "id": "q-proj-1788148956682-sa-2",
+        "id": "q-proj-1788148956682-short_answer-20",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-6",
         "section": "PHAN_3",
         "orderNumber": 20,
         "type": "SHORT_ANSWER",
-        "stem": "Tính giá trị của đại lượng trong bài toán 2 môn Toán học 8:",
+        "stem": "Tính giá trị của biểu thức $Q = x^2 - 4xy + 4y^2$ tại $x = 104$ và $y = 2$:",
         "score": 0.5,
         "cognitiveLevel": "TH",
         "topicId": "top-1",
         "unitId": "unit-1",
-        "yccdId": "yccd-3",
-        "sourceReference": "SGK Toán học 8 - Bài 4, tr.25",
-        "explanation": "Thực hiện phép tính ra kết quả 10.",
+        "yccdId": "yccd-2",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 4 & 5, tr.18-24",
+        "explanation": "Q = (x - 2y)^2. Thay x = 104, y = 2 => Q = (104 - 4)^2 = 100^2 = 10000.",
         "saSpec": {
-          "expectedAnswer": "10",
+          "expectedAnswer": "10000",
           "unit": "",
           "tolerance": 0,
           "alternativeAnswers": [
-            "10",
-            "10.0"
+            "10.000",
+            "10000.0"
           ]
         },
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.738Z",
-        "updatedAt": "2026-08-31T05:26:41.738Z"
+        "createdAt": "2026-08-31T06:25:27.470Z",
+        "updatedAt": "2026-08-31T06:25:27.470Z"
       },
       {
-        "id": "q-proj-1788148956682-sa-3",
+        "id": "q-proj-1788148956682-short_answer-21",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-6",
+        "specificationId": "spec-row-7",
         "section": "PHAN_3",
         "orderNumber": 21,
         "type": "SHORT_ANSWER",
-        "stem": "Tính giá trị của đại lượng trong bài toán 3 môn Toán học 8:",
+        "stem": "Cho $\\Delta ABC$ có $MN // BC$ ($M \\in AB, N \\in AC$). Biết $AM = 4\\text{ cm}, MB = 2\\text{ cm}, AN = 6\\text{ cm}$. Tính độ dài đoạn thẳng $NC$ (cm):",
         "score": 0.5,
         "cognitiveLevel": "VD",
         "topicId": "top-1",
-        "unitId": "unit-1",
-        "yccdId": "yccd-3",
-        "sourceReference": "SGK Toán học 8 - Bài 4, tr.25",
-        "explanation": "Thực hiện phép tính ra kết quả 10.",
+        "unitId": "unit-2",
+        "yccdId": "yccd-4",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 8 & 9, tr.40-48",
+        "explanation": "Theo định lí Thalès: AM / MB = AN / NC => 4 / 2 = 6 / NC => NC = 3 cm.",
         "saSpec": {
-          "expectedAnswer": "10",
-          "unit": "",
+          "expectedAnswer": "3",
+          "unit": "cm",
           "tolerance": 0,
           "alternativeAnswers": [
-            "10",
-            "10.0"
+            "3.0",
+            "3 cm"
           ]
         },
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.738Z",
-        "updatedAt": "2026-08-31T05:26:41.738Z"
+        "createdAt": "2026-08-31T06:25:28.101Z",
+        "updatedAt": "2026-08-31T06:25:28.101Z"
       },
       {
-        "id": "q-proj-1788148956682-sa-4",
+        "id": "q-proj-1788148956682-short_answer-22",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-6",
+        "specificationId": "spec-row-7",
         "section": "PHAN_3",
         "orderNumber": 22,
         "type": "SHORT_ANSWER",
-        "stem": "Tính giá trị của đại lượng trong bài toán 4 môn Toán học 8:",
+        "stem": "Một hình thoi có độ dài hai đường chéo là $d_1 = 8\\text{ cm}$ và $d_2 = 6\\text{ cm}$. Diện tích hình thoi bằng bao nhiêu $\\text{cm}^2$?",
         "score": 0.5,
         "cognitiveLevel": "VD",
         "topicId": "top-1",
-        "unitId": "unit-1",
-        "yccdId": "yccd-3",
-        "sourceReference": "SGK Toán học 8 - Bài 4, tr.25",
-        "explanation": "Thực hiện phép tính ra kết quả 10.",
+        "unitId": "unit-2",
+        "yccdId": "yccd-4",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 8 & 9, tr.40-48",
+        "explanation": "Diện tích hình thoi S = 1/2 * d1 * d2 = 1/2 * 8 * 6 = 24 cm^2.",
         "saSpec": {
-          "expectedAnswer": "10",
-          "unit": "",
+          "expectedAnswer": "24",
+          "unit": "cm2",
           "tolerance": 0,
           "alternativeAnswers": [
-            "10",
-            "10.0"
+            "24.0",
+            "24 cm^2"
           ]
         },
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.738Z",
-        "updatedAt": "2026-08-31T05:26:41.738Z"
+        "createdAt": "2026-08-31T06:25:28.766Z",
+        "updatedAt": "2026-08-31T06:25:28.766Z"
       },
       {
-        "id": "q-proj-1788148956682-es-1",
+        "id": "q-proj-1788148956682-essay-23",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-8",
         "section": "PHAN_4",
         "orderNumber": 23,
         "type": "ESSAY",
-        "stem": "Bài toán tự luận 1 (Vận dụng) môn Toán học 8:\na) Nêu cơ sở lý thuyết.\nb) Thực hiện tính toán và giải thích kết quả.",
+        "stem": "Cho đa thức $M = x^2 - 25 - 4xy + 4y^2$.\na) Phân tích đa thức $M$ thành nhân tử.\nb) Tính giá trị của biểu thức $M$ khi $x - 2y = 15$.",
         "score": 1,
         "cognitiveLevel": "VD",
         "topicId": "top-1",
         "unitId": "unit-1",
         "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán học 8 - Bài 3, tr.18",
-        "explanation": "Biểu điểm chi tiết 2 bước chấm (0.5đ + 0.5đ = 1.0đ).",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "explanation": "Nhóm (x^2 - 4xy + 4y^2) - 25 = (x - 2y)^2 - 5^2 = (x - 2y - 5)(x - 2y + 5).",
         "rubricSteps": [
           {
-            "id": "r1",
+            "id": "rb-m1-1",
             "stepNumber": 1,
-            "criterion": "Nêu đúng công thức và thay số",
-            "expectedContent": "Trình bày đúng định lí và thay số ban đầu.",
+            "criterion": "Nhóm hạng tử tạo hằng đẳng thức",
+            "expectedContent": "$M = (x^2 - 4xy + 4y^2) - 25 = (x - 2y)^2 - 5^2 = (x - 2y - 5)(x - 2y + 5)$.",
             "score": 0.5
           },
           {
-            "id": "r2",
+            "id": "rb-m1-2",
             "stepNumber": 2,
-            "criterion": "Tính toán chính xác và kết luận",
-            "expectedContent": "Tính toán chính xác và đưa ra kết luận cuối cùng.",
+            "criterion": "Thay giá trị và tính đúng kết quả",
+            "expectedContent": "Thay $x - 2y = 15$ vào: $M = (15 - 5)(15 + 5) = 10 \\times 20 = 200$.",
             "score": 0.5
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.738Z",
-        "updatedAt": "2026-08-31T05:26:41.738Z"
+        "createdAt": "2026-08-31T06:25:29.413Z",
+        "updatedAt": "2026-08-31T06:25:29.413Z"
       },
       {
-        "id": "q-proj-1788148956682-es-2",
+        "id": "q-proj-1788148956682-essay-24",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-9",
         "section": "PHAN_4",
         "orderNumber": 24,
         "type": "ESSAY",
-        "stem": "Bài toán tự luận 2 (Vận dụng cao) môn Toán học 8:\nVận dụng kiến thức giải quyết tình huống thực tế phức tạp.",
+        "stem": "Cho biểu thức $A = \\left( \\frac{x}{x^2 - 9} + \\frac{1}{x + 3} \\right) : \\frac{2}{x - 3}$ với $x \\neq \\pm 3$.\na) Rút gọn biểu thức $A$.\nb) Tìm giá trị nguyên của $x$ để $A$ nhận giá trị nguyên.",
         "score": 1,
         "cognitiveLevel": "VDC",
         "topicId": "top-1",
         "unitId": "unit-1",
-        "yccdId": "yccd-4",
-        "sourceReference": "SGK Toán học 8 - Bài 14, tr.60",
-        "explanation": "Biểu điểm chi tiết 2 bước chấm (0.5đ + 0.5đ = 1.0đ).",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "explanation": "Biểu thức rút gọn ra A = (2x - 3) / (2(x + 3)). Tìm x nguyên để A nguyên.",
         "rubricSteps": [
           {
-            "id": "r3",
+            "id": "rb-m2-1",
             "stepNumber": 1,
-            "criterion": "Biện luận và thiết lập phương trình",
-            "expectedContent": "Lập luận chặt chẽ và đưa ra phương trình chính xác.",
-            "score": 0.5
+            "criterion": "Quy đồng và thực hiện phép cộng trong ngoặc",
+            "expectedContent": "$\\frac{x + x - 3}{(x - 3)(x + 3)} = \\frac{2x - 3}{(x - 3)(x + 3)}$.",
+            "score": 0.25
           },
           {
-            "id": "r4",
+            "id": "rb-m2-2",
             "stepNumber": 2,
-            "criterion": "Giải phương trình và kết luận thực tiễn",
-            "expectedContent": "Tính ra nghiệm và đối chiếu điều kiện thực tế.",
-            "score": 0.5
+            "criterion": "Nhân đảo ngược và rút gọn ra $A$",
+            "expectedContent": "$A = \\frac{2x - 3}{(x - 3)(x + 3)} \\cdot \\frac{x - 3}{2} = \\frac{2x - 3}{2(x + 3)}$.",
+            "score": 0.25
+          },
+          {
+            "id": "rb-m2-3",
+            "stepNumber": 3,
+            "criterion": "Biến đổi tìm điều kiện $x$ nguyên",
+            "expectedContent": "$2A = \\frac{2x - 3}{x + 3} = 2 - \\frac{9}{x + 3}$. Để $2A$ nguyên thì $(x + 3) \\in Ư(9) = \\{\\pm 1, \\pm 3, \\pm 9\\}$.",
+            "score": 0.25
+          },
+          {
+            "id": "rb-m2-4",
+            "stepNumber": 4,
+            "criterion": "Đối chiếu ĐKXĐ và kết luận các giá trị $x$",
+            "expectedContent": "Tìm được $x \\in \\{-12, -6, -4, -2, 0, 6\\}$ (loại $x = \\pm 3$). Kiểm tra để $A$ nhận giá trị nguyên.",
+            "score": 0.25
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T05:26:41.738Z",
-        "updatedAt": "2026-08-31T05:26:41.738Z"
+        "createdAt": "2026-08-31T06:25:30.100Z",
+        "updatedAt": "2026-08-31T06:25:30.100Z"
       }
     ]
   },
@@ -3092,6 +3202,281 @@
     }
   ],
   "aiUsageLogs": [
+    {
+      "id": "ai-log-1788157530095-wt29t",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 682,
+      "timestamp": "2026-08-31T06:25:30.095Z"
+    },
+    {
+      "id": "ai-log-1788157529409-bi9vk",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 643,
+      "timestamp": "2026-08-31T06:25:29.409Z"
+    },
+    {
+      "id": "ai-log-1788157528762-mdqim",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 661,
+      "timestamp": "2026-08-31T06:25:28.762Z"
+    },
+    {
+      "id": "ai-log-1788157528097-sr0x2",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 627,
+      "timestamp": "2026-08-31T06:25:28.097Z"
+    },
+    {
+      "id": "ai-log-1788157527462-0q8r5",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 708,
+      "timestamp": "2026-08-31T06:25:27.462Z"
+    },
+    {
+      "id": "ai-log-1788157526748-e621u",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 685,
+      "timestamp": "2026-08-31T06:25:26.748Z"
+    },
+    {
+      "id": "ai-log-1788157526055-khir2",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 699,
+      "timestamp": "2026-08-31T06:25:26.055Z"
+    },
+    {
+      "id": "ai-log-1788157525351-l4e7h",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 713,
+      "timestamp": "2026-08-31T06:25:25.351Z"
+    },
+    {
+      "id": "ai-log-1788157524594-0s2su",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 752,
+      "timestamp": "2026-08-31T06:25:24.594Z"
+    },
+    {
+      "id": "ai-log-1788157523838-fq24l",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 740,
+      "timestamp": "2026-08-31T06:25:23.838Z"
+    },
+    {
+      "id": "ai-log-1788157523081-hyf7n",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 762,
+      "timestamp": "2026-08-31T06:25:23.081Z"
+    },
+    {
+      "id": "ai-log-1788157522315-yf428",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 740,
+      "timestamp": "2026-08-31T06:25:22.315Z"
+    },
+    {
+      "id": "ai-log-1788157521573-aot2o",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 710,
+      "timestamp": "2026-08-31T06:25:21.573Z"
+    },
+    {
+      "id": "ai-log-1788157520821-bxh7v",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 801,
+      "timestamp": "2026-08-31T06:25:20.821Z"
+    },
+    {
+      "id": "ai-log-1788157520015-2fjl7",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 769,
+      "timestamp": "2026-08-31T06:25:20.015Z"
+    },
+    {
+      "id": "ai-log-1788157519239-4s9uv",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 758,
+      "timestamp": "2026-08-31T06:25:19.239Z"
+    },
+    {
+      "id": "ai-log-1788157518478-0s9pl",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 780,
+      "timestamp": "2026-08-31T06:25:18.478Z"
+    },
+    {
+      "id": "ai-log-1788157517599-4euq5",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 762,
+      "timestamp": "2026-08-31T06:25:17.599Z"
+    },
+    {
+      "id": "ai-log-1788157516832-g5wpl",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 1635,
+      "timestamp": "2026-08-31T06:25:16.832Z"
+    },
+    {
+      "id": "ai-log-1788157515151-ootjf",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 753,
+      "timestamp": "2026-08-31T06:25:15.174Z"
+    },
+    {
+      "id": "ai-log-1788157514381-tle0u",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 1066,
+      "timestamp": "2026-08-31T06:25:14.381Z"
+    },
+    {
+      "id": "ai-log-1788157513312-d7t6i",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 900,
+      "timestamp": "2026-08-31T06:25:13.312Z"
+    },
+    {
+      "id": "ai-log-1788157512317-4lbji",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 821,
+      "timestamp": "2026-08-31T06:25:12.317Z"
+    },
+    {
+      "id": "ai-log-1788157511493-fbt52",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 2740,
+      "timestamp": "2026-08-31T06:25:11.493Z"
+    },
+    {
+      "id": "ai-log-1788157429846-12kt9",
+      "moduleCode": "AI03_MATRIX_ADVISOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v1.1",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 3,
+      "timestamp": "2026-08-31T06:23:49.846Z"
+    },
     {
       "id": "ai-log-1788154422311-8itr8",
       "moduleCode": "AI03_MATRIX_ADVISOR",

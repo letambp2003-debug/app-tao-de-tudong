@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Project } from "@shared/types/index.js";
 import { api } from "../services/api.js";
 import { Link, useNavigate } from "react-router-dom";
-import { Plus, Search, Filter, Copy, Trash2, ArrowRight, BookOpen, Clock, Award, CheckCircle2 } from "lucide-react";
+import { Plus, Search, Filter, Copy, Trash2, ArrowRight, BookOpen, Clock, Award, CheckCircle2, Crown, Sparkles } from "lucide-react";
 import { Badge } from "../components/common/Badge.js";
 import { Modal } from "../components/common/Modal.js";
+import { SubscriptionModal } from "../components/common/SubscriptionModal.js";
 import { useNotification } from "../contexts/NotificationContext.js";
+import { useAuth } from "../contexts/AuthContext.js";
 
 export const DashboardPage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -71,6 +73,9 @@ export const DashboardPage: React.FC = () => {
     }
   };
 
+  const { user, trialDaysLeft, isExpired } = useAuth();
+  const [isSubModalOpen, setIsSubModalOpen] = useState(false);
+
   const filtered = projects.filter(p =>
     p.name.toLowerCase().includes(search.toLowerCase()) ||
     p.subject.toLowerCase().includes(search.toLowerCase())
@@ -96,6 +101,39 @@ export const DashboardPage: React.FC = () => {
           <Plus className="w-5 h-5" /> Tạo đề kiểm tra mới
         </button>
       </div>
+
+      {/* Trial / Subscription Notice Banner */}
+      {(!user?.isActivated && user?.subscriptionStatus !== "ACTIVE") && (
+        <div className={`p-4 rounded-2xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs ${
+          isExpired
+            ? "bg-rose-50 border-rose-200 text-rose-950"
+            : "bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200 text-amber-950"
+        }`}>
+          <div className="flex items-center gap-3">
+            <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-white font-bold shrink-0 ${
+              isExpired ? "bg-rose-600" : "bg-amber-500"
+            }`}>
+              <Crown className="w-4 h-4" />
+            </div>
+            <div className="text-xs">
+              <span className="font-bold">
+                {isExpired
+                  ? "Hết hạn dùng thử 3 ngày miễn phí!"
+                  : `Tài khoản đang trong thời gian Dùng thử miễn phí (Còn ${trialDaysLeft} ngày)`}
+              </span>
+              <p className="text-slate-600 mt-0.5">
+                Kích hoạt bản quyền 1 năm chỉ <strong>30.000 VNĐ</strong> liên kết với <strong>tailieugiaoducso@gmail.com</strong>.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setIsSubModalOpen(true)}
+            className="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-bold hover:bg-brand-700 shadow-xs transition-colors shrink-0"
+          >
+            <Sparkles className="w-3.5 h-3.5 inline mr-1" /> Kích hoạt 30k/năm
+          </button>
+        </div>
+      )}
 
       {/* Search & Statistics Bar */}
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
@@ -245,6 +283,8 @@ export const DashboardPage: React.FC = () => {
           </div>
         </div>
       </Modal>
+
+      <SubscriptionModal isOpen={isSubModalOpen} onClose={() => setIsSubModalOpen(false)} />
     </div>
   );
 };

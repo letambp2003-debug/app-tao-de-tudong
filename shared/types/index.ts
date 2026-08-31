@@ -15,6 +15,13 @@ export interface User {
   department?: string;
   avatarUrl?: string;
   createdAt: string;
+  schoolName?: string;
+  defaultSubject?: string;
+  subscriptionStatus?: "TRIAL" | "ACTIVE" | "EXPIRED";
+  trialEndsAt?: string;
+  subscriptionExpiresAt?: string;
+  activatedByEmail?: string;
+  isActivated?: boolean;
 }
 
 export interface Organization {
