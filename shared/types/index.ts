@@ -341,6 +341,9 @@ export interface ValidationRuleResult {
   severity: ValidationSeverity;
   passed: boolean;
   message: string;
+  guidance?: string;
+  stepKey?: "INFO" | "SOURCES" | "DATAPACK" | "BLUEPRINT" | "MATRIX" | "SPECIFICATION" | "QUESTIONS" | "VALIDATE" | "EXPORT";
+  actionLabel?: string;
   details?: any;
   autoFixable?: boolean;
 }

@@ -108,6 +108,7 @@ export const api = {
 
   // Validation
   getValidation: (projectId: string) => request<{ report: ValidationReport; traceability: TraceabilityLink[] }>(`/validate/${projectId}`),
+  autoFixValidation: (projectId: string) => request<{ success: boolean; report: ValidationReport; traceability: TraceabilityLink[] }>(`/validate/${projectId}/auto-fix`, { method: "POST" }),
 
   // Exports URLs
   getExcelExportUrl: (projectId: string) => `${API_BASE}/export/${projectId}/excel`,

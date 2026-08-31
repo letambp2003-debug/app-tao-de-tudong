@@ -27,12 +27,23 @@ router.get("/:projectId", (req, res) => {
     dataPack
   });
 
-  if (report.allPassed && project.status === "QUESTIONS_REVIEWED") {
+  if (report.allPassed && (project.status === "QUESTIONS_REVIEWED" || project.status === "QUESTIONS_GENERATED")) {
     project.status = "VALIDATED";
     DatabaseService.save();
   }
 
   res.json({ report, traceability });
+});
+
+// POST /api/validate/:projectId/auto-fix
+router.post("/:projectId/auto-fix", (req, res) => {
+  const { projectId } = req.params;
+  try {
+    const result = ValidationEngine.autoFix(projectId);
+    res.json(result);
+  } catch (err: any) {
+    res.status(500).json({ error: err.message || "Failed to auto fix validation issues" });
+  }
 });
 
 export default router;

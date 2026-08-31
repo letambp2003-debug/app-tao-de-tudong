@@ -523,7 +523,14 @@ export const ProjectWizardPage: React.FC = () => {
       {/* STEP 8: VALIDATE */}
       {currentStep === "VALIDATE" && (
         <div className="space-y-6">
-          <ValidationReportPanel report={validationReport} onRefresh={refreshValidation} />
+          <ValidationReportPanel
+            report={validationReport}
+            onRefresh={() => {
+              refreshValidation();
+              loadProject(project.id);
+            }}
+            onNavigateStep={setCurrentStep}
+          />
           {traceability.length > 0 && (
             <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
               <h4 className="font-bold text-slate-900 text-sm">Ma trận truy vết nguồn gốc (Traceability Matrix)</h4>

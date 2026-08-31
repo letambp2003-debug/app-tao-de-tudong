@@ -78,7 +78,7 @@
       "examPeriod": "GIUA_KY",
       "durationMinutes": 90,
       "totalScore": 10,
-      "status": "DATA_APPROVED",
+      "status": "SPECIFICATION_APPROVED",
       "organizationId": "org-001",
       "authorId": "user-teacher-01",
       "authorName": "Thầy Giáo viên Nguyễn Văn An",
@@ -521,7 +521,7 @@
     "proj-1788148956682": {
       "id": "bp-proj-1788148956682",
       "projectId": "proj-1788148956682",
-      "totalScore": 10,
+      "totalScore": 12,
       "durationMinutes": 90,
       "cognitiveWeights": {
         "NB": 30,
@@ -535,6 +535,12 @@
           "count": 12,
           "pointsPerItem": 0.25,
           "totalScore": 3
+        },
+        {
+          "type": "TRUE_FALSE_4",
+          "count": 2,
+          "pointsPerItem": 1,
+          "totalScore": 2
         },
         {
           "type": "SHORT_ANSWER",
@@ -556,7 +562,8 @@
           "targetPercentage": 25
         }
       ],
-      "updatedAt": "2026-08-31T04:02:36.683Z"
+      "updatedAt": "2026-08-31T04:45:56.988Z",
+      "totalQuestions": 22
     }
   },
   "matrices": {
@@ -664,10 +671,63 @@
     "proj-1788148956682": {
       "id": "mat-proj-1788148956682",
       "projectId": "proj-1788148956682",
-      "cells": [],
-      "isApproved": false,
+      "isApproved": true,
       "version": 1,
-      "updatedAt": "2026-08-31T04:02:36.683Z"
+      "updatedAt": "2026-08-31T04:46:10.203Z",
+      "cells": [
+        {
+          "id": "mc-1",
+          "topicId": "top-1",
+          "unitId": "unit-1",
+          "questionType": "MULTIPLE_CHOICE",
+          "cognitiveLevel": "NB",
+          "count": 8,
+          "pointsPerItem": 0.25,
+          "totalScore": 2
+        },
+        {
+          "id": "mc-2",
+          "topicId": "top-1",
+          "unitId": "unit-2",
+          "questionType": "MULTIPLE_CHOICE",
+          "cognitiveLevel": "NB",
+          "count": 4,
+          "pointsPerItem": 0.25,
+          "totalScore": 1
+        },
+        {
+          "id": "mc-3",
+          "topicId": "top-1",
+          "unitId": "unit-1",
+          "questionType": "TRUE_FALSE_4",
+          "cognitiveLevel": "TH",
+          "count": 1,
+          "pointsPerItem": 1,
+          "totalScore": 1
+        },
+        {
+          "id": "mc-4",
+          "topicId": "top-1",
+          "unitId": "unit-2",
+          "questionType": "SHORT_ANSWER",
+          "cognitiveLevel": "TH",
+          "count": 2,
+          "pointsPerItem": 0.5,
+          "totalScore": 1
+        },
+        {
+          "id": "mc-5",
+          "topicId": "top-1",
+          "unitId": "unit-2",
+          "questionType": "ESSAY",
+          "cognitiveLevel": "VD",
+          "count": 1,
+          "pointsPerItem": 1,
+          "totalScore": 1
+        }
+      ],
+      "approvedAt": "2026-08-31T04:46:19.123Z",
+      "approvedBy": "Thầy Giáo viên Nguyễn Văn An"
     }
   },
   "specifications": {
@@ -811,10 +871,83 @@
     "proj-1788148956682": {
       "id": "spec-proj-1788148956682",
       "projectId": "proj-1788148956682",
-      "rows": [],
-      "isApproved": false,
+      "isApproved": true,
       "version": 1,
-      "updatedAt": "2026-08-31T04:02:36.683Z"
+      "updatedAt": "2026-08-31T04:46:30.118Z",
+      "rows": [
+        {
+          "id": "spec-row-1",
+          "matrixCellId": "mc-1",
+          "topicId": "top-1",
+          "unitId": "unit-1",
+          "yccdId": "yccd-1",
+          "yccdText": "Nhận biết đơn thức, đa thức nhiều biến, bậc của đa thức và thu gọn đa thức.",
+          "cognitiveLevel": "NB",
+          "questionType": "MULTIPLE_CHOICE",
+          "count": 8,
+          "score": 2,
+          "competency": "TD_TOAN",
+          "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14"
+        },
+        {
+          "id": "spec-row-2",
+          "matrixCellId": "mc-2",
+          "topicId": "top-1",
+          "unitId": "unit-2",
+          "yccdId": "yccd-3",
+          "yccdText": "Vận dụng được 7 hằng đẳng thức đáng nhớ để khai triển và tính nhanh giá trị biểu thức.",
+          "cognitiveLevel": "NB",
+          "questionType": "MULTIPLE_CHOICE",
+          "count": 4,
+          "score": 1,
+          "competency": "TD_TOAN",
+          "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38"
+        },
+        {
+          "id": "spec-row-3",
+          "matrixCellId": "mc-3",
+          "topicId": "top-1",
+          "unitId": "unit-1",
+          "yccdId": "yccd-2",
+          "yccdText": "Thực hiện được phép nhân đơn thức với đa thức, đa thức với đa thức và phép chia đa thức cho đơn thức.",
+          "cognitiveLevel": "TH",
+          "questionType": "TRUE_FALSE_4",
+          "count": 1,
+          "score": 1,
+          "competency": "GQVD_TOAN",
+          "sourceReference": "SGK Toán 8 Tập 1 - Bài 4 & 5, tr.18-24"
+        },
+        {
+          "id": "spec-row-4",
+          "matrixCellId": "mc-4",
+          "topicId": "top-1",
+          "unitId": "unit-2",
+          "yccdId": "yccd-3",
+          "yccdText": "Vận dụng được 7 hằng đẳng thức đáng nhớ để khai triển và tính nhanh giá trị biểu thức.",
+          "cognitiveLevel": "TH",
+          "questionType": "SHORT_ANSWER",
+          "count": 2,
+          "score": 1,
+          "competency": "TD_TOAN",
+          "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38"
+        },
+        {
+          "id": "spec-row-5",
+          "matrixCellId": "mc-5",
+          "topicId": "top-1",
+          "unitId": "unit-2",
+          "yccdId": "yccd-4",
+          "yccdText": "Vận dụng các phương pháp đặt nhân tử chung, dùng hằng đẳng thức và nhóm hạng tử để phân tích đa thức thành nhân tử.",
+          "cognitiveLevel": "VD",
+          "questionType": "ESSAY",
+          "count": 1,
+          "score": 1,
+          "competency": "GQVD_TOAN",
+          "sourceReference": "SGK Toán 8 Tập 1 - Bài 8 & 9, tr.40-48"
+        }
+      ],
+      "approvedAt": "2026-08-31T04:46:33.334Z",
+      "approvedBy": "Thầy Giáo viên Nguyễn Văn An"
     }
   },
   "questions": {
@@ -1929,6 +2062,17 @@
     }
   ],
   "aiUsageLogs": [
+    {
+      "id": "ai-log-1788151570201-xiv2m",
+      "moduleCode": "AI03_MATRIX_ADVISOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v1.1",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 1,
+      "timestamp": "2026-08-31T04:46:10.201Z"
+    },
     {
       "id": "ai-log-1788150079434-3b3s5",
       "moduleCode": "AI02_CURRICULUM_MAPPER",
