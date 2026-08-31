@@ -122,10 +122,15 @@ export const api = {
   getWordExportUrl: (projectId: string, withAnswers = false) => `${API_BASE}/export/${projectId}/word?withAnswers=${withAnswers}`,
   getZipExportUrl: (projectId: string) => `${API_BASE}/export/${projectId}/zip`,
 
-  // Admin, Audit & Gemini API Key
+  // Admin, Audit & Gemini API Key & Payments
   getAuditLogs: () => request<AuditLog[]>("/admin/audit-logs"),
   getAILogs: () => request<AIUsageLog[]>("/admin/ai-logs"),
   getSubjectRules: () => request<SubjectRuleProfile[]>("/admin/rules"),
   getGeminiKeyStatus: () => request<{ hasKey: boolean; maskedKey: string }>("/admin/gemini-key"),
-  saveGeminiKey: (apiKey: string) => request<{ success: boolean; message: string; hasKey: boolean; maskedKey: string }>("/admin/gemini-key", { method: "POST", body: JSON.stringify({ apiKey }) })
+  saveGeminiKey: (apiKey: string) => request<{ success: boolean; message: string; hasKey: boolean; maskedKey: string }>("/admin/gemini-key", { method: "POST", body: JSON.stringify({ apiKey }) }),
+  getPaymentConfig: () => request<any>("/admin/payment-config"),
+  updatePaymentConfig: (data: any) => request<any>("/admin/payment-config", { method: "POST", body: JSON.stringify(data) }),
+  getLicenses: () => request<any[]>("/admin/licenses"),
+  generateLicense: (targetEmail: string) => request<any>("/admin/generate-license", { method: "POST", body: JSON.stringify({ targetEmail }) }),
+  adminActivateUser: (email: string) => request<any>("/admin/activate-user", { method: "POST", body: JSON.stringify({ email }) })
 };
