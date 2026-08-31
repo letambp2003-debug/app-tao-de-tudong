@@ -184,50 +184,148 @@ export class AIOrchestrator {
           appendixNotes: examPeriod === "CUOI_KY" ? curriculum.finalAppendixNotes : curriculum.midtermAppendixNotes
         };
 
-      case "AI03":
-        // Distribute cells across ALL available topics and units to GUARANTEE EXACT 10.00 đ
-        // Total: 16 MCQs (4.0đ) + 2 TF (2.0đ) + 4 SA (2.0đ) + 2 Essay (2.0đ) = 10.0đ
-        // NB = 4.0đ (40%), TH = 3.0đ (30%), VD = 2.0đ (20%), VDC = 1.0đ (10%)
+      case "AI03": {
+        const bp = inputData?.blueprint;
+        const dp = inputData?.dataPack;
+        const availableTopics = (dp?.topics && dp.topics.length > 0) ? dp.topics : curriculum.topics;
+
         const cells: any[] = [];
-        const topics = curriculum.topics;
-        const top1 = topics[0];
-        const top2 = topics[1] || top1;
-        const top3 = topics[2] || top2;
+        const configs: any[] = bp?.questionTypeConfigs && bp.questionTypeConfigs.length > 0
+          ? bp.questionTypeConfigs.filter((c: any) => c.count > 0)
+          : [
+              { type: "MULTIPLE_CHOICE", count: 16, pointsPerItem: 0.25, totalScore: 4.0 },
+              { type: "TRUE_FALSE_4", count: 2, pointsPerItem: 1.0, totalScore: 2.0 },
+              { type: "SHORT_ANSWER", count: 4, pointsPerItem: 0.5, totalScore: 2.0 },
+              { type: "ESSAY", count: 2, pointsPerItem: 1.0, totalScore: 2.0 }
+            ];
 
-        const u1_1 = top1.units[0];
-        const u1_2 = top1.units[1] || u1_1;
-        const u2_1 = top2.units[0] || u1_1;
-        const u3_1 = top3.units[0] || u2_1;
+        // For each question type in blueprint, distribute its exact count & points across topics and cognitive levels
+        for (const cfg of configs) {
+          const qType = cfg.type;
+          const totalCount = cfg.count;
+          const pointsPerItem = cfg.pointsPerItem || (qType === "MULTIPLE_CHOICE" ? 0.25 : qType === "SHORT_ANSWER" ? 0.5 : 1.0);
 
-        // 1. Nhận biết (4.0đ = 16 câu trắc nghiệm nhiều lựa chọn 0.25đ)
-        cells.push(
-          { topicCode: top1.code, unitCode: u1_1.code, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 8, pointsPerItem: 0.25, totalScore: 2.0 },
-          { topicCode: top1.code, unitCode: u1_2.code, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 4, pointsPerItem: 0.25, totalScore: 1.0 },
-          { topicCode: top2.code, unitCode: u2_1.code, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 4, pointsPerItem: 0.25, totalScore: 1.0 }
-        );
+          if (qType === "MULTIPLE_CHOICE") {
+            // Primarily NB (Nhận biết)
+            if (availableTopics.length === 1) {
+              cells.push({
+                topicCode: availableTopics[0].code,
+                unitCode: availableTopics[0].units?.[0]?.code || "U1",
+                questionType: "MULTIPLE_CHOICE",
+                cognitiveLevel: "NB",
+                count: totalCount,
+                pointsPerItem,
+                totalScore: Number((totalCount * pointsPerItem).toFixed(2))
+              });
+            } else if (availableTopics.length === 2) {
+              const count1 = Math.ceil(totalCount * 0.6);
+              const count2 = totalCount - count1;
+              cells.push(
+                { topicCode: availableTopics[0].code, unitCode: availableTopics[0].units?.[0]?.code || "U1", questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: count1, pointsPerItem, totalScore: Number((count1 * pointsPerItem).toFixed(2)) },
+                { topicCode: availableTopics[1].code, unitCode: availableTopics[1].units?.[0]?.code || "U2", questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: count2, pointsPerItem, totalScore: Number((count2 * pointsPerItem).toFixed(2)) }
+              );
+            } else {
+              // 3 or more topics
+              const count1 = Math.floor(totalCount / 2);
+              const remaining = totalCount - count1;
+              const count2 = Math.ceil(remaining / 2);
+              const count3 = remaining - count2;
 
-        // 2. Thông hiểu (3.0đ = 2 câu Đúng-Sai 1.0đ + 2 câu Trả lời ngắn 0.5đ)
-        cells.push(
-          { topicCode: top1.code, unitCode: u1_1.code, questionType: "TRUE_FALSE_4", cognitiveLevel: "TH", count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
-          { topicCode: top2.code, unitCode: u2_1.code, questionType: "TRUE_FALSE_4", cognitiveLevel: "TH", count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
-          { topicCode: top1.code, unitCode: u1_2.code, questionType: "SHORT_ANSWER", cognitiveLevel: "TH", count: 2, pointsPerItem: 0.5, totalScore: 1.0 }
-        );
+              if (count1 > 0) cells.push({ topicCode: availableTopics[0].code, unitCode: availableTopics[0].units?.[0]?.code || "U1", questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: count1, pointsPerItem, totalScore: Number((count1 * pointsPerItem).toFixed(2)) });
+              if (count2 > 0) cells.push({ topicCode: availableTopics[1].code, unitCode: availableTopics[1].units?.[0]?.code || "U2", questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: count2, pointsPerItem, totalScore: Number((count2 * pointsPerItem).toFixed(2)) });
+              if (count3 > 0) cells.push({ topicCode: availableTopics[2].code, unitCode: availableTopics[2].units?.[0]?.code || "U3", questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: count3, pointsPerItem, totalScore: Number((count3 * pointsPerItem).toFixed(2)) });
+            }
+          } else if (qType === "TRUE_FALSE_4") {
+            // Primarily TH (Thông hiểu)
+            for (let i = 0; i < totalCount; i++) {
+              const top = availableTopics[i % availableTopics.length];
+              const un = top.units?.[i % (top.units?.length || 1)] || top.units?.[0] || { code: "U1" };
+              cells.push({
+                topicCode: top.code,
+                unitCode: un.code,
+                questionType: "TRUE_FALSE_4",
+                cognitiveLevel: "TH",
+                count: 1,
+                pointsPerItem,
+                totalScore: pointsPerItem
+              });
+            }
+          } else if (qType === "SHORT_ANSWER") {
+            // Split between TH and VD
+            const half1 = Math.ceil(totalCount / 2);
+            const half2 = totalCount - half1;
 
-        // 3. Vận dụng (2.0đ = 2 câu Trả lời ngắn 0.5đ + 1 câu Tự luận 1.0đ)
-        cells.push(
-          { topicCode: top2.code, unitCode: u2_1.code, questionType: "SHORT_ANSWER", cognitiveLevel: "VD", count: 2, pointsPerItem: 0.5, totalScore: 1.0 },
-          { topicCode: top1.code, unitCode: u1_2.code, questionType: "ESSAY", cognitiveLevel: "VD", count: 1, pointsPerItem: 1.0, totalScore: 1.0 }
-        );
+            if (half1 > 0) {
+              const top = availableTopics[0];
+              const un = top.units?.[0] || { code: "U1" };
+              cells.push({
+                topicCode: top.code,
+                unitCode: un.code,
+                questionType: "SHORT_ANSWER",
+                cognitiveLevel: "TH",
+                count: half1,
+                pointsPerItem,
+                totalScore: Number((half1 * pointsPerItem).toFixed(2))
+              });
+            }
+            if (half2 > 0) {
+              const top = availableTopics[1] || availableTopics[0];
+              const un = top.units?.[0] || { code: "U1" };
+              cells.push({
+                topicCode: top.code,
+                unitCode: un.code,
+                questionType: "SHORT_ANSWER",
+                cognitiveLevel: "VD",
+                count: half2,
+                pointsPerItem,
+                totalScore: Number((half2 * pointsPerItem).toFixed(2))
+              });
+            }
+          } else if (qType === "ESSAY") {
+            // Split across VD and VDC
+            const vdCount = Math.floor(totalCount / 2);
+            const vdcCount = totalCount - vdCount;
 
-        // 4. Vận dụng cao (1.0đ = 1 câu Tự luận 1.0đ)
-        cells.push(
-          { topicCode: top3.code, unitCode: u3_1.code, questionType: "ESSAY", cognitiveLevel: "VDC", count: 1, pointsPerItem: 1.0, totalScore: 1.0 }
-        );
+            // Distribute VD
+            for (let i = 0; i < vdCount; i++) {
+              const top = availableTopics[i % availableTopics.length];
+              const un = top.units?.[i % (top.units?.length || 1)] || top.units?.[0] || { code: "U1" };
+              cells.push({
+                topicCode: top.code,
+                unitCode: un.code,
+                questionType: "ESSAY",
+                cognitiveLevel: "VD",
+                count: 1,
+                pointsPerItem,
+                totalScore: pointsPerItem
+              });
+            }
+            // Distribute VDC
+            for (let i = 0; i < vdcCount; i++) {
+              const topIndex = (availableTopics.length - 1 - i + availableTopics.length) % availableTopics.length;
+              const top = availableTopics[topIndex];
+              const un = top.units?.[top.units?.length - 1] || top.units?.[0] || { code: "U1" };
+              cells.push({
+                topicCode: top.code,
+                unitCode: un.code,
+                questionType: "ESSAY",
+                cognitiveLevel: "VDC",
+                count: 1,
+                pointsPerItem,
+                totalScore: pointsPerItem
+              });
+            }
+          }
+        }
+
+        const totalCalculated = Number(cells.reduce((sum, c) => sum + c.totalScore, 0).toFixed(2));
+        const totalQ = cells.reduce((sum, c) => sum + c.count, 0);
 
         return {
-          summaryRationale: `Phân bổ ma trận chuẩn GDPT 2018 cho môn ${subject} ${grade} (${examPeriod === "CUOI_KY" ? "Cuối kỳ: 25% GĐ1 + 75% GĐ2" : "Giữa kỳ: 100% GĐ1"}), đảm bảo chính xác 10.0 điểm, tỉ lệ nhận thức NB 40% - TH 30% - VD 20% - VDC 10%.`,
+          summaryRationale: `Phân bổ ma trận chuẩn xác theo Khung cơ cấu đề (Blueprint): ${totalQ} câu hỏi, tổng ${totalCalculated.toFixed(2)} / 10.0 đ trên ${availableTopics.length} chủ đề kiến thức.`,
           cells
         };
+      }
 
       case "AI05":
         const reqType = inputData?.questionType || "MULTIPLE_CHOICE";

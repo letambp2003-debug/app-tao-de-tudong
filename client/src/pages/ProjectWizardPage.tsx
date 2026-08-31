@@ -382,7 +382,8 @@ export const ProjectWizardPage: React.FC = () => {
               blueprint={blueprint}
               onSave={async updated => {
                 await saveCurrentStep("BLUEPRINT", updated);
-                showToast("success", "Đã lưu cơ cấu đề thi", `Tổng ${updated.totalQuestions} câu - ${updated.totalScore.toFixed(2)} điểm`);
+                showToast("success", "Đã lưu cơ cấu đề thi", `Tổng ${updated.totalQuestions} câu - ${updated.totalScore.toFixed(2)} điểm. Đang đồng bộ Ma trận...`);
+                await generateStepAI("MATRIX");
               }}
             />
           </div>
@@ -391,7 +392,15 @@ export const ProjectWizardPage: React.FC = () => {
             <button onClick={() => setCurrentStep("DATAPACK")} className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl">
               Quay lại
             </button>
-            <button onClick={() => setCurrentStep("MATRIX")} className="flex items-center gap-2 px-5 py-2.5 bg-brand-600 text-white rounded-xl text-xs font-bold hover:bg-brand-700">
+            <button
+              onClick={async () => {
+                if (!matrix || matrix.cells.length === 0) {
+                  await generateStepAI("MATRIX");
+                }
+                setCurrentStep("MATRIX");
+              }}
+              className="flex items-center gap-2 px-5 py-2.5 bg-brand-600 text-white rounded-xl text-xs font-bold hover:bg-brand-700"
+            >
               Tiếp theo: Ma trận đề <ArrowRight className="w-4 h-4" />
             </button>
           </div>

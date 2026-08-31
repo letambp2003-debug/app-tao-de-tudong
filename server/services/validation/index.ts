@@ -516,18 +516,29 @@ export class ValidationEngine {
     const targetScore = project.totalScore || 10.0;
 
     // 1. Fix Blueprint
-    const bp = db.blueprints[projectId] || {
+    // 1. Fix Blueprint (Preserve user's custom questionTypeConfigs if total is valid)
+    const existingBp = db.blueprints[projectId];
+    const defaultConfigs = [
+      { type: "MULTIPLE_CHOICE" as const, count: 16, pointsPerItem: 0.25, totalScore: 4.0 },
+      { type: "TRUE_FALSE_4" as const, count: 2, pointsPerItem: 1.0, totalScore: 2.0 },
+      { type: "SHORT_ANSWER" as const, count: 4, pointsPerItem: 0.5, totalScore: 2.0 },
+      { type: "ESSAY" as const, count: 2, pointsPerItem: 1.0, totalScore: 2.0 }
+    ];
+
+    const userConfigs = existingBp?.questionTypeConfigs && existingBp.questionTypeConfigs.length > 0
+      ? existingBp.questionTypeConfigs.filter(c => c.count > 0)
+      : defaultConfigs;
+
+    const bpTotalScore = Number(userConfigs.reduce((sum, c) => sum + (c.totalScore || c.count * c.pointsPerItem), 0).toFixed(2));
+    const activeConfigs = Math.abs(bpTotalScore - targetScore) < 0.1 ? userConfigs : defaultConfigs;
+
+    const bp = {
       id: "bp-" + projectId,
       projectId,
       totalScore: targetScore,
       durationMinutes: project.durationMinutes || 60,
-      cognitiveWeights: { NB: 40, TH: 30, VD: 20, VDC: 10 },
-      questionTypeConfigs: [
-        { type: "MULTIPLE_CHOICE", count: 16, pointsPerItem: 0.25, totalScore: 4.0 },
-        { type: "TRUE_FALSE_4", count: 2, pointsPerItem: 1.0, totalScore: 2.0 },
-        { type: "SHORT_ANSWER", count: 4, pointsPerItem: 0.5, totalScore: 2.0 },
-        { type: "ESSAY", count: 2, pointsPerItem: 1.0, totalScore: 2.0 }
-      ],
+      cognitiveWeights: existingBp?.cognitiveWeights || { NB: 40, TH: 30, VD: 20, VDC: 10 },
+      questionTypeConfigs: activeConfigs,
       topicAllocations: (dp.topics || []).map((t, idx) => ({
         topicId: t.id,
         targetScore: idx === 0 ? 4.0 : idx === 1 ? 3.0 : 3.0,
@@ -535,15 +546,6 @@ export class ValidationEngine {
       })),
       updatedAt: new Date().toISOString()
     };
-
-    bp.cognitiveWeights = { NB: 40, TH: 30, VD: 20, VDC: 10 };
-    bp.totalScore = targetScore;
-    bp.questionTypeConfigs = [
-      { type: "MULTIPLE_CHOICE", count: 16, pointsPerItem: 0.25, totalScore: 4.0 },
-      { type: "TRUE_FALSE_4", count: 2, pointsPerItem: 1.0, totalScore: 2.0 },
-      { type: "SHORT_ANSWER", count: 4, pointsPerItem: 0.5, totalScore: 2.0 },
-      { type: "ESSAY", count: 2, pointsPerItem: 1.0, totalScore: 2.0 }
-    ];
 
     // Ensure topic allocations sum to totalScore
     if (dp.topics && dp.topics.length > 0) {
@@ -559,7 +561,7 @@ export class ValidationEngine {
     }
     db.blueprints[projectId] = bp;
 
-    // 2. Fix Matrix: Perfect 10.0 score with exact 4.0 NB, 3.0 TH, 2.0 VD, 1.0 VDC
+    // 2. Fix Matrix: Perfect 10.0 score dynamically matching the Blueprint question configs
     const t1 = dp.topics[0]?.id || "top-1";
     const t2 = dp.topics[1]?.id || t1;
     const t3 = dp.topics[2]?.id || t2;
@@ -568,21 +570,61 @@ export class ValidationEngine {
     const u2 = dp.units.find(u => u.topicId === t2)?.id || u1;
     const u3 = dp.units.find(u => u.topicId === t3)?.id || u2;
 
-    const fixedCells = [
-      // NB: 16 MCQs = 4.0đ
-      { id: "mc-1", topicId: t1, unitId: u1, questionType: "MULTIPLE_CHOICE" as const, cognitiveLevel: "NB" as const, count: 8, pointsPerItem: 0.25, totalScore: 2.0 },
-      { id: "mc-2", topicId: t2, unitId: u2, questionType: "MULTIPLE_CHOICE" as const, cognitiveLevel: "NB" as const, count: 4, pointsPerItem: 0.25, totalScore: 1.0 },
-      { id: "mc-3", topicId: t3, unitId: u3, questionType: "MULTIPLE_CHOICE" as const, cognitiveLevel: "NB" as const, count: 4, pointsPerItem: 0.25, totalScore: 1.0 },
-      // TH: 2 TF (2.0đ) + 2 SA (1.0đ) = 3.0đ
-      { id: "mc-4", topicId: t1, unitId: u1, questionType: "TRUE_FALSE_4" as const, cognitiveLevel: "TH" as const, count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
-      { id: "mc-5", topicId: t2, unitId: u2, questionType: "TRUE_FALSE_4" as const, cognitiveLevel: "TH" as const, count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
-      { id: "mc-6", topicId: t1, unitId: u1, questionType: "SHORT_ANSWER" as const, cognitiveLevel: "TH" as const, count: 2, pointsPerItem: 0.5, totalScore: 1.0 },
-      // VD: 2 SA (1.0đ) + 1 Essay (1.0đ) = 2.0đ
-      { id: "mc-7", topicId: t2, unitId: u2, questionType: "SHORT_ANSWER" as const, cognitiveLevel: "VD" as const, count: 2, pointsPerItem: 0.5, totalScore: 1.0 },
-      { id: "mc-8", topicId: t1, unitId: u1, questionType: "ESSAY" as const, cognitiveLevel: "VD" as const, count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
-      // VDC: 1 Essay (1.0đ) = 1.0đ
-      { id: "mc-9", topicId: t3, unitId: u3, questionType: "ESSAY" as const, cognitiveLevel: "VDC" as const, count: 1, pointsPerItem: 1.0, totalScore: 1.0 }
+    const availableTopicsList = [
+      { id: t1, unitId: u1 },
+      { id: t2, unitId: u2 },
+      { id: t3, unitId: u3 }
     ];
+
+    const fixedCells: any[] = [];
+    let cellIdx = 1;
+
+    for (const cfg of activeConfigs) {
+      const qType = cfg.type;
+      const totalCount = cfg.count;
+      const pointsPerItem = cfg.pointsPerItem || (qType === "MULTIPLE_CHOICE" ? 0.25 : qType === "SHORT_ANSWER" ? 0.5 : 1.0);
+
+      if (qType === "MULTIPLE_CHOICE") {
+        const count1 = Math.floor(totalCount / 2);
+        const rem = totalCount - count1;
+        const count2 = Math.ceil(rem / 2);
+        const count3 = rem - count2;
+
+        if (count1 > 0) fixedCells.push({ id: `mc-${cellIdx++}`, topicId: t1, unitId: u1, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: count1, pointsPerItem, totalScore: Number((count1 * pointsPerItem).toFixed(2)) });
+        if (count2 > 0) fixedCells.push({ id: `mc-${cellIdx++}`, topicId: t2, unitId: u2, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: count2, pointsPerItem, totalScore: Number((count2 * pointsPerItem).toFixed(2)) });
+        if (count3 > 0) fixedCells.push({ id: `mc-${cellIdx++}`, topicId: t3, unitId: u3, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: count3, pointsPerItem, totalScore: Number((count3 * pointsPerItem).toFixed(2)) });
+      } else if (qType === "TRUE_FALSE_4") {
+        for (let i = 0; i < totalCount; i++) {
+          const topObj = availableTopicsList[i % availableTopicsList.length];
+          fixedCells.push({
+            id: `mc-${cellIdx++}`,
+            topicId: topObj.id,
+            unitId: topObj.unitId,
+            questionType: "TRUE_FALSE_4",
+            cognitiveLevel: "TH",
+            count: 1,
+            pointsPerItem,
+            totalScore: pointsPerItem
+          });
+        }
+      } else if (qType === "SHORT_ANSWER") {
+        const half1 = Math.ceil(totalCount / 2);
+        const half2 = totalCount - half1;
+        if (half1 > 0) fixedCells.push({ id: `mc-${cellIdx++}`, topicId: t1, unitId: u1, questionType: "SHORT_ANSWER", cognitiveLevel: "TH", count: half1, pointsPerItem, totalScore: Number((half1 * pointsPerItem).toFixed(2)) });
+        if (half2 > 0) fixedCells.push({ id: `mc-${cellIdx++}`, topicId: t2, unitId: u2, questionType: "SHORT_ANSWER", cognitiveLevel: "VD", count: half2, pointsPerItem, totalScore: Number((half2 * pointsPerItem).toFixed(2)) });
+      } else if (qType === "ESSAY") {
+        const vdCount = Math.floor(totalCount / 2);
+        const vdcCount = totalCount - vdCount;
+        for (let i = 0; i < vdCount; i++) {
+          const topObj = availableTopicsList[i % availableTopicsList.length];
+          fixedCells.push({ id: `mc-${cellIdx++}`, topicId: topObj.id, unitId: topObj.unitId, questionType: "ESSAY", cognitiveLevel: "VD", count: 1, pointsPerItem, totalScore: pointsPerItem });
+        }
+        for (let i = 0; i < vdcCount; i++) {
+          const topObj = availableTopicsList[(availableTopicsList.length - 1 - i + availableTopicsList.length) % availableTopicsList.length];
+          fixedCells.push({ id: `mc-${cellIdx++}`, topicId: topObj.id, unitId: topObj.unitId, questionType: "ESSAY", cognitiveLevel: "VDC", count: 1, pointsPerItem, totalScore: pointsPerItem });
+        }
+      }
+    }
 
     db.matrices[projectId] = {
       id: "mat-" + projectId,

@@ -78,7 +78,7 @@
       "examPeriod": "GIUA_KY",
       "durationMinutes": 90,
       "totalScore": 10,
-      "status": "EXPORTED",
+      "status": "MATRIX_GENERATED",
       "organizationId": "org-001",
       "authorId": "user-teacher-01",
       "authorName": "Thầy Giáo viên Nguyễn Văn An",
@@ -513,7 +513,7 @@
         }
       ],
       "appendixNotes": "Phạm vi kiểm tra Giữa kì I: 100% nội dung thuộc Chương I (Đa thức) và Chương II (Hằng đẳng thức đáng nhớ và ứng dụng).",
-      "approvedAt": "2026-08-31T10:33:29.682Z",
+      "approvedAt": "2026-08-31T11:30:40.736Z",
       "approvedBy": "Thầy Giáo viên Nguyễn Văn An"
     }
   },
@@ -583,9 +583,9 @@
       "questionTypeConfigs": [
         {
           "type": "MULTIPLE_CHOICE",
-          "count": 16,
+          "count": 12,
           "pointsPerItem": 0.25,
-          "totalScore": 4
+          "totalScore": 3
         },
         {
           "type": "TRUE_FALSE_4",
@@ -601,29 +601,29 @@
         },
         {
           "type": "ESSAY",
-          "count": 2,
-          "pointsPerItem": 1,
-          "totalScore": 2
+          "count": 4,
+          "pointsPerItem": 0.75,
+          "totalScore": 3
         }
       ],
       "topicAllocations": [
         {
           "topicId": "top-1",
-          "targetScore": 4,
-          "targetPercentage": 40
+          "targetScore": 1.5,
+          "targetPercentage": 15
         },
         {
           "topicId": "top-2",
-          "targetScore": 3,
-          "targetPercentage": 30
+          "targetScore": 1.5,
+          "targetPercentage": 15
         },
         {
           "topicId": "top-3",
-          "targetScore": 3,
-          "targetPercentage": 30
+          "targetScore": 3.5,
+          "targetPercentage": 35
         }
       ],
-      "updatedAt": "2026-08-31T05:33:21.767Z",
+      "updatedAt": "2026-08-31T11:32:57.758Z",
       "totalQuestions": 22
     }
   },
@@ -732,11 +732,9 @@
     "proj-1788148956682": {
       "id": "mat-proj-1788148956682",
       "projectId": "proj-1788148956682",
-      "isApproved": true,
-      "approvedAt": "2026-08-31T10:35:34.542Z",
-      "approvedBy": "Thầy Giáo viên Nguyễn Văn An",
+      "isApproved": false,
       "version": 1,
-      "updatedAt": "2026-08-31T10:35:34.542Z",
+      "updatedAt": "2026-08-31T11:34:20.059Z",
       "cells": [
         {
           "id": "mc-1",
@@ -744,29 +742,29 @@
           "unitId": "unit-1",
           "questionType": "MULTIPLE_CHOICE",
           "cognitiveLevel": "NB",
-          "count": 8,
+          "count": 6,
           "pointsPerItem": 0.25,
-          "totalScore": 2
+          "totalScore": 1.5
         },
         {
           "id": "mc-2",
+          "topicId": "top-1",
+          "unitId": "unit-1",
+          "questionType": "MULTIPLE_CHOICE",
+          "cognitiveLevel": "NB",
+          "count": 3,
+          "pointsPerItem": 0.25,
+          "totalScore": 0.75
+        },
+        {
+          "id": "mc-3",
           "topicId": "top-2",
           "unitId": "unit-2",
           "questionType": "MULTIPLE_CHOICE",
           "cognitiveLevel": "NB",
-          "count": 4,
+          "count": 3,
           "pointsPerItem": 0.25,
-          "totalScore": 1
-        },
-        {
-          "id": "mc-3",
-          "topicId": "top-3",
-          "unitId": "unit-3",
-          "questionType": "MULTIPLE_CHOICE",
-          "cognitiveLevel": "NB",
-          "count": 4,
-          "pointsPerItem": 0.25,
-          "totalScore": 1
+          "totalScore": 0.75
         },
         {
           "id": "mc-4",
@@ -972,11 +970,9 @@
     "proj-1788148956682": {
       "id": "spec-proj-1788148956682",
       "projectId": "proj-1788148956682",
-      "isApproved": true,
-      "approvedAt": "2026-08-31T10:35:34.542Z",
-      "approvedBy": "Thầy Giáo viên Nguyễn Văn An",
+      "isApproved": false,
       "version": 1,
-      "updatedAt": "2026-08-31T10:35:34.542Z",
+      "updatedAt": "2026-08-31T11:33:14.587Z",
       "rows": [
         {
           "id": "spec-row-1",
@@ -3191,6 +3187,17 @@
   },
   "auditLogs": [
     {
+      "id": "log-1788175840736",
+      "userId": "user-teacher-01",
+      "userName": "Thầy Giáo viên Nguyễn Văn An",
+      "action": "APPROVE_DATAPACK",
+      "targetType": "DATAPACK",
+      "targetId": "proj-1788148956682",
+      "projectId": "proj-1788148956682",
+      "details": "Giáo viên phê duyệt chuẩn hóa Data Pack",
+      "timestamp": "2026-08-31T11:30:40.736Z"
+    },
+    {
       "id": "log-1788172409683",
       "userId": "user-teacher-01",
       "userName": "Thầy Giáo viên Nguyễn Văn An",
@@ -3280,6 +3287,28 @@
     }
   ],
   "aiUsageLogs": [
+    {
+      "id": "ai-log-1788176019448-xsqvt",
+      "moduleCode": "AI03_MATRIX_ADVISOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v1.1",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:33:39.448Z"
+    },
+    {
+      "id": "ai-log-1788175834458-2pek2",
+      "moduleCode": "AI02_CURRICULUM_MAPPER",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v1.3",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 1,
+      "timestamp": "2026-08-31T11:30:34.458Z"
+    },
     {
       "id": "ai-log-1788172482945-1zb2u",
       "moduleCode": "AI03_MATRIX_ADVISOR",
