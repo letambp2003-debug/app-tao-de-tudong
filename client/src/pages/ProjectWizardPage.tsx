@@ -5,6 +5,7 @@ import { useAuth } from "../contexts/AuthContext.js";
 import { useNotification } from "../contexts/NotificationContext.js";
 import { StepProgressBar } from "../components/layout/StepProgressBar.js";
 import { MatrixGrid } from "../components/matrix/MatrixGrid.js";
+import { BlueprintEditor } from "../components/matrix/BlueprintEditor.js";
 import { SpecificationTable } from "../components/spec/SpecificationTable.js";
 import { QuestionCard } from "../components/questions/QuestionCard.js";
 import { QuestionEditorModal } from "../components/questions/QuestionEditorModal.js";
@@ -360,18 +361,16 @@ export const ProjectWizardPage: React.FC = () => {
           <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-6">
             <div>
               <h3 className="font-bold text-base text-slate-900">Khung cơ cấu đề kiểm tra (Blueprint)</h3>
-              <p className="text-xs text-slate-500">Tỉ lệ mức độ nhận thức (NB 40% - TH 30% - VD 20% - VDC 10%) và cấu trúc 4 dạng câu</p>
+              <p className="text-xs text-slate-500">Giáo viên toàn quyền tùy chọn 4 dạng câu hỏi, số lượng câu, điểm số và tỉ lệ mức độ nhận thức</p>
             </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              {blueprint.questionTypeConfigs.map(cfg => (
-                <div key={cfg.type} className="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
-                  <div className="text-xs font-bold text-slate-700">{cfg.type}</div>
-                  <div className="text-lg font-extrabold text-brand-600">{cfg.count} câu</div>
-                  <div className="text-[11px] text-slate-500">{cfg.pointsPerItem} đ/câu = {cfg.totalScore} đ</div>
-                </div>
-              ))}
-            </div>
+            <BlueprintEditor
+              blueprint={blueprint}
+              onSave={async updated => {
+                await saveCurrentStep("BLUEPRINT", updated);
+                showToast("success", "Đã lưu cơ cấu đề thi", `Tổng ${updated.totalQuestions} câu - ${updated.totalScore.toFixed(2)} điểm`);
+              }}
+            />
           </div>
 
           <div className="flex justify-between">

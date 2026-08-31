@@ -189,6 +189,7 @@ export interface Blueprint {
   id: string;
   projectId: string;
   totalScore: number;
+  totalQuestions?: number;
   durationMinutes: number;
   cognitiveWeights: BlueprintCognitiveWeight;
   questionTypeConfigs: BlueprintQuestionTypeConfig[];
