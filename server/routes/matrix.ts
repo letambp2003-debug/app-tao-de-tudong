@@ -39,6 +39,7 @@ router.get("/:projectId", (req, res) => {
 // POST /api/matrix/:projectId/generate
 router.post("/:projectId/generate", async (req, res) => {
   const { projectId } = req.params;
+  const apiKey = req.headers["x-gemini-api-key"] as string || req.body?.apiKey;
   const db = DatabaseService.get();
   const proj = db.projects.find(p => p.id === projectId);
   const bp = db.blueprints[projectId];
@@ -50,7 +51,8 @@ router.post("/:projectId/generate", async (req, res) => {
   }>({
     moduleCode: "AI03",
     projectId,
-    inputData: { blueprint: bp, dataPack: dp, project: proj }
+    inputData: { blueprint: bp, dataPack: dp, project: proj },
+    apiKey
   });
 
   const topicCodeMap: Record<string, string> = {};

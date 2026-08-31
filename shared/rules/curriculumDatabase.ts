@@ -63,11 +63,11 @@ export const CURRICULUM_DATABASE: SubjectCurriculum[] = [
     topics: [
       {
         code: "CD1",
-        name: "Chương I & II: Đa thức và Các hằng đẳng thức đáng nhớ",
+        name: "Chương I: Đơn thức và Đa thức nhiều biến",
         order: 1,
         period: "GIAI_DOAN_1",
-        weightPercentageMidterm: 100,
-        weightPercentageFinal: 25,
+        weightPercentageMidterm: 45,
+        weightPercentageFinal: 15,
         units: [
           {
             code: "B1",
@@ -117,11 +117,21 @@ export const CURRICULUM_DATABASE: SubjectCurriculum[] = [
                 ]
               }
             ]
-          },
+          }
+        ]
+      },
+      {
+        code: "CD2",
+        name: "Chương II: Bảy hằng đẳng thức đáng nhớ và Phân tích đa thức",
+        order: 2,
+        period: "GIAI_DOAN_1",
+        weightPercentageMidterm: 35,
+        weightPercentageFinal: 15,
+        units: [
           {
             code: "B2",
             name: "Bảy hằng đẳng thức đáng nhớ và Phân tích đa thức thành nhân tử",
-            order: 2,
+            order: 1,
             lessonHours: 12,
             yccds: [
               {
@@ -171,21 +181,79 @@ export const CURRICULUM_DATABASE: SubjectCurriculum[] = [
         ]
       },
       {
-        code: "CD2",
-        name: "Chương III: Phân thức đại số",
-        order: 2,
+        code: "CD3",
+        name: "Chương III: Tứ giác và Hình học trực quan",
+        order: 3,
+        period: "GIAI_DOAN_1",
+        weightPercentageMidterm: 20,
+        weightPercentageFinal: 35,
+        units: [
+          {
+            code: "B3",
+            name: "Hình thang cân, Hình bình hành, Hình chữ nhật, Hình thoi, Hình vuông",
+            order: 1,
+            lessonHours: 14,
+            yccds: [
+              {
+                code: "YCCD_TOAN8_05",
+                description: "Nhận biết các dấu hiệu và tính chất của hình chữ nhật, hình thoi, hình vuông.",
+                cognitiveLevelDefault: "NB",
+                competencyCode: "TD_TOAN",
+                sourceReference: "SGK Toán 8 Tập 1 - Bài 14, 15 & 16, tr.75-88",
+                sampleQuestions: [
+                  {
+                    type: "MULTIPLE_CHOICE",
+                    stem: "Tứ giác có hai đường chéo bằng nhau và cắt nhau tại trung điểm của mỗi đường là hình gì?",
+                    cognitiveLevel: "NB",
+                    score: 0.25,
+                    sourceReference: "SGK Toán 8 Tập 1 - Bài 15",
+                    mcOptions: [
+                      { label: "A", content: "Hình chữ nhật", isCorrect: true },
+                      { label: "B", content: "Hình thoi", isCorrect: false },
+                      { label: "C", content: "Hình thang", isCorrect: false },
+                      { label: "D", content: "Hình bình hành", isCorrect: false }
+                    ]
+                  }
+                ]
+              },
+              {
+                code: "YCCD_TOAN8_06",
+                description: "Vận dụng định nghĩa và tính chất của tứ giác để tính số đo góc và chứng minh hình học.",
+                cognitiveLevelDefault: "TH",
+                competencyCode: "GQVD_TOAN",
+                sourceReference: "SGK Toán 8 Tập 1 - Bài 14, tr.76",
+                sampleQuestions: [
+                  {
+                    type: "SHORT_ANSWER",
+                    stem: "Cho hình thoi có độ dài hai đường chéo là 6 cm và 8 cm. Diện tích của hình thoi đó bằng bao nhiêu cm²?",
+                    cognitiveLevel: "TH",
+                    score: 0.5,
+                    sourceReference: "SGK Toán 8 Tập 1 - Bài 16",
+                    explanation: "Diện tích hình thoi = 1/2 * d1 * d2 = 1/2 * 6 * 8 = 24 cm².",
+                    saSpec: { expectedAnswer: "24", unit: "cm2", tolerance: 0 }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        code: "CD4",
+        name: "Chương IV & V: Phân thức đại số và Định lí Thalès",
+        order: 4,
         period: "GIAI_DOAN_2",
         weightPercentageMidterm: 0,
         weightPercentageFinal: 35,
         units: [
           {
-            code: "B3",
-            name: "Phân thức đại số và các phép toán cộng, trừ, nhân, chia phân thức",
+            code: "B4",
+            name: "Phân thức đại số và Định lí Thalès trong tam giác",
             order: 1,
-            lessonHours: 12,
+            lessonHours: 16,
             yccds: [
               {
-                code: "YCCD_TOAN8_05",
+                code: "YCCD_TOAN8_07",
                 description: "Xác định điều kiện xác định của phân thức và rút gọn phân thức đại số.",
                 cognitiveLevelDefault: "NB",
                 competencyCode: "TD_TOAN",
@@ -207,82 +275,22 @@ export const CURRICULUM_DATABASE: SubjectCurriculum[] = [
                 ]
               },
               {
-                code: "YCCD_TOAN8_06",
-                description: "Thực hiện phép tính rút gọn biểu thức chứa các phân thức đại số và tìm giá trị nguyên của biến.",
+                code: "YCCD_TOAN8_08",
+                description: "Vận dụng định lí Thalès để tính độ dài đoạn thẳng và bài toán thực tế.",
                 cognitiveLevelDefault: "VDC",
                 competencyCode: "GQVD_TOAN",
-                sourceReference: "SGK Toán 8 Tập 1 - Bài 13, tr.66-72",
+                sourceReference: "SGK Toán 8 Tập 1 - Bài 18, tr.95-102",
                 sampleQuestions: [
                   {
                     type: "ESSAY",
-                    stem: "Cho biểu thức $P = \\left( \\frac{x}{x^2 - 4} + \\frac{1}{x + 2} \\right) : \\frac{2}{x - 2}$ với $x \\neq \\pm 2$.\na) Rút gọn biểu thức $P$.\nb) Tìm giá trị nguyên của $x$ để $P$ nhận giá trị nguyên.",
+                    stem: "Cho $\\Delta ABC$ có $MN // BC$ ($M \\in AB, N \\in AC$). Biết $AM = 4\\text{ cm}, MB = 2\\text{ cm}, AN = 6\\text{ cm}$.\na) Tính độ dài đoạn thẳng $NC$.\nb) Vận dụng định lí Thalès giải thích cách đo chiều cao cây trong thực tế.",
                     cognitiveLevel: "VDC",
                     score: 1.0,
-                    sourceReference: "SGK Toán 8 Tập 1 - Bài 13",
-                    rubricSteps: [
-                      { stepNumber: 1, criterion: "Quy đồng và rút gọn biểu thức trong ngoặc", expectedContent: "$\\frac{x + x - 2}{(x-2)(x+2)} = \\frac{2(x-1)}{(x-2)(x+2)}$.", score: 0.25 },
-                      { stepNumber: 2, criterion: "Thực hiện phép chia và rút gọn ra $P$", expectedContent: "$P = \\frac{2(x-1)}{(x-2)(x+2)} \\cdot \\frac{x-2}{2} = \\frac{x-1}{x+2}$.", score: 0.25 },
-                      { stepNumber: 3, criterion: "Biến đổi $P = 1 - \\frac{3}{x+2}$", expectedContent: "$P = 1 - \\frac{3}{x+2}$. Để $P \\in \\mathbb{Z}$ thì $(x+2) \\in Ư(3) = \\{\\pm 1, \\pm 3\\}$.", score: 0.25 },
-                      { stepNumber: 4, criterion: "Kết luận đúng các giá trị nguyên của $x$", expectedContent: "$x \\in \\{-5, -1, 1\\}$ (loại $x = -3$ hoặc $x = \\pm 2$ do ĐKXĐ).", score: 0.25 }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        code: "CD3",
-        name: "Chương IV & V: Hình học trực quan, Tứ giác và Định lí Thalès",
-        order: 3,
-        period: "GIAI_DOAN_2",
-        weightPercentageMidterm: 0,
-        weightPercentageFinal: 40,
-        units: [
-          {
-            code: "B4",
-            name: "Hình thang cân, Hình bình hành, Hình chữ nhật, Hình thoi, Hình vuông",
-            order: 1,
-            lessonHours: 14,
-            yccds: [
-              {
-                code: "YCCD_TOAN8_07",
-                description: "Nhận biết dấu hiệu nhận biết và tính chất các tứ giác đặc biệt (hình bình hành, hình chữ nhật, hình thoi, hình vuông).",
-                cognitiveLevelDefault: "NB",
-                competencyCode: "TD_TOAN",
-                sourceReference: "SGK Toán 8 Tập 1 - Bài 14-17, tr.76-92",
-                sampleQuestions: [
-                  {
-                    type: "MULTIPLE_CHOICE",
-                    stem: "Tứ giác có hai đường chéo bằng nhau và cắt nhau tại trung điểm của mỗi đường là hình gì?",
-                    cognitiveLevel: "NB",
-                    score: 0.25,
-                    sourceReference: "SGK Toán 8 Tập 1 - Bài 16",
-                    mcOptions: [
-                      { label: "A", content: "Hình chữ nhật", isCorrect: true },
-                      { label: "B", content: "Hình thoi", isCorrect: false },
-                      { label: "C", content: "Hình thang cân", isCorrect: false },
-                      { label: "D", content: "Hình bình hành", isCorrect: false }
-                    ]
-                  }
-                ]
-              },
-              {
-                code: "YCCD_TOAN8_08",
-                description: "Vận dụng định lí Thalès trong tam giác và tính chất đường trung bình để tính độ dài đoạn thẳng và chứng minh hình học.",
-                cognitiveLevelDefault: "VD",
-                competencyCode: "GQVD_TOAN",
-                sourceReference: "SGK Toán 8 Tập 1 - Bài 18 & 19, tr.96-104",
-                sampleQuestions: [
-                  {
-                    type: "SHORT_ANSWER",
-                    stem: "Cho $\\Delta ABC$ có $MN // BC$ ($M \\in AB, N \\in AC$). Biết $AM = 3\\text{ cm}, MB = 2\\text{ cm}, AN = 4,5\\text{ cm}$. Tính độ dài đoạn thẳng $NC$ (cm):",
-                    cognitiveLevel: "VD",
-                    score: 0.5,
                     sourceReference: "SGK Toán 8 Tập 1 - Bài 18",
-                    explanation: "Theo định lí Thalès: AM / MB = AN / NC => 3 / 2 = 4.5 / NC => NC = 3 cm.",
-                    saSpec: { expectedAnswer: "3", unit: "cm", tolerance: 0 }
+                    rubricSteps: [
+                      { stepNumber: 1, criterion: "Áp dụng đúng định lí Thalès", expectedContent: "$\\frac{AM}{MB} = \\frac{AN}{NC} \\Rightarrow \\frac{4}{2} = \\frac{6}{NC}$.", score: 0.5 },
+                      { stepNumber: 2, criterion: "Tính đúng độ dài NC và kết luận", expectedContent: "$NC = \\frac{2 \\times 6}{4} = 3\\text{ cm}$.", score: 0.5 }
+                    ]
                   }
                 ]
               }

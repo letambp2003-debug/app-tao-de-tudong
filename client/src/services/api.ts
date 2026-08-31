@@ -99,6 +99,7 @@ export const api = {
   getQuestions: (projectId?: string) => request<Question[]>(`/questions${projectId ? `?projectId=${projectId}` : ""}`),
   generateQuestion: (data: { projectId: string; specRowId?: string; questionType: string; cognitiveLevel: string }) =>
     request<Question>("/questions/generate-one", { method: "POST", body: JSON.stringify(data) }),
+  generateAllQuestions: (projectId: string) => request<Question[]>(`/questions/generate-all/${projectId}`, { method: "POST" }),
   updateQuestion: (id: string, data: Partial<Question>) => request<Question>(`/questions/${id}`, { method: "PUT", body: JSON.stringify(data) }),
   deleteQuestion: (id: string, projectId: string) => request<{ success: boolean }>(`/questions/${id}?projectId=${projectId}`, { method: "DELETE" }),
 
@@ -115,8 +116,10 @@ export const api = {
   getWordExportUrl: (projectId: string, withAnswers = false) => `${API_BASE}/export/${projectId}/word?withAnswers=${withAnswers}`,
   getZipExportUrl: (projectId: string) => `${API_BASE}/export/${projectId}/zip`,
 
-  // Admin & Audit
+  // Admin, Audit & Gemini API Key
   getAuditLogs: () => request<AuditLog[]>("/admin/audit-logs"),
   getAILogs: () => request<AIUsageLog[]>("/admin/ai-logs"),
-  getSubjectRules: () => request<SubjectRuleProfile[]>("/admin/rules")
+  getSubjectRules: () => request<SubjectRuleProfile[]>("/admin/rules"),
+  getGeminiKeyStatus: () => request<{ hasKey: boolean; maskedKey: string }>("/admin/gemini-key"),
+  saveGeminiKey: (apiKey: string) => request<{ success: boolean; message: string; hasKey: boolean; maskedKey: string }>("/admin/gemini-key", { method: "POST", body: JSON.stringify({ apiKey }) })
 };

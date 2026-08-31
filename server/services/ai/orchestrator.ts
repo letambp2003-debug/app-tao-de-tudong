@@ -4,16 +4,41 @@ import { PROMPTS } from "../../prompts/index.js";
 import { DatabaseService } from "../database/mockDb.js";
 import { AIUsageLog, Project } from "../../../shared/types/index.js";
 import { getCurriculumData, SubjectCurriculum } from "../../../shared/rules/curriculumDatabase.js";
+import { getAuthenticQuestions, AuthenticQuestionTemplate } from "../../../shared/rules/questionBankDatabase.js";
+
+// Ordered model cascade according to user requirements
+const GEMINI_MODELS_CASCADE = [
+  "gemini-2.0-flash",
+  "gemini-1.5-flash",
+  "gemini-1.5-pro",
+  "gemini-2.0-flash-exp",
+  "gemini-1.0-pro"
+];
 
 export class AIOrchestrator {
   private static geminiClient: GoogleGenerativeAI | null = null;
+  private static activeApiKey: string = config.geminiApiKey || "";
 
-  public static getGemini(): GoogleGenerativeAI | null {
-    if (!AIOrchestrator.geminiClient && config.geminiApiKey) {
-      try {
-        AIOrchestrator.geminiClient = new GoogleGenerativeAI(config.geminiApiKey);
-      } catch (err) {
-        console.error("Failed to initialize GoogleGenerativeAI:", err);
+  public static setApiKey(key: string) {
+    AIOrchestrator.activeApiKey = key;
+    config.geminiApiKey = key;
+    AIOrchestrator.geminiClient = new GoogleGenerativeAI(key);
+  }
+
+  public static getApiKey(): string {
+    return AIOrchestrator.activeApiKey || config.geminiApiKey || "";
+  }
+
+  public static getGemini(overrideKey?: string): GoogleGenerativeAI | null {
+    const key = overrideKey || AIOrchestrator.getApiKey();
+    if (key) {
+      if (!AIOrchestrator.geminiClient || AIOrchestrator.activeApiKey !== key) {
+        try {
+          AIOrchestrator.activeApiKey = key;
+          AIOrchestrator.geminiClient = new GoogleGenerativeAI(key);
+        } catch (err) {
+          console.error("Failed to initialize GoogleGenerativeAI:", err);
+        }
       }
     }
     return AIOrchestrator.geminiClient;
@@ -24,10 +49,11 @@ export class AIOrchestrator {
     projectId: string;
     inputData: any;
     customPrompt?: string;
-  }): Promise<{ result: T; source: "LIVE_AI" | "MOCK_AI"; usageLog: AIUsageLog }> {
+    apiKey?: string;
+  }): Promise<{ result: T; source: "LIVE_AI" | "MOCK_AI"; usageLog: AIUsageLog; modelUsed?: string }> {
     const startTime = Date.now();
     const promptDef = Object.values(PROMPTS).find(p => p.code === params.moduleCode) || PROMPTS.AI05_QUESTION_AUTHOR;
-    const client = AIOrchestrator.getGemini();
+    const client = AIOrchestrator.getGemini(params.apiKey);
 
     const db = DatabaseService.get();
     const project = db.projects.find(p => p.id === params.projectId) || params.inputData?.project;
@@ -36,31 +62,38 @@ export class AIOrchestrator {
     let mode: "LIVE_AI" | "MOCK_AI" = "MOCK_AI";
     let inputTokens = 500;
     let outputTokens = 800;
+    let modelUsed = "Dynamic-Pedagogical-Engine";
 
-    if (client && config.geminiApiKey) {
-      try {
-        const model = client.getGenerativeModel({
-          model: "gemini-1.5-flash",
-          generationConfig: {
-            responseMimeType: "application/json",
-            temperature: 0.2
-          },
-          systemInstruction: `${promptDef.systemPrompt}\n\nThông tin môn học dự án:\n- Môn: ${project?.subject || "Toán học"}\n- Lớp: ${project?.grade || 8}\n- Bộ sách: ${project?.textbookSeries || "Kết nối tri thức"}\n- Học kỳ: ${project?.semester || "HK1"}\n- Kỳ thi: ${project?.examPeriod || "GIUA_KY"}`
-        });
+    // Cascade through models: gemini-2.0-flash -> gemini-1.5-flash -> gemini-1.5-pro -> ...
+    if (client) {
+      for (const modelName of GEMINI_MODELS_CASCADE) {
+        try {
+          const model = client.getGenerativeModel({
+            model: modelName,
+            generationConfig: {
+              responseMimeType: "application/json",
+              temperature: 0.2
+            },
+            systemInstruction: `${promptDef.systemPrompt}\n\nThông tin môn học dự án:\n- Môn: ${project?.subject || "Toán học"}\n- Lớp: ${project?.grade || 8}\n- Bộ sách: ${project?.textbookSeries || "Kết nối tri thức"}\n- Học kỳ: ${project?.semester || "HK1"}\n- Kỳ thi: ${project?.examPeriod || "GIUA_KY"}\n\nYêu cầu đặc biệt: Tạo nội dung câu hỏi TOÁN / KHTN thật với công thức LaTeX $ ... $, có đầy đủ đáp án A, B, C, D, giải thích chi tiết, không dùng từ giữ chỗ.`
+          });
 
-        const promptText = params.customPrompt || JSON.stringify(params.inputData);
-        const res = await model.generateContent(promptText);
-        const text = res.response.text();
-        outputResult = JSON.parse(text);
-        mode = "LIVE_AI";
-        inputTokens = 1200;
-        outputTokens = 1500;
-      } catch (err) {
-        console.warn(`[AI ${params.moduleCode}] Live API error, falling back to dynamic curriculum engine:`, err);
+          const promptText = params.customPrompt || JSON.stringify(params.inputData);
+          const res = await model.generateContent(promptText);
+          const text = res.response.text();
+          outputResult = JSON.parse(text);
+          mode = "LIVE_AI";
+          modelUsed = modelName;
+          inputTokens = 1200;
+          outputTokens = 1500;
+          console.log(`[AI ${params.moduleCode}] Successfully generated via Live Gemini Model: ${modelName}`);
+          break; // Succeeded! Stop cascading.
+        } catch (err: any) {
+          console.warn(`[AI ${params.moduleCode}] Model ${modelName} failed or unavailable (${err.message}). Trying next in cascade...`);
+        }
       }
     }
 
-    // High quality dynamic curriculum fallback generator matching the project's exact subject, grade, and exam period
+    // High quality dynamic curriculum generator matching the project's exact subject, grade, and exam period
     if (!outputResult) {
       outputResult = AIOrchestrator.generateDeterministicMock(params.moduleCode, params.inputData, project);
       mode = "MOCK_AI";
@@ -82,7 +115,7 @@ export class AIOrchestrator {
     db.aiUsageLogs.unshift(usageLog);
     DatabaseService.save();
 
-    return { result: outputResult as T, source: mode, usageLog };
+    return { result: outputResult as T, source: mode, usageLog, modelUsed };
   }
 
   private static generateDeterministicMock(moduleCode: string, inputData: any, project?: Project): any {
@@ -92,6 +125,7 @@ export class AIOrchestrator {
     const examPeriod = (project?.examPeriod || inputData?.project?.examPeriod || "GIUA_KY") as "GIUA_KY" | "CUOI_KY";
 
     const curriculum = getCurriculumData(subject, grade, semester, examPeriod);
+    const authenticQuestions = getAuthenticQuestions(subject, grade);
 
     switch (moduleCode) {
       case "AI01":
@@ -106,7 +140,6 @@ export class AIOrchestrator {
         };
 
       case "AI02":
-        // Flatten topics, units, and yccds with exact matching codes
         const flatTopics: any[] = [];
         const flatUnits: any[] = [];
         const flatYccds: any[] = [];
@@ -152,40 +185,47 @@ export class AIOrchestrator {
         };
 
       case "AI03":
-        // Distribute cells across the actual curriculum topics based on blueprint
+        // Distribute cells across ALL available topics and units to GUARANTEE EXACT 10.00 đ
+        // Total: 16 MCQs (4.0đ) + 2 TF (2.0đ) + 4 SA (2.0đ) + 2 Essay (2.0đ) = 10.0đ
+        // NB = 4.0đ (40%), TH = 3.0đ (30%), VD = 2.0đ (20%), VDC = 1.0đ (10%)
         const cells: any[] = [];
-        const numTopics = curriculum.topics.length || 1;
+        const topics = curriculum.topics;
+        const top1 = topics[0];
+        const top2 = topics[1] || top1;
+        const top3 = topics[2] || top2;
 
-        curriculum.topics.forEach((top, topIdx) => {
-          const firstUnit = top.units[0];
-          const secondUnit = top.units[1] || firstUnit;
+        const u1_1 = top1.units[0];
+        const u1_2 = top1.units[1] || u1_1;
+        const u2_1 = top2.units[0] || u1_1;
+        const u3_1 = top3.units[0] || u2_1;
 
-          if (topIdx === 0) {
-            // First topic / Phase 1
-            cells.push(
-              { topicCode: top.code, unitCode: firstUnit.code, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 8, pointsPerItem: 0.25, totalScore: 2.0 },
-              { topicCode: top.code, unitCode: secondUnit.code, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 4, pointsPerItem: 0.25, totalScore: 1.0 },
-              { topicCode: top.code, unitCode: firstUnit.code, questionType: "TRUE_FALSE_4", cognitiveLevel: "TH", count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
-              { topicCode: top.code, unitCode: secondUnit.code, questionType: "SHORT_ANSWER", cognitiveLevel: "TH", count: 2, pointsPerItem: 0.5, totalScore: 1.0 },
-              { topicCode: top.code, unitCode: secondUnit.code, questionType: "ESSAY", cognitiveLevel: "VD", count: 1, pointsPerItem: 1.0, totalScore: 1.0 }
-            );
-          } else if (topIdx === 1) {
-            // Second topic / Phase 2
-            cells.push(
-              { topicCode: top.code, unitCode: firstUnit.code, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 4, pointsPerItem: 0.25, totalScore: 1.0 },
-              { topicCode: top.code, unitCode: firstUnit.code, questionType: "SHORT_ANSWER", cognitiveLevel: "VD", count: 2, pointsPerItem: 0.5, totalScore: 1.0 },
-              { topicCode: top.code, unitCode: firstUnit.code, questionType: "TRUE_FALSE_4", cognitiveLevel: "TH", count: 1, pointsPerItem: 1.0, totalScore: 1.0 }
-            );
-          } else {
-            // Third topic (e.g. Geometry or VDC)
-            cells.push(
-              { topicCode: top.code, unitCode: firstUnit.code, questionType: "ESSAY", cognitiveLevel: "VDC", count: 1, pointsPerItem: 1.0, totalScore: 1.0 }
-            );
-          }
-        });
+        // 1. Nhận biết (4.0đ = 16 câu trắc nghiệm nhiều lựa chọn 0.25đ)
+        cells.push(
+          { topicCode: top1.code, unitCode: u1_1.code, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 8, pointsPerItem: 0.25, totalScore: 2.0 },
+          { topicCode: top1.code, unitCode: u1_2.code, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 4, pointsPerItem: 0.25, totalScore: 1.0 },
+          { topicCode: top2.code, unitCode: u2_1.code, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 4, pointsPerItem: 0.25, totalScore: 1.0 }
+        );
+
+        // 2. Thông hiểu (3.0đ = 2 câu Đúng-Sai 1.0đ + 2 câu Trả lời ngắn 0.5đ)
+        cells.push(
+          { topicCode: top1.code, unitCode: u1_1.code, questionType: "TRUE_FALSE_4", cognitiveLevel: "TH", count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
+          { topicCode: top2.code, unitCode: u2_1.code, questionType: "TRUE_FALSE_4", cognitiveLevel: "TH", count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
+          { topicCode: top1.code, unitCode: u1_2.code, questionType: "SHORT_ANSWER", cognitiveLevel: "TH", count: 2, pointsPerItem: 0.5, totalScore: 1.0 }
+        );
+
+        // 3. Vận dụng (2.0đ = 2 câu Trả lời ngắn 0.5đ + 1 câu Tự luận 1.0đ)
+        cells.push(
+          { topicCode: top2.code, unitCode: u2_1.code, questionType: "SHORT_ANSWER", cognitiveLevel: "VD", count: 2, pointsPerItem: 0.5, totalScore: 1.0 },
+          { topicCode: top1.code, unitCode: u1_2.code, questionType: "ESSAY", cognitiveLevel: "VD", count: 1, pointsPerItem: 1.0, totalScore: 1.0 }
+        );
+
+        // 4. Vận dụng cao (1.0đ = 1 câu Tự luận 1.0đ)
+        cells.push(
+          { topicCode: top3.code, unitCode: u3_1.code, questionType: "ESSAY", cognitiveLevel: "VDC", count: 1, pointsPerItem: 1.0, totalScore: 1.0 }
+        );
 
         return {
-          summaryRationale: `Phân bổ ma trận chuẩn GDPT 2018 cho môn ${subject} ${grade} (${examPeriod === "CUOI_KY" ? "Cuối kỳ: 25% GĐ1 + 75% GĐ2" : "Giữa kỳ: 100% GĐ1"}), tỉ lệ nhận thức NB 40% - TH 30% - VD 20% - VDC 10%.`,
+          summaryRationale: `Phân bổ ma trận chuẩn GDPT 2018 cho môn ${subject} ${grade} (${examPeriod === "CUOI_KY" ? "Cuối kỳ: 25% GĐ1 + 75% GĐ2" : "Giữa kỳ: 100% GĐ1"}), đảm bảo chính xác 10.0 điểm, tỉ lệ nhận thức NB 40% - TH 30% - VD 20% - VDC 10%.`,
           cells
         };
 
@@ -193,81 +233,81 @@ export class AIOrchestrator {
         const reqType = inputData?.questionType || "MULTIPLE_CHOICE";
         const reqCognitive = inputData?.cognitiveLevel || "NB";
         const specRow = inputData?.specRow;
+        const qIndex = inputData?.questionIndex || 1;
 
-        // Search for a matching sample question in the subject's curriculum library
-        let matchedSample: any = null;
-        for (const t of curriculum.topics) {
-          for (const u of t.units) {
-            for (const y of u.yccds) {
-              if (y.sampleQuestions) {
-                const found = y.sampleQuestions.find(q => q.type === reqType);
-                if (found) {
-                  matchedSample = found;
-                  break;
-                }
-              }
-            }
-            if (matchedSample) break;
-          }
-          if (matchedSample) break;
-        }
-
-        if (matchedSample) {
-          return matchedSample;
-        }
-
-        // Generic dynamic question builder for any subject with KaTeX formulas
-        if (reqType === "MULTIPLE_CHOICE") {
+        // 1. Try matching authentic questions from our rich question database
+        const matchingAuthentic = authenticQuestions.filter(q => q.type === reqType && (q.cognitiveLevel === reqCognitive || reqType === "MULTIPLE_CHOICE"));
+        if (matchingAuthentic.length > 0) {
+          const selected = matchingAuthentic[(qIndex - 1) % matchingAuthentic.length];
           return {
-            stem: `Cho biểu thức / định lý trong môn ${subject} ${grade}: Khẳng định nào sau đây là đúng?`,
+            ...selected,
+            sourceReference: specRow?.sourceReference || selected.sourceReference
+          };
+        }
+
+        // 2. Dynamic authentic fallback for math / sciences
+        if (reqType === "MULTIPLE_CHOICE") {
+          const mathStems = [
+            { stem: "Trong các biểu thức đại số sau, biểu thức nào là đa thức nhiều biến?", ans: "$2x^2y - 3xy + 1$", d1: "$\\frac{2x}{y}$", d2: "$\\frac{1}{x^2+1}$", d3: "$\\sqrt{x} + y$" },
+            { stem: "Kết quả của phép nhân đơn thức $3x^2y$ với đa thức $(2x - y)$ là:", ans: "$6x^3y - 3x^2y^2$", d1: "$6x^2y - 3x^2y^2$", d2: "$5x^3y - 3x^2y^2$", d3: "$6x^3y - y$" },
+            { stem: "Khai triển của hằng đẳng thức $(x + 2y)^2$ là:", ans: "$x^2 + 4xy + 4y^2$", d1: "$x^2 + 2xy + 4y^2$", d2: "$x^2 + 4y^2$", d3: "$x^2 + 4xy + 2y^2$" },
+            { stem: "Biểu thức $x^2 - 16$ được phân tích thành nhân tử là:", ans: "$(x - 4)(x + 4)$", d1: "$(x - 4)^2$", d2: "$(x - 16)(x + 16)$", d3: "$(x + 4)^2$" },
+            { stem: "Điều kiện xác định của phân thức $\\frac{x - 1}{x + 5}$ là:", ans: "$x \\neq -5$", d1: "$x \\neq 5$", d2: "$x \\neq 1$", d3: "$x = -5$" },
+            { stem: "Hình chữ nhật có hai cạnh kề bằng nhau là hình gì?", ans: "Hình vuông", d1: "Hình thoi", d2: "Hình bình hành", d3: "Hình thang cân" },
+            { stem: "Đoạn thẳng nối trung điểm hai cạnh của tam giác gọi là gì?", ans: "Đường trung bình của tam giác", d1: "Đường trung trực", d2: "Đường trung tuyến", d3: "Đường cao" },
+            { stem: "Nếu $\\Delta ABC$ có $MN // BC$ ($M \\in AB, N \\in AC$) thì theo định lí Thalès ta có:", ans: "$\\frac{AM}{AB} = \\frac{AN}{AC}$", d1: "$\\frac{AM}{MB} = \\frac{NC}{AN}$", d2: "$\\frac{AM}{AN} = \\frac{BC}{MN}$", d3: "$\\frac{AM}{AC} = \\frac{AN}{AB}$" }
+          ];
+          const choice = mathStems[(qIndex - 1) % mathStems.length];
+          return {
+            stem: choice.stem,
             type: "MULTIPLE_CHOICE",
             cognitiveLevel: reqCognitive,
             score: 0.25,
             sourceReference: specRow?.sourceReference || `SGK ${subject} ${grade}`,
-            explanation: "Đáp án đúng theo chuẩn kiến thức kĩ năng chương trình GDPT 2018.",
+            explanation: `Phương án A là đáp án chính xác: ${choice.ans}.`,
             mcOptions: [
-              { label: "A", content: "Khẳng định A (Đáp án chính xác)", isCorrect: true },
-              { label: "B", content: "Khẳng định B (Phương án nhiễu 1)", isCorrect: false },
-              { label: "C", content: "Khẳng định C (Phương án nhiễu 2)", isCorrect: false },
-              { label: "D", content: "Khẳng định D (Phương án nhiễu 3)", isCorrect: false }
+              { id: `opt-${qIndex}-a`, label: "A", content: choice.ans, isCorrect: true },
+              { id: `opt-${qIndex}-b`, label: "B", content: choice.d1, isCorrect: false },
+              { id: `opt-${qIndex}-c`, label: "C", content: choice.d2, isCorrect: false },
+              { id: `opt-${qIndex}-d`, label: "D", content: choice.d3, isCorrect: false }
             ]
           };
         } else if (reqType === "TRUE_FALSE_4") {
           return {
-            stem: `Xét các mệnh đề / tính chất sau trong chương trình ${subject} ${grade}:`,
+            stem: `Xét các khẳng định toán học sau trong chương trình ${subject} ${grade}:`,
             type: "TRUE_FALSE_4",
             cognitiveLevel: reqCognitive,
             score: 1.0,
             sourceReference: specRow?.sourceReference || `SGK ${subject} ${grade}`,
-            explanation: "Các ý a, c đúng; ý b, d sai theo định nghĩa.",
+            explanation: "Các nhận định a, c đúng theo lý thuyết; b, d sai.",
             tfItems: [
-              { label: "a", content: "Mệnh đề a mô tả đúng tính chất cơ bản.", isCorrect: true, explanation: "Đúng theo lý thuyết." },
-              { label: "b", content: "Mệnh đề b đảo ngược điều kiện cần và đủ.", isCorrect: false, explanation: "Sai điều kiện." },
-              { label: "c", content: "Mệnh đề c thỏa mãn công thức đã học.", isCorrect: true, explanation: "Đúng theo công thức." },
-              { label: "d", content: "Mệnh đề d áp dụng sai đơn vị hoặc phạm vi.", isCorrect: false, explanation: "Sai phạm vi áp dụng." }
+              { id: `tf-${qIndex}-a`, label: "a", content: "Đơn thức $-3x^2y^3$ có hệ số là $-3$ và bậc là $5$.", isCorrect: true, explanation: "Hệ số là -3, bậc 2+3=5." },
+              { id: `tf-${qIndex}-b`, label: "b", content: "Đa thức $x^2 - y^2$ chia hết cho đa thức $x + y$.", isCorrect: true, explanation: "Vì x^2 - y^2 = (x-y)(x+y)." },
+              { id: `tf-${qIndex}-c`, label: "c", content: "$(x - 1)^3 = x^3 - 3x^2 + 3x - 1$.", isCorrect: true, explanation: "Khai triển đúng lập phương một hiệu." },
+              { id: `tf-${qIndex}-d`, label: "d", content: "Hình thang có hai cạnh bên bằng nhau luôn là hình thang cân.", isCorrect: false, explanation: "Có thể là hình bình hành." }
             ]
           };
         } else if (reqType === "SHORT_ANSWER") {
           return {
-            stem: `Tính giá trị biểu thức / đại lượng trong bài toán ${subject} ${grade}:`,
+            stem: `Rút gọn biểu thức $A = (x - 2)^2 + 4x - 4$. Giá trị của $A$ khi $x = 15$ là bao nhiêu?`,
             type: "SHORT_ANSWER",
             cognitiveLevel: reqCognitive,
             score: 0.5,
             sourceReference: specRow?.sourceReference || `SGK ${subject} ${grade}`,
-            explanation: "Thực hiện các bước tính toán và điền đáp số.",
-            saSpec: { expectedAnswer: "10", unit: "", tolerance: 0 }
+            explanation: "A = x^2 - 4x + 4 + 4x - 4 = x^2. Khi x = 15 => A = 225.",
+            saSpec: { expectedAnswer: "225", unit: "", tolerance: 0, alternativeAnswers: ["225.0", "+225"] }
           };
         } else {
           return {
-            stem: `Bài toán tự luận môn ${subject} ${grade}:\na) Trình bày cơ sở lý thuyết và các bước biến đổi.\nb) Vận dụng giải quyết yêu cầu thực tiễn của bài toán.`,
+            stem: `Bài toán tự luận môn ${subject} ${grade}:\nCho biểu thức $P = \\frac{x^2 - 4}{x - 2}$ với $x \\neq 2$.\na) Rút gọn biểu thức $P$.\nb) Tính giá trị của $P$ khi $x = 2026$.`,
             type: "ESSAY",
             cognitiveLevel: reqCognitive,
             score: 1.0,
             sourceReference: specRow?.sourceReference || `SGK ${subject} ${grade}`,
-            explanation: "Lời giải chi tiết theo các bước biểu điểm.",
+            explanation: "Rút gọn P = x + 2. Thay x = 2026 => P = 2028.",
             rubricSteps: [
-              { stepNumber: 1, criterion: "Nêu đúng công thức và biến đổi bước 1", expectedContent: "Trình bày đúng định lí và thay số ban đầu.", score: 0.5 },
-              { stepNumber: 2, criterion: "Thực hiện tính toán và kết luận bài toán", expectedContent: "Tính toán chính xác và đưa ra kết luận cuối cùng.", score: 0.5 }
+              { id: `rb-${qIndex}-1`, stepNumber: 1, criterion: "Phân tích tử thức thành nhân tử và rút gọn", expectedContent: "$P = \\frac{(x - 2)(x + 2)}{x - 2} = x + 2$.", score: 0.5 },
+              { id: `rb-${qIndex}-2`, stepNumber: 2, criterion: "Thay số và kết luận giá trị biểu thức", expectedContent: "Thay $x = 2026$ vào: $P = 2026 + 2 = 2028$.", score: 0.5 }
             ]
           };
         }
@@ -275,7 +315,7 @@ export class AIOrchestrator {
       case "AI07":
         return {
           status: "DAT",
-          scores: { accuracy: 96, pedagogicalFit: 98, distractorQuality: 95 },
+          scores: { accuracy: 98, pedagogicalFit: 99, distractorQuality: 96 },
           issues: [],
           recommendations: `Hồ sơ môn ${subject} ${grade} hoàn toàn phù hợp với chuẩn YCCĐ GDPT 2018.`
         };

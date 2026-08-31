@@ -58,6 +58,7 @@ export const ProjectWizardPage: React.FC = () => {
   const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [isGeneratingQuestions, setIsGeneratingQuestions] = useState(false);
   const [appendixInfo, setAppendixInfo] = useState<any>(null);
 
   useEffect(() => {
@@ -90,6 +91,19 @@ export const ProjectWizardPage: React.FC = () => {
       showToast("error", "Lỗi tải tệp", err.message);
     } finally {
       setIsUploading(false);
+    }
+  };
+
+  const handleGenerateAllQuestions = async () => {
+    setIsGeneratingQuestions(true);
+    try {
+      await api.generateAllQuestions(project.id);
+      await loadProject(project.id);
+      showToast("success", "AI đã tạo thành công toàn bộ câu hỏi", "Đã sinh đầy đủ 4 phần theo ma trận & bản đặc tả kèm đáp án chi tiết.");
+    } catch (err: any) {
+      showToast("error", "Lỗi tạo câu hỏi", err.message);
+    } finally {
+      setIsGeneratingQuestions(false);
     }
   };
 
@@ -485,6 +499,13 @@ export const ProjectWizardPage: React.FC = () => {
               <p className="text-xs text-slate-500">Phần I (16 TN), Phần II (2 Đ-S), Phần III (4 Trả lời ngắn), Phần IV (2 Tự luận)</p>
             </div>
             <div className="flex items-center gap-2">
+              <button
+                onClick={handleGenerateAllQuestions}
+                disabled={isGeneratingQuestions}
+                className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-xl text-xs font-bold hover:bg-purple-700 shadow-xs disabled:opacity-50"
+              >
+                <Sparkles className="w-4 h-4" /> {isGeneratingQuestions ? "AI Đang sinh câu hỏi..." : "✨ AI Tạo tất cả câu hỏi"}
+              </button>
               <button
                 onClick={handleShuffleCodes}
                 className="flex items-center gap-2 px-4 py-2 bg-slate-800 text-white rounded-xl text-xs font-bold hover:bg-slate-900 shadow-xs"

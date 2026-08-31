@@ -78,7 +78,7 @@
       "examPeriod": "GIUA_KY",
       "durationMinutes": 90,
       "totalScore": 10,
-      "status": "SPECIFICATION_APPROVED",
+      "status": "MATRIX_GENERATED",
       "organizationId": "org-001",
       "authorId": "user-teacher-01",
       "authorName": "Thầy Giáo viên Nguyễn Văn An",
@@ -378,7 +378,7 @@
     },
     "proj-1788148956682": {
       "projectId": "proj-1788148956682",
-      "isApproved": true,
+      "isApproved": false,
       "version": 1,
       "topics": [
         {
@@ -461,9 +461,7 @@
           "topicId": "top-1"
         }
       ],
-      "appendixNotes": "Phạm vi kiểm tra Giữa kì I: 100% nội dung thuộc Chương I (Đa thức) và Chương II (Hằng đẳng thức đáng nhớ và ứng dụng).",
-      "approvedAt": "2026-08-31T04:21:20.916Z",
-      "approvedBy": "Thầy Giáo viên Nguyễn Văn An"
+      "appendixNotes": "Phạm vi kiểm tra Giữa kì I: 100% nội dung thuộc Chương I (Đa thức) và Chương II (Hằng đẳng thức đáng nhớ và ứng dụng)."
     }
   },
   "blueprints": {
@@ -521,11 +519,11 @@
     "proj-1788148956682": {
       "id": "bp-proj-1788148956682",
       "projectId": "proj-1788148956682",
-      "totalScore": 12,
+      "totalScore": 10,
       "durationMinutes": 90,
       "cognitiveWeights": {
-        "NB": 30,
-        "TH": 40,
+        "NB": 40,
+        "TH": 30,
         "VD": 20,
         "VDC": 10
       },
@@ -551,8 +549,8 @@
         {
           "type": "ESSAY",
           "count": 4,
-          "pointsPerItem": 1.25,
-          "totalScore": 5
+          "pointsPerItem": 0.75,
+          "totalScore": 3
         }
       ],
       "topicAllocations": [
@@ -562,7 +560,7 @@
           "targetPercentage": 25
         }
       ],
-      "updatedAt": "2026-08-31T04:45:56.988Z",
+      "updatedAt": "2026-08-31T05:33:21.767Z",
       "totalQuestions": 22
     }
   },
@@ -671,9 +669,9 @@
     "proj-1788148956682": {
       "id": "mat-proj-1788148956682",
       "projectId": "proj-1788148956682",
-      "isApproved": true,
+      "isApproved": false,
       "version": 1,
-      "updatedAt": "2026-08-31T04:46:10.203Z",
+      "updatedAt": "2026-08-31T05:33:42.312Z",
       "cells": [
         {
           "id": "mc-1",
@@ -725,9 +723,7 @@
           "pointsPerItem": 1,
           "totalScore": 1
         }
-      ],
-      "approvedAt": "2026-08-31T04:46:19.123Z",
-      "approvedBy": "Thầy Giáo viên Nguyễn Văn An"
+      ]
     }
   },
   "specifications": {
@@ -871,9 +867,9 @@
     "proj-1788148956682": {
       "id": "spec-proj-1788148956682",
       "projectId": "proj-1788148956682",
-      "isApproved": true,
+      "isApproved": false,
       "version": 1,
-      "updatedAt": "2026-08-31T04:46:30.118Z",
+      "updatedAt": "2026-08-31T05:32:28.328Z",
       "rows": [
         {
           "id": "spec-row-1",
@@ -945,9 +941,7 @@
           "competency": "GQVD_TOAN",
           "sourceReference": "SGK Toán 8 Tập 1 - Bài 8 & 9, tr.40-48"
         }
-      ],
-      "approvedAt": "2026-08-31T04:46:33.334Z",
-      "approvedBy": "Thầy Giáo viên Nguyễn Văn An"
+      ]
     }
   },
   "questions": {
@@ -1991,9 +1985,1045 @@
         "updatedAt": "2026-08-23T08:00:00.000Z"
       }
     ],
-    "proj-1788148956682": []
+    "proj-1788148956682": [
+      {
+        "id": "q-proj-1788148956682-mc-1",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 1,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 1 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-1-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-1-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-1-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-1-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-2",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 2,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 2 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-2-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-2-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-2-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-2-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-3",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 3,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 3 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-3-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-3-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-3-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-3-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-4",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 4,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 4 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-4-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-4-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-4-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-4-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-5",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 5,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 5 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-5-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-5-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-5-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-5-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-6",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 6,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 6 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-6-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-6-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-6-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-6-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-7",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 7,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 7 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-7-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-7-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-7-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-7-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-8",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 8,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 8 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-8-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-8-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-8-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-8-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-9",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 9,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 9 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-9-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-9-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-9-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-9-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-10",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 10,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 10 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-10-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-10-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-10-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-10-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-11",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 11,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 11 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-11-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-11-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-11-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-11-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-12",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 12,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 12 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-12-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-12-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-12-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-12-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-13",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 13,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 13 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-13-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-13-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-13-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-13-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-14",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 14,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 14 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-14-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-14-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-14-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-14-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-15",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 15,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 15 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-15-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-15-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-15-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-15-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-mc-16",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-1",
+        "section": "PHAN_1",
+        "orderNumber": 16,
+        "type": "MULTIPLE_CHOICE",
+        "stem": "Câu hỏi trắc nghiệm 16 môn Toán học 8: Khẳng định nào sau đây là đúng?",
+        "score": 0.25,
+        "cognitiveLevel": "NB",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 1, tr.10",
+        "explanation": "Phương án A là nhận định chính xác theo SGK.",
+        "mcOptions": [
+          {
+            "id": "opt-16-a",
+            "label": "A",
+            "content": "Khẳng định A (Đáp án đúng)",
+            "isCorrect": true
+          },
+          {
+            "id": "opt-16-b",
+            "label": "B",
+            "content": "Khẳng định B (Phương án nhiễu 1)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-16-c",
+            "label": "C",
+            "content": "Khẳng định C (Phương án nhiễu 2)",
+            "isCorrect": false
+          },
+          {
+            "id": "opt-16-d",
+            "label": "D",
+            "content": "Khẳng định D (Phương án nhiễu 3)",
+            "isCorrect": false
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-tf-1",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-4",
+        "section": "PHAN_2",
+        "orderNumber": 17,
+        "type": "TRUE_FALSE_4",
+        "stem": "Xét tính đúng/sai của các nhận định sau trong môn Toán học 8:",
+        "score": 1,
+        "cognitiveLevel": "TH",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-2",
+        "sourceReference": "SGK Toán học 8 - Bài 2, tr.14",
+        "explanation": "Ý a, c đúng; ý b, d sai.",
+        "tfItems": [
+          {
+            "id": "tf-1-a",
+            "label": "a",
+            "content": "Nhận định a đúng về mặt lý thuyết.",
+            "isCorrect": true,
+            "explanation": "Đúng theo định nghĩa."
+          },
+          {
+            "id": "tf-1-b",
+            "label": "b",
+            "content": "Nhận định b mô tả sai quy luật biến đổi.",
+            "isCorrect": false,
+            "explanation": "Sai quy luật."
+          },
+          {
+            "id": "tf-1-c",
+            "label": "c",
+            "content": "Nhận định c áp dụng đúng công thức tính toán.",
+            "isCorrect": true,
+            "explanation": "Đúng công thức."
+          },
+          {
+            "id": "tf-1-d",
+            "label": "d",
+            "content": "Nhận định d áp dụng sai điều kiện thực tiễn.",
+            "isCorrect": false,
+            "explanation": "Sai điều kiện."
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-tf-2",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-4",
+        "section": "PHAN_2",
+        "orderNumber": 18,
+        "type": "TRUE_FALSE_4",
+        "stem": "Xét tính đúng/sai của các nhận định sau trong môn Toán học 8:",
+        "score": 1,
+        "cognitiveLevel": "TH",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-2",
+        "sourceReference": "SGK Toán học 8 - Bài 2, tr.14",
+        "explanation": "Ý a, c đúng; ý b, d sai.",
+        "tfItems": [
+          {
+            "id": "tf-2-a",
+            "label": "a",
+            "content": "Nhận định a đúng về mặt lý thuyết.",
+            "isCorrect": true,
+            "explanation": "Đúng theo định nghĩa."
+          },
+          {
+            "id": "tf-2-b",
+            "label": "b",
+            "content": "Nhận định b mô tả sai quy luật biến đổi.",
+            "isCorrect": false,
+            "explanation": "Sai quy luật."
+          },
+          {
+            "id": "tf-2-c",
+            "label": "c",
+            "content": "Nhận định c áp dụng đúng công thức tính toán.",
+            "isCorrect": true,
+            "explanation": "Đúng công thức."
+          },
+          {
+            "id": "tf-2-d",
+            "label": "d",
+            "content": "Nhận định d áp dụng sai điều kiện thực tiễn.",
+            "isCorrect": false,
+            "explanation": "Sai điều kiện."
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-sa-1",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-6",
+        "section": "PHAN_3",
+        "orderNumber": 19,
+        "type": "SHORT_ANSWER",
+        "stem": "Tính giá trị của đại lượng trong bài toán 1 môn Toán học 8:",
+        "score": 0.5,
+        "cognitiveLevel": "TH",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-3",
+        "sourceReference": "SGK Toán học 8 - Bài 4, tr.25",
+        "explanation": "Thực hiện phép tính ra kết quả 10.",
+        "saSpec": {
+          "expectedAnswer": "10",
+          "unit": "",
+          "tolerance": 0,
+          "alternativeAnswers": [
+            "10",
+            "10.0"
+          ]
+        },
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.737Z",
+        "updatedAt": "2026-08-31T05:26:41.737Z"
+      },
+      {
+        "id": "q-proj-1788148956682-sa-2",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-6",
+        "section": "PHAN_3",
+        "orderNumber": 20,
+        "type": "SHORT_ANSWER",
+        "stem": "Tính giá trị của đại lượng trong bài toán 2 môn Toán học 8:",
+        "score": 0.5,
+        "cognitiveLevel": "TH",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-3",
+        "sourceReference": "SGK Toán học 8 - Bài 4, tr.25",
+        "explanation": "Thực hiện phép tính ra kết quả 10.",
+        "saSpec": {
+          "expectedAnswer": "10",
+          "unit": "",
+          "tolerance": 0,
+          "alternativeAnswers": [
+            "10",
+            "10.0"
+          ]
+        },
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.738Z",
+        "updatedAt": "2026-08-31T05:26:41.738Z"
+      },
+      {
+        "id": "q-proj-1788148956682-sa-3",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-6",
+        "section": "PHAN_3",
+        "orderNumber": 21,
+        "type": "SHORT_ANSWER",
+        "stem": "Tính giá trị của đại lượng trong bài toán 3 môn Toán học 8:",
+        "score": 0.5,
+        "cognitiveLevel": "VD",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-3",
+        "sourceReference": "SGK Toán học 8 - Bài 4, tr.25",
+        "explanation": "Thực hiện phép tính ra kết quả 10.",
+        "saSpec": {
+          "expectedAnswer": "10",
+          "unit": "",
+          "tolerance": 0,
+          "alternativeAnswers": [
+            "10",
+            "10.0"
+          ]
+        },
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.738Z",
+        "updatedAt": "2026-08-31T05:26:41.738Z"
+      },
+      {
+        "id": "q-proj-1788148956682-sa-4",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-6",
+        "section": "PHAN_3",
+        "orderNumber": 22,
+        "type": "SHORT_ANSWER",
+        "stem": "Tính giá trị của đại lượng trong bài toán 4 môn Toán học 8:",
+        "score": 0.5,
+        "cognitiveLevel": "VD",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-3",
+        "sourceReference": "SGK Toán học 8 - Bài 4, tr.25",
+        "explanation": "Thực hiện phép tính ra kết quả 10.",
+        "saSpec": {
+          "expectedAnswer": "10",
+          "unit": "",
+          "tolerance": 0,
+          "alternativeAnswers": [
+            "10",
+            "10.0"
+          ]
+        },
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.738Z",
+        "updatedAt": "2026-08-31T05:26:41.738Z"
+      },
+      {
+        "id": "q-proj-1788148956682-es-1",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-8",
+        "section": "PHAN_4",
+        "orderNumber": 23,
+        "type": "ESSAY",
+        "stem": "Bài toán tự luận 1 (Vận dụng) môn Toán học 8:\na) Nêu cơ sở lý thuyết.\nb) Thực hiện tính toán và giải thích kết quả.",
+        "score": 1,
+        "cognitiveLevel": "VD",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-1",
+        "sourceReference": "SGK Toán học 8 - Bài 3, tr.18",
+        "explanation": "Biểu điểm chi tiết 2 bước chấm (0.5đ + 0.5đ = 1.0đ).",
+        "rubricSteps": [
+          {
+            "id": "r1",
+            "stepNumber": 1,
+            "criterion": "Nêu đúng công thức và thay số",
+            "expectedContent": "Trình bày đúng định lí và thay số ban đầu.",
+            "score": 0.5
+          },
+          {
+            "id": "r2",
+            "stepNumber": 2,
+            "criterion": "Tính toán chính xác và kết luận",
+            "expectedContent": "Tính toán chính xác và đưa ra kết luận cuối cùng.",
+            "score": 0.5
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.738Z",
+        "updatedAt": "2026-08-31T05:26:41.738Z"
+      },
+      {
+        "id": "q-proj-1788148956682-es-2",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-9",
+        "section": "PHAN_4",
+        "orderNumber": 24,
+        "type": "ESSAY",
+        "stem": "Bài toán tự luận 2 (Vận dụng cao) môn Toán học 8:\nVận dụng kiến thức giải quyết tình huống thực tế phức tạp.",
+        "score": 1,
+        "cognitiveLevel": "VDC",
+        "topicId": "top-1",
+        "unitId": "unit-1",
+        "yccdId": "yccd-4",
+        "sourceReference": "SGK Toán học 8 - Bài 14, tr.60",
+        "explanation": "Biểu điểm chi tiết 2 bước chấm (0.5đ + 0.5đ = 1.0đ).",
+        "rubricSteps": [
+          {
+            "id": "r3",
+            "stepNumber": 1,
+            "criterion": "Biện luận và thiết lập phương trình",
+            "expectedContent": "Lập luận chặt chẽ và đưa ra phương trình chính xác.",
+            "score": 0.5
+          },
+          {
+            "id": "r4",
+            "stepNumber": 2,
+            "criterion": "Giải phương trình và kết luận thực tiễn",
+            "expectedContent": "Tính ra nghiệm và đối chiếu điều kiện thực tế.",
+            "score": 0.5
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T05:26:41.738Z",
+        "updatedAt": "2026-08-31T05:26:41.738Z"
+      }
+    ]
   },
   "auditLogs": [
+    {
+      "id": "log-1788153903698",
+      "userId": "user-teacher-01",
+      "userName": "Thầy Giáo viên Nguyễn Văn An",
+      "action": "APPROVE_DATAPACK",
+      "targetType": "DATAPACK",
+      "targetId": "proj-1788148956682",
+      "projectId": "proj-1788148956682",
+      "details": "Giáo viên phê duyệt chuẩn hóa Data Pack",
+      "timestamp": "2026-08-31T05:25:03.698Z"
+    },
     {
       "id": "log-1788150080916",
       "userId": "user-teacher-01",
@@ -2062,6 +3092,61 @@
     }
   ],
   "aiUsageLogs": [
+    {
+      "id": "ai-log-1788154422311-8itr8",
+      "moduleCode": "AI03_MATRIX_ADVISOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v1.1",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T05:33:42.311Z"
+    },
+    {
+      "id": "ai-log-1788154278819-3b999",
+      "moduleCode": "AI03_MATRIX_ADVISOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v1.1",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T05:31:18.819Z"
+    },
+    {
+      "id": "ai-log-1788154265098-x2a19",
+      "moduleCode": "AI02_CURRICULUM_MAPPER",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v1.3",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T05:31:05.099Z"
+    },
+    {
+      "id": "ai-log-1788153950489-b3xlp",
+      "moduleCode": "AI03_MATRIX_ADVISOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v1.1",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T05:25:50.489Z"
+    },
+    {
+      "id": "ai-log-1788153901956-om1t6",
+      "moduleCode": "AI02_CURRICULUM_MAPPER",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v1.3",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 1,
+      "timestamp": "2026-08-31T05:25:01.956Z"
+    },
     {
       "id": "ai-log-1788151570201-xiv2m",
       "moduleCode": "AI03_MATRIX_ADVISOR",

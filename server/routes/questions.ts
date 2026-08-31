@@ -18,17 +18,91 @@ router.get("/", (req, res) => {
   res.json(all);
 });
 
+// POST /api/questions/generate-all/:projectId
+router.post("/generate-all/:projectId", async (req, res) => {
+  const { projectId } = req.params;
+  const apiKey = req.headers["x-gemini-api-key"] as string || req.body?.apiKey;
+  const db = DatabaseService.get();
+  const proj = db.projects.find(p => p.id === projectId);
+  if (!proj) return res.status(404).json({ error: "Project not found" });
+
+  const spec = db.specifications[projectId];
+  const dp = db.dataPacks[projectId] || { topics: [], units: [], yccds: [] };
+
+  const generatedQuestions: Question[] = [];
+  let order = 1;
+
+  if (spec && spec.rows && spec.rows.length > 0) {
+    for (let rIdx = 0; rIdx < spec.rows.length; rIdx++) {
+      const row = spec.rows[rIdx];
+      const count = row.count || 1;
+      const pointsPerQuestion = Number((row.score / count).toFixed(2));
+
+      for (let i = 0; i < count; i++) {
+        const { result } = await AIOrchestrator.executeModule<any>({
+          moduleCode: "AI05",
+          projectId,
+          inputData: {
+            specRow: row,
+            questionType: row.questionType,
+            cognitiveLevel: row.cognitiveLevel,
+            project: proj,
+            questionIndex: order
+          },
+          apiKey
+        });
+
+        const newQ: Question = {
+          id: `q-${projectId}-${row.questionType.toLowerCase()}-${order}`,
+          projectId,
+          specificationId: row.id,
+          section: row.questionType === "MULTIPLE_CHOICE" ? "PHAN_1" : row.questionType === "TRUE_FALSE_4" ? "PHAN_2" : row.questionType === "SHORT_ANSWER" ? "PHAN_3" : "PHAN_4",
+          orderNumber: order++,
+          type: result.type || row.questionType,
+          stem: result.stem,
+          score: pointsPerQuestion,
+          cognitiveLevel: result.cognitiveLevel || row.cognitiveLevel,
+          topicId: row.topicId,
+          unitId: row.unitId,
+          yccdId: row.yccdId,
+          sourceReference: result.sourceReference || row.sourceReference || `SGK ${proj.subject} ${proj.grade}`,
+          explanation: result.explanation,
+          mcOptions: result.mcOptions,
+          tfItems: result.tfItems,
+          saSpec: result.saSpec,
+          rubricSteps: result.rubricSteps,
+          aiGenerated: true,
+          status: "APPROVED",
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+
+        generatedQuestions.push(newQ);
+      }
+    }
+  }
+
+  db.questions[projectId] = generatedQuestions;
+  proj.status = "QUESTIONS_GENERATED";
+  DatabaseService.save();
+
+  res.json(generatedQuestions);
+});
+
 // POST /api/questions/generate-one
 router.post("/generate-one", async (req, res) => {
   const { projectId, specRowId, questionType, cognitiveLevel } = req.body;
+  const apiKey = req.headers["x-gemini-api-key"] as string || req.body?.apiKey;
   const db = DatabaseService.get();
   const spec = db.specifications[projectId];
   const specRow = spec?.rows.find(r => r.id === specRowId);
+  const proj = db.projects.find(p => p.id === projectId);
 
   const { result } = await AIOrchestrator.executeModule<any>({
     moduleCode: "AI05",
     projectId,
-    inputData: { specRow, questionType, cognitiveLevel }
+    inputData: { specRow, questionType, cognitiveLevel, project: proj, questionIndex: (db.questions[projectId]?.length || 0) + 1 },
+    apiKey
   });
 
   const newQ: Question = {
@@ -51,7 +125,7 @@ router.post("/generate-one", async (req, res) => {
     saSpec: result.saSpec,
     rubricSteps: result.rubricSteps,
     aiGenerated: true,
-    status: "REVIEWED",
+    status: "APPROVED",
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };
@@ -59,7 +133,6 @@ router.post("/generate-one", async (req, res) => {
   if (!db.questions[projectId]) db.questions[projectId] = [];
   db.questions[projectId].push(newQ);
 
-  const proj = db.projects.find(p => p.id === projectId);
   if (proj) proj.status = "QUESTIONS_GENERATED";
 
   DatabaseService.save();
