@@ -14,25 +14,30 @@ router.get("/:projectId", (req, res) => {
 router.post("/:projectId/generate", async (req, res) => {
   const { projectId } = req.params;
   const db = DatabaseService.get();
+  const proj = db.projects.find(p => p.id === projectId);
   const matrix = db.matrices[projectId];
-  const dp = db.dataPacks[projectId];
+  const dp = db.dataPacks[projectId] || { topics: [], units: [], yccds: [] };
 
-  // Map matrix cells directly to specification rows
+  // Map matrix cells directly to specification rows linked to the project's actual YCCDs
   const rows = (matrix?.cells || []).map((c, idx) => {
-    const yccd = dp?.yccds[idx % (dp.yccds.length || 1)];
+    const matchedYccd = dp?.yccds.find(y => y.unitId === c.unitId && y.cognitiveLevelDefault === c.cognitiveLevel)
+      || dp?.yccds.find(y => y.unitId === c.unitId)
+      || dp?.yccds.find(y => y.topicId === c.topicId)
+      || dp?.yccds[idx % (dp.yccds.length || 1)];
+
     return {
       id: "spec-row-" + (idx + 1),
       matrixCellId: c.id,
       topicId: c.topicId,
       unitId: c.unitId || "unit-1-1",
-      yccdId: yccd?.id || "yccd-1",
-      yccdText: yccd?.description || "Nắm vững kiến thức khoa học tự nhiên theo chuẩn YCCĐ.",
+      yccdId: matchedYccd?.id || "yccd-1",
+      yccdText: matchedYccd?.description || "Nắm vững kiến thức và kĩ năng theo chuẩn YCCĐ GDPT 2018.",
       cognitiveLevel: c.cognitiveLevel,
       questionType: c.questionType,
       count: c.count,
       score: c.totalScore,
-      competency: "Tìm hiểu thế giới tự nhiên và vận dụng kiến thức",
-      sourceReference: yccd?.sourceReference || "SGK KHTN 8"
+      competency: matchedYccd?.competencyCode || "Vận dụng kiến thức, kĩ năng",
+      sourceReference: matchedYccd?.sourceReference || proj?.subject || "SGK"
     };
   });
 
@@ -46,7 +51,6 @@ router.post("/:projectId/generate", async (req, res) => {
   };
 
   db.specifications[projectId] = spec;
-  const proj = db.projects.find(p => p.id === projectId);
   if (proj) proj.status = "SPECIFICATION_GENERATED";
 
   DatabaseService.save();

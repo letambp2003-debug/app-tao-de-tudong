@@ -1,15 +1,16 @@
 import React from "react";
-import { Matrix, COGNITIVE_LEVEL_LABELS, QUESTION_TYPE_LABELS } from "@shared/types/index.js";
+import { Matrix, Topic, COGNITIVE_LEVEL_LABELS, QUESTION_TYPE_LABELS } from "@shared/types/index.js";
 import { Trash2 } from "lucide-react";
 import { Badge } from "../common/Badge.js";
 
 interface MatrixGridProps {
   matrix: Matrix;
+  topics?: Topic[];
   onUpdate: (matrix: Matrix) => void;
   readOnly?: boolean;
 }
 
-export const MatrixGrid: React.FC<MatrixGridProps> = ({ matrix, onUpdate, readOnly = false }) => {
+export const MatrixGrid: React.FC<MatrixGridProps> = ({ matrix, topics = [], onUpdate, readOnly = false }) => {
   const handleCountChange = (cellId: string, delta: number) => {
     if (readOnly) return;
     const newCells = matrix.cells.map(c => {
@@ -76,69 +77,74 @@ export const MatrixGrid: React.FC<MatrixGridProps> = ({ matrix, onUpdate, readOn
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {matrix.cells.map((cell, idx) => (
-              <tr key={cell.id} className="hover:bg-slate-50/80 transition-colors">
-                <td className="py-3 px-4 text-slate-400 font-mono text-xs">{idx + 1}</td>
-                <td className="py-3 px-4 font-semibold text-slate-900">
-                  {cell.topicId === "top-1" ? "Chất và sự biến đổi của chất" : "Khối lượng riêng và áp suất"}
-                </td>
-                <td className="py-3 px-4 text-slate-700">
-                  <Badge variant="neutral">{QUESTION_TYPE_LABELS[cell.questionType]}</Badge>
-                </td>
-                <td className="py-3 px-4 text-center">
-                  <Badge
-                    variant={
-                      cell.cognitiveLevel === "NB"
-                        ? "success"
-                        : cell.cognitiveLevel === "TH"
-                        ? "primary"
-                        : cell.cognitiveLevel === "VD"
-                        ? "warning"
-                        : "purple"
-                    }
-                  >
-                    {COGNITIVE_LEVEL_LABELS[cell.cognitiveLevel]}
-                  </Badge>
-                </td>
-                <td className="py-3 px-4 text-center font-bold text-slate-800">
-                  {!readOnly ? (
-                    <div className="inline-flex items-center gap-1.5 bg-slate-100 p-1 rounded-lg">
-                      <button
-                        onClick={() => handleCountChange(cell.id, -1)}
-                        className="w-6 h-6 rounded bg-white text-slate-600 hover:bg-slate-200 flex items-center justify-center font-bold"
-                      >
-                        -
-                      </button>
-                      <span className="w-8 text-center">{cell.count}</span>
-                      <button
-                        onClick={() => handleCountChange(cell.id, 1)}
-                        className="w-6 h-6 rounded bg-white text-slate-600 hover:bg-slate-200 flex items-center justify-center font-bold"
-                      >
-                        +
-                      </button>
-                    </div>
-                  ) : (
-                    cell.count
-                  )}
-                </td>
-                <td className="py-3 px-4 text-center text-slate-600">{cell.pointsPerItem} đ</td>
-                <td className="py-3 px-4 text-center font-bold text-brand-600">{cell.totalScore.toFixed(2)} đ</td>
-                {!readOnly && (
-                  <td className="py-3 px-4 text-center">
-                    <button
-                      onClick={() => {
-                        const newCells = matrix.cells.filter(c => c.id !== cell.id);
-                        onUpdate({ ...matrix, cells: newCells });
-                      }}
-                      className="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg hover:bg-rose-50"
-                      title="Xóa ô"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
+            {matrix.cells.map((cell, idx) => {
+              const matchedTopic = topics.find(t => t.id === cell.topicId);
+              const topicDisplayName = matchedTopic ? `${matchedTopic.code}: ${matchedTopic.name}` : cell.topicId;
+
+              return (
+                <tr key={cell.id} className="hover:bg-slate-50/80 transition-colors">
+                  <td className="py-3 px-4 text-slate-400 font-mono text-xs">{idx + 1}</td>
+                  <td className="py-3 px-4 font-semibold text-slate-900 text-xs">
+                    {topicDisplayName}
                   </td>
-                )}
-              </tr>
-            ))}
+                  <td className="py-3 px-4 text-slate-700">
+                    <Badge variant="neutral">{QUESTION_TYPE_LABELS[cell.questionType]}</Badge>
+                  </td>
+                  <td className="py-3 px-4 text-center">
+                    <Badge
+                      variant={
+                        cell.cognitiveLevel === "NB"
+                          ? "success"
+                          : cell.cognitiveLevel === "TH"
+                          ? "primary"
+                          : cell.cognitiveLevel === "VD"
+                          ? "warning"
+                          : "purple"
+                      }
+                    >
+                      {COGNITIVE_LEVEL_LABELS[cell.cognitiveLevel]}
+                    </Badge>
+                  </td>
+                  <td className="py-3 px-4 text-center font-bold text-slate-800">
+                    {!readOnly ? (
+                      <div className="inline-flex items-center gap-1.5 bg-slate-100 p-1 rounded-lg">
+                        <button
+                          onClick={() => handleCountChange(cell.id, -1)}
+                          className="w-6 h-6 rounded bg-white text-slate-600 hover:bg-slate-200 flex items-center justify-center font-bold"
+                        >
+                          -
+                        </button>
+                        <span className="w-8 text-center">{cell.count}</span>
+                        <button
+                          onClick={() => handleCountChange(cell.id, 1)}
+                          className="w-6 h-6 rounded bg-white text-slate-600 hover:bg-slate-200 flex items-center justify-center font-bold"
+                        >
+                          +
+                        </button>
+                      </div>
+                    ) : (
+                      cell.count
+                    )}
+                  </td>
+                  <td className="py-3 px-4 text-center text-slate-600">{cell.pointsPerItem} đ</td>
+                  <td className="py-3 px-4 text-center font-bold text-brand-600">{cell.totalScore.toFixed(2)} đ</td>
+                  {!readOnly && (
+                    <td className="py-3 px-4 text-center">
+                      <button
+                        onClick={() => {
+                          const newCells = matrix.cells.filter(c => c.id !== cell.id);
+                          onUpdate({ ...matrix, cells: newCells });
+                        }}
+                        className="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg hover:bg-rose-50"
+                        title="Xóa ô"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </td>
+                  )}
+                </tr>
+              );
+            })}
           </tbody>
           <tfoot>
             <tr className="bg-slate-50 font-extrabold border-t-2 border-slate-200">

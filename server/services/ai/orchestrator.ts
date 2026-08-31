@@ -1,16 +1,9 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { config } from "../../config/index.js";
 import { PROMPTS } from "../../prompts/index.js";
-import {
-  AI01_SourceExtractorSchema,
-  AI02_CurriculumMapperSchema,
-  AI03_MatrixAdvisorSchema,
-  AI04_SpecWriterSchema,
-  AI05_QuestionAuthorSchema,
-  AI07_ContentReviewerSchema
-} from "../../../shared/schemas/index.js";
 import { DatabaseService } from "../database/mockDb.js";
-import { AIUsageLog } from "../../../shared/types/index.js";
+import { AIUsageLog, Project } from "../../../shared/types/index.js";
+import { getCurriculumData, SubjectCurriculum } from "../../../shared/rules/curriculumDatabase.js";
 
 export class AIOrchestrator {
   private static geminiClient: GoogleGenerativeAI | null = null;
@@ -36,6 +29,9 @@ export class AIOrchestrator {
     const promptDef = Object.values(PROMPTS).find(p => p.code === params.moduleCode) || PROMPTS.AI05_QUESTION_AUTHOR;
     const client = AIOrchestrator.getGemini();
 
+    const db = DatabaseService.get();
+    const project = db.projects.find(p => p.id === params.projectId) || params.inputData?.project;
+
     let outputResult: any = null;
     let mode: "LIVE_AI" | "MOCK_AI" = "MOCK_AI";
     let inputTokens = 500;
@@ -49,7 +45,7 @@ export class AIOrchestrator {
             responseMimeType: "application/json",
             temperature: 0.2
           },
-          systemInstruction: promptDef.systemPrompt
+          systemInstruction: `${promptDef.systemPrompt}\n\nThông tin môn học dự án:\n- Môn: ${project?.subject || "Toán học"}\n- Lớp: ${project?.grade || 8}\n- Bộ sách: ${project?.textbookSeries || "Kết nối tri thức"}\n- Học kỳ: ${project?.semester || "HK1"}\n- Kỳ thi: ${project?.examPeriod || "GIUA_KY"}`
         });
 
         const promptText = params.customPrompt || JSON.stringify(params.inputData);
@@ -60,13 +56,13 @@ export class AIOrchestrator {
         inputTokens = 1200;
         outputTokens = 1500;
       } catch (err) {
-        console.warn(`[AI ${params.moduleCode}] Live API error, falling back to realistic mock engine:`, err);
+        console.warn(`[AI ${params.moduleCode}] Live API error, falling back to dynamic curriculum engine:`, err);
       }
     }
 
-    // High quality deterministic fallback generator if live API is not configured or failed
+    // High quality dynamic curriculum fallback generator matching the project's exact subject, grade, and exam period
     if (!outputResult) {
-      outputResult = AIOrchestrator.generateDeterministicMock(params.moduleCode, params.inputData);
+      outputResult = AIOrchestrator.generateDeterministicMock(params.moduleCode, params.inputData, project);
       mode = "MOCK_AI";
     }
 
@@ -83,122 +79,195 @@ export class AIOrchestrator {
       timestamp: new Date().toISOString()
     };
 
-    const db = DatabaseService.get();
     db.aiUsageLogs.unshift(usageLog);
     DatabaseService.save();
 
     return { result: outputResult as T, source: mode, usageLog };
   }
 
-  private static generateDeterministicMock(moduleCode: string, inputData: any): any {
+  private static generateDeterministicMock(moduleCode: string, inputData: any, project?: Project): any {
+    const subject = project?.subject || inputData?.project?.subject || "Toán học";
+    const grade = project?.grade || inputData?.project?.grade || 8;
+    const semester = (project?.semester || inputData?.project?.semester || "HK1") as "HK1" | "HK2";
+    const examPeriod = (project?.examPeriod || inputData?.project?.examPeriod || "GIUA_KY") as "GIUA_KY" | "CUOI_KY";
+
+    const curriculum = getCurriculumData(subject, grade, semester, examPeriod);
+
     switch (moduleCode) {
       case "AI01":
         return {
-          totalPages: 38,
-          sourceTypeDetected: "SGK Khoa học tự nhiên 8 - Bộ Kết nối tri thức",
-          fragments: [
-            { pageNumber: 12, content: "Biến đổi vật lí và biến đổi hóa học...", topicDetected: "Chất và sự biến đổi của chất" },
-            { pageNumber: 16, content: "Định luật bảo toàn khối lượng...", topicDetected: "Phản ứng hóa học" },
-            { pageNumber: 22, content: "Mol, khối lượng mol, thể tích mol chất khí ở đkc: V = n * 24.79...", topicDetected: "Mol và chất khí" },
-            { pageNumber: 30, content: "Dung dịch, nồng độ C% = (m_ct/m_dd)*100%, CM = n/V...", topicDetected: "Dung dịch" }
-          ]
+          totalPages: 42,
+          sourceTypeDetected: `SGK ${subject} ${grade} - Bộ ${project?.textbookSeries || "Kết nối tri thức"}`,
+          fragments: curriculum.topics.map((t, idx) => ({
+            pageNumber: 10 + idx * 15,
+            content: `Nội dung ${t.name}: Các định nghĩa, tính chất, phương pháp giải và bài tập ứng dụng theo chuẩn GDPT 2018.`,
+            topicDetected: t.name
+          }))
         };
 
       case "AI02":
+        // Flatten topics, units, and yccds with exact matching codes
+        const flatTopics: any[] = [];
+        const flatUnits: any[] = [];
+        const flatYccds: any[] = [];
+
+        curriculum.topics.forEach((t, tIdx) => {
+          flatTopics.push({
+            code: t.code,
+            name: t.name,
+            order: tIdx + 1,
+            period: t.period,
+            weightPercentageMidterm: t.weightPercentageMidterm,
+            weightPercentageFinal: t.weightPercentageFinal
+          });
+
+          t.units.forEach((u, uIdx) => {
+            flatUnits.push({
+              topicCode: t.code,
+              code: u.code,
+              name: u.name,
+              order: uIdx + 1,
+              lessonHours: u.lessonHours
+            });
+
+            u.yccds.forEach((y, yIdx) => {
+              flatYccds.push({
+                unitCode: u.code,
+                topicCode: t.code,
+                code: y.code,
+                description: y.description,
+                cognitiveLevelDefault: y.cognitiveLevelDefault,
+                competencyCode: y.competencyCode,
+                sourceReference: y.sourceReference
+              });
+            });
+          });
+        });
+
         return {
-          topics: [
-            { code: "CD1", name: "Chất và sự biến đổi của chất", order: 1 },
-            { code: "CD2", name: "Khối lượng riêng và áp suất", order: 2 }
-          ],
-          units: [
-            { topicCode: "CD1", code: "B1", name: "Phản ứng hóa học và Biến đổi hóa học", order: 1 },
-            { topicCode: "CD1", code: "B2", name: "Định luật bảo toàn khối lượng và PTHH", order: 2 },
-            { topicCode: "CD1", code: "B3", name: "Mol, tỉ khối chất khí và dung dịch", order: 3 },
-            { topicCode: "CD2", code: "B4", name: "Khối lượng riêng và Áp suất chất lỏng", order: 1 }
-          ],
-          yccds: [
-            { unitCode: "B1", code: "YCCD_KHTN8_01", description: "Phân biệt được hiện tượng vật lí và hiện tượng hóa học trong đời sống.", cognitiveLevelDefault: "NB", competencyCode: "NTHK", sourceReference: "SGK KHTN 8 - Bài 2, tr.12-14" },
-            { unitCode: "B2", code: "YCCD_KHTN8_02", description: "Phát biểu được định luật bảo toàn khối lượng và vận dụng tính khối lượng sản phẩm.", cognitiveLevelDefault: "TH", competencyCode: "VD_KTKN", sourceReference: "SGK KHTN 8 - Bài 3, tr.16-19" },
-            { unitCode: "B3", code: "YCCD_KHTN8_03", description: "Tính được số mol, thể tích chất khí ở đkc ($V = n \\times 24,79$) và nồng độ dung dịch.", cognitiveLevelDefault: "VD", competencyCode: "VD_KTKN", sourceReference: "SGK KHTN 8 - Bài 4, tr.22-31" },
-            { unitCode: "B4", code: "YCCD_KHTN8_04", description: "Vận dụng công thức khối lượng riêng $D = \\frac{m}{V}$ và áp suất $p = \\frac{F}{S}$ giải quyết bài toán thực tế.", cognitiveLevelDefault: "VDC", competencyCode: "THTN", sourceReference: "SGK KHTN 8 - Bài 14, tr.60-65" }
-          ]
+          topics: flatTopics,
+          units: flatUnits,
+          yccds: flatYccds,
+          appendixNotes: examPeriod === "CUOI_KY" ? curriculum.finalAppendixNotes : curriculum.midtermAppendixNotes
         };
 
       case "AI03":
+        // Distribute cells across the actual curriculum topics based on blueprint
+        const cells: any[] = [];
+        const numTopics = curriculum.topics.length || 1;
+
+        curriculum.topics.forEach((top, topIdx) => {
+          const firstUnit = top.units[0];
+          const secondUnit = top.units[1] || firstUnit;
+
+          if (topIdx === 0) {
+            // First topic / Phase 1
+            cells.push(
+              { topicCode: top.code, unitCode: firstUnit.code, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 8, pointsPerItem: 0.25, totalScore: 2.0 },
+              { topicCode: top.code, unitCode: secondUnit.code, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 4, pointsPerItem: 0.25, totalScore: 1.0 },
+              { topicCode: top.code, unitCode: firstUnit.code, questionType: "TRUE_FALSE_4", cognitiveLevel: "TH", count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
+              { topicCode: top.code, unitCode: secondUnit.code, questionType: "SHORT_ANSWER", cognitiveLevel: "TH", count: 2, pointsPerItem: 0.5, totalScore: 1.0 },
+              { topicCode: top.code, unitCode: secondUnit.code, questionType: "ESSAY", cognitiveLevel: "VD", count: 1, pointsPerItem: 1.0, totalScore: 1.0 }
+            );
+          } else if (topIdx === 1) {
+            // Second topic / Phase 2
+            cells.push(
+              { topicCode: top.code, unitCode: firstUnit.code, questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 4, pointsPerItem: 0.25, totalScore: 1.0 },
+              { topicCode: top.code, unitCode: firstUnit.code, questionType: "SHORT_ANSWER", cognitiveLevel: "VD", count: 2, pointsPerItem: 0.5, totalScore: 1.0 },
+              { topicCode: top.code, unitCode: firstUnit.code, questionType: "TRUE_FALSE_4", cognitiveLevel: "TH", count: 1, pointsPerItem: 1.0, totalScore: 1.0 }
+            );
+          } else {
+            // Third topic (e.g. Geometry or VDC)
+            cells.push(
+              { topicCode: top.code, unitCode: firstUnit.code, questionType: "ESSAY", cognitiveLevel: "VDC", count: 1, pointsPerItem: 1.0, totalScore: 1.0 }
+            );
+          }
+        });
+
         return {
-          summaryRationale: "Đề xuất phân bổ ma trận theo cấu hình Blueprint 40% NB - 30% TH - 20% VD - 10% VDC với 16 TN 4 lựa chọn, 2 Đúng-Sai, 4 Trả lời ngắn, 2 Tự luận.",
-          cells: [
-            { topicCode: "CD1", unitCode: "B1", questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 6, pointsPerItem: 0.25, totalScore: 1.5 },
-            { topicCode: "CD1", unitCode: "B2", questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 4, pointsPerItem: 0.25, totalScore: 1.0 },
-            { topicCode: "CD1", unitCode: "B3", questionType: "MULTIPLE_CHOICE", cognitiveLevel: "TH", count: 2, pointsPerItem: 0.25, totalScore: 0.5 },
-            { topicCode: "CD1", unitCode: "B1", questionType: "TRUE_FALSE_4", cognitiveLevel: "TH", count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
-            { topicCode: "CD1", unitCode: "B3", questionType: "SHORT_ANSWER", cognitiveLevel: "TH", count: 2, pointsPerItem: 0.5, totalScore: 1.0 },
-            { topicCode: "CD1", unitCode: "B3", questionType: "SHORT_ANSWER", cognitiveLevel: "VD", count: 2, pointsPerItem: 0.5, totalScore: 1.0 },
-            { topicCode: "CD1", unitCode: "B2", questionType: "ESSAY", cognitiveLevel: "VD", count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
-            { topicCode: "CD2", unitCode: "B4", questionType: "MULTIPLE_CHOICE", cognitiveLevel: "NB", count: 4, pointsPerItem: 0.25, totalScore: 1.0 },
-            { topicCode: "CD2", unitCode: "B4", questionType: "TRUE_FALSE_4", cognitiveLevel: "TH", count: 1, pointsPerItem: 1.0, totalScore: 1.0 },
-            { topicCode: "CD2", unitCode: "B4", questionType: "ESSAY", cognitiveLevel: "VDC", count: 1, pointsPerItem: 1.0, totalScore: 1.0 }
-          ]
+          summaryRationale: `Phân bổ ma trận chuẩn GDPT 2018 cho môn ${subject} ${grade} (${examPeriod === "CUOI_KY" ? "Cuối kỳ: 25% GĐ1 + 75% GĐ2" : "Giữa kỳ: 100% GĐ1"}), tỉ lệ nhận thức NB 40% - TH 30% - VD 20% - VDC 10%.`,
+          cells
         };
 
       case "AI05":
-        const type = inputData?.questionType || "MULTIPLE_CHOICE";
-        if (type === "MULTIPLE_CHOICE") {
-          return {
-            stem: "Hiện tượng nào sau đây thể hiện biến đổi hóa học trong tự nhiên?",
-            type: "MULTIPLE_CHOICE",
-            cognitiveLevel: "NB",
-            score: 0.25,
-            sourceReference: "SGK KHTN 8 - Bài 2, tr.12",
-            explanation: "Thanh sắt để lâu trong không khí ẩm bị gỉ sét tạo ra chất mới oxit sắt.",
-            mcOptions: [
-              { label: "A", content: "Nước đá tan chảy thành nước lỏng", isCorrect: false },
-              { label: "B", content: "Thanh sắt để ngoài không khí ẩm bị gỉ sét", isCorrect: true },
-              { label: "C", content: "Cồn đựng trong lọ hở bị bay hơi dần", isCorrect: false },
-              { label: "D", content: "Hòa tan muối ăn vào nước lọc", isCorrect: false }
-            ]
-          };
-        } else if (type === "TRUE_FALSE_4") {
-          return {
-            stem: "Xét các hiện tượng biến đổi chất trong thực tiễn đời sống:",
-            type: "TRUE_FALSE_4",
-            cognitiveLevel: "TH",
-            score: 1.0,
-            sourceReference: "SGK KHTN 8 - Bài 2, tr.13",
-            explanation: "a, b, d là nhận định đúng; c là nhận định sai.",
-            tfItems: [
-              { label: "a", content: "Cồn bay hơi là hiện tượng biến đổi vật lí.", isCorrect: true, explanation: "Chỉ chuyển thể." },
-              { label: "b", content: "Đốt cháy củi tạo khí carbon dioxide là biến đổi hóa học.", isCorrect: true, explanation: "Có chất mới." },
-              { label: "c", content: "Hòa tan đường vào nước là hiện tượng biến đổi hóa học.", isCorrect: false, explanation: "Biến đổi vật lí." },
-              { label: "d", content: "Sắt bị gỉ trong không khí ẩm là hiện tượng biến đổi hóa học.", isCorrect: true, explanation: "Tạo chất mới." }
-            ]
-          };
-        } else if (type === "SHORT_ANSWER") {
-          return {
-            stem: "Tính thể tích (lít) của $0,2\\text{ mol}$ khí $CO_2$ ở điều kiện chuẩn ($25^\\circ C, 1\\text{ bar}$):",
-            type: "SHORT_ANSWER",
-            cognitiveLevel: "TH",
-            score: 0.5,
-            sourceReference: "SGK KHTN 8 - Bài 4, tr.25",
-            explanation: "V = 0.2 * 24.79 = 4.96 lít.",
-            saSpec: {
-              expectedAnswer: "4,96",
-              unit: "lít",
-              tolerance: 0.01,
-              alternativeAnswers: ["4.96", "4,958"]
+        const reqType = inputData?.questionType || "MULTIPLE_CHOICE";
+        const reqCognitive = inputData?.cognitiveLevel || "NB";
+        const specRow = inputData?.specRow;
+
+        // Search for a matching sample question in the subject's curriculum library
+        let matchedSample: any = null;
+        for (const t of curriculum.topics) {
+          for (const u of t.units) {
+            for (const y of u.yccds) {
+              if (y.sampleQuestions) {
+                const found = y.sampleQuestions.find(q => q.type === reqType);
+                if (found) {
+                  matchedSample = found;
+                  break;
+                }
+              }
             }
+            if (matchedSample) break;
+          }
+          if (matchedSample) break;
+        }
+
+        if (matchedSample) {
+          return matchedSample;
+        }
+
+        // Generic dynamic question builder for any subject with KaTeX formulas
+        if (reqType === "MULTIPLE_CHOICE") {
+          return {
+            stem: `Cho biểu thức / định lý trong môn ${subject} ${grade}: Khẳng định nào sau đây là đúng?`,
+            type: "MULTIPLE_CHOICE",
+            cognitiveLevel: reqCognitive,
+            score: 0.25,
+            sourceReference: specRow?.sourceReference || `SGK ${subject} ${grade}`,
+            explanation: "Đáp án đúng theo chuẩn kiến thức kĩ năng chương trình GDPT 2018.",
+            mcOptions: [
+              { label: "A", content: "Khẳng định A (Đáp án chính xác)", isCorrect: true },
+              { label: "B", content: "Khẳng định B (Phương án nhiễu 1)", isCorrect: false },
+              { label: "C", content: "Khẳng định C (Phương án nhiễu 2)", isCorrect: false },
+              { label: "D", content: "Khẳng định D (Phương án nhiễu 3)", isCorrect: false }
+            ]
+          };
+        } else if (reqType === "TRUE_FALSE_4") {
+          return {
+            stem: `Xét các mệnh đề / tính chất sau trong chương trình ${subject} ${grade}:`,
+            type: "TRUE_FALSE_4",
+            cognitiveLevel: reqCognitive,
+            score: 1.0,
+            sourceReference: specRow?.sourceReference || `SGK ${subject} ${grade}`,
+            explanation: "Các ý a, c đúng; ý b, d sai theo định nghĩa.",
+            tfItems: [
+              { label: "a", content: "Mệnh đề a mô tả đúng tính chất cơ bản.", isCorrect: true, explanation: "Đúng theo lý thuyết." },
+              { label: "b", content: "Mệnh đề b đảo ngược điều kiện cần và đủ.", isCorrect: false, explanation: "Sai điều kiện." },
+              { label: "c", content: "Mệnh đề c thỏa mãn công thức đã học.", isCorrect: true, explanation: "Đúng theo công thức." },
+              { label: "d", content: "Mệnh đề d áp dụng sai đơn vị hoặc phạm vi.", isCorrect: false, explanation: "Sai phạm vi áp dụng." }
+            ]
+          };
+        } else if (reqType === "SHORT_ANSWER") {
+          return {
+            stem: `Tính giá trị biểu thức / đại lượng trong bài toán ${subject} ${grade}:`,
+            type: "SHORT_ANSWER",
+            cognitiveLevel: reqCognitive,
+            score: 0.5,
+            sourceReference: specRow?.sourceReference || `SGK ${subject} ${grade}`,
+            explanation: "Thực hiện các bước tính toán và điền đáp số.",
+            saSpec: { expectedAnswer: "10", unit: "", tolerance: 0 }
           };
         } else {
           return {
-            stem: "Đốt cháy hoàn toàn $5,6\\text{ g}$ bột sắt ($Fe$) trong khí chlorine ($Cl_2$) dư thu được $16,25\\text{ g}$ muối sắt(III) chloride ($FeCl_3$).\na) Viết phương trình hóa học của phản ứng.\nb) Dựa vào định luật bảo toàn khối lượng, tính khối lượng khí $Cl_2$ đã tham gia phản ứng.",
+            stem: `Bài toán tự luận môn ${subject} ${grade}:\na) Trình bày cơ sở lý thuyết và các bước biến đổi.\nb) Vận dụng giải quyết yêu cầu thực tiễn của bài toán.`,
             type: "ESSAY",
-            cognitiveLevel: "VD",
+            cognitiveLevel: reqCognitive,
             score: 1.0,
-            sourceReference: "SGK KHTN 8 - Bài 3, tr.18",
-            explanation: "PTHH 2Fe + 3Cl2 -> 2FeCl3. m_Cl2 = 16.25 - 5.6 = 10.65 gam.",
+            sourceReference: specRow?.sourceReference || `SGK ${subject} ${grade}`,
+            explanation: "Lời giải chi tiết theo các bước biểu điểm.",
             rubricSteps: [
-              { stepNumber: 1, criterion: "Viết đúng PTHH có cân bằng và nhiệt độ", expectedContent: "$2Fe + 3Cl_2 \\xrightarrow{t^\\circ} 2FeCl_3$. Tỉ lệ $2 : 3$.", score: 0.5 },
-              { stepNumber: 2, criterion: "Tính đúng khối lượng Cl2 theo ĐLBTKL", expectedContent: "$m_{Cl_2} = 16,25 - 5,6 = 10,65\\text{ gam}$.", score: 0.5 }
+              { stepNumber: 1, criterion: "Nêu đúng công thức và biến đổi bước 1", expectedContent: "Trình bày đúng định lí và thay số ban đầu.", score: 0.5 },
+              { stepNumber: 2, criterion: "Thực hiện tính toán và kết luận bài toán", expectedContent: "Tính toán chính xác và đưa ra kết luận cuối cùng.", score: 0.5 }
             ]
           };
         }
@@ -206,9 +275,9 @@ export class AIOrchestrator {
       case "AI07":
         return {
           status: "DAT",
-          scores: { accuracy: 95, pedagogicalFit: 98, distractorQuality: 92 },
+          scores: { accuracy: 96, pedagogicalFit: 98, distractorQuality: 95 },
           issues: [],
-          recommendations: "Câu hỏi chuẩn xác về mặt khoa học và bám sát YCCĐ chương trình GDPT 2018."
+          recommendations: `Hồ sơ môn ${subject} ${grade} hoàn toàn phù hợp với chuẩn YCCĐ GDPT 2018.`
         };
 
       default:

@@ -4,6 +4,7 @@ import path from "path";
 import { DatabaseService } from "../services/database/mockDb.js";
 import { SourceMaterial } from "../../shared/types/index.js";
 import { DocumentExtractorService } from "../services/extractor/index.js";
+import { getCurriculumData, CURRICULUM_DATABASE } from "../../shared/rules/curriculumDatabase.js";
 
 const router = Router();
 const upload = multer({ dest: "server/data/uploads/" });
@@ -16,9 +17,29 @@ router.get("/", (req, res) => {
   res.json(list);
 });
 
+// GET /api/sources/appendix/:projectId
+router.get("/appendix/:projectId", (req, res) => {
+  const { projectId } = req.params;
+  const db = DatabaseService.get();
+  const proj = db.projects.find(p => p.id === projectId);
+  if (!proj) return res.status(404).json({ error: "Project not found" });
+
+  const curriculum = getCurriculumData(proj.subject, proj.grade, proj.semester as any, proj.examPeriod as any);
+  res.json({
+    curriculum,
+    midtermNotes: curriculum.midtermAppendixNotes,
+    finalNotes: curriculum.finalAppendixNotes
+  });
+});
+
+// GET /api/sources/appendix-templates
+router.get("/appendix-templates", (req, res) => {
+  res.json(CURRICULUM_DATABASE);
+});
+
 // POST /api/sources/upload
 router.post("/upload", upload.single("file"), async (req: any, res) => {
-  const { projectId, sourceType } = req.body;
+  const { projectId, sourceType, appendixScope } = req.body;
   const file = req.file;
 
   const db = DatabaseService.get();

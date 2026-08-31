@@ -23,22 +23,57 @@ router.post("/:projectId/generate", async (req, res) => {
     topics: any[];
     units: any[];
     yccds: any[];
+    appendixNotes?: string;
   }>({
     moduleCode: "AI02",
     projectId,
     inputData: { project: proj, sourcesCount: sources.length }
   });
 
+  const topicCodeToId: Record<string, string> = {};
+  const topics = (result.topics || []).map((t, idx) => {
+    const id = "top-" + (idx + 1);
+    if (t.code) topicCodeToId[t.code] = id;
+    return { id, ...t };
+  });
+
+  const unitCodeToId: Record<string, string> = {};
+  const units = (result.units || []).map((u, idx) => {
+    const id = "unit-" + (idx + 1);
+    if (u.code) unitCodeToId[u.code] = id;
+    const parentTopicId = u.topicCode ? (topicCodeToId[u.topicCode] || topics[0]?.id) : (topics[0]?.id || "top-1");
+    return { id, ...u, topicId: parentTopicId };
+  });
+
+  const yccds = (result.yccds || []).map((y, idx) => {
+    const id = "yccd-" + (idx + 1);
+    const parentUnitId = y.unitCode ? (unitCodeToId[y.unitCode] || units[0]?.id) : (units[0]?.id || "unit-1");
+    const parentUnit = units.find(u => u.id === parentUnitId);
+    const parentTopicId = y.topicCode ? (topicCodeToId[y.topicCode] || parentUnit?.topicId) : (parentUnit?.topicId || topics[0]?.id || "top-1");
+    return { id, ...y, unitId: parentUnitId, topicId: parentTopicId };
+  });
+
   const dp = {
     projectId,
     isApproved: false,
     version: 1,
-    topics: result.topics.map((t, idx) => ({ id: "top-" + (idx + 1), ...t })),
-    units: result.units.map((u, idx) => ({ id: "unit-" + (idx + 1), ...u, topicId: "top-1" })),
-    yccds: result.yccds.map((y, idx) => ({ id: "yccd-" + (idx + 1), ...y, unitId: "unit-1" }))
+    topics,
+    units,
+    yccds,
+    appendixNotes: result.appendixNotes
   };
 
   db.dataPacks[projectId] = dp;
+
+  // Also auto-update blueprint topic allocations
+  if (db.blueprints[projectId]) {
+    db.blueprints[projectId].topicAllocations = topics.map(t => ({
+      topicId: t.id,
+      targetScore: Number(((t.weightPercentageFinal || t.weightPercentageMidterm || 50) / 100 * (proj?.totalScore || 10)).toFixed(1)),
+      targetPercentage: t.weightPercentageFinal || t.weightPercentageMidterm || 50
+    }));
+  }
+
   if (proj && (proj.status === "SOURCES_UPLOADED" || proj.status === "DRAFT")) {
     proj.status = "DATA_EXTRACTED";
   }

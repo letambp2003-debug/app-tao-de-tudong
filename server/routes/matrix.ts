@@ -40,8 +40,9 @@ router.get("/:projectId", (req, res) => {
 router.post("/:projectId/generate", async (req, res) => {
   const { projectId } = req.params;
   const db = DatabaseService.get();
+  const proj = db.projects.find(p => p.id === projectId);
   const bp = db.blueprints[projectId];
-  const dp = db.dataPacks[projectId];
+  const dp = db.dataPacks[projectId] || { topics: [], units: [], yccds: [] };
 
   const { result } = await AIOrchestrator.executeModule<{
     cells: any[];
@@ -49,8 +50,13 @@ router.post("/:projectId/generate", async (req, res) => {
   }>({
     moduleCode: "AI03",
     projectId,
-    inputData: { blueprint: bp, dataPack: dp }
+    inputData: { blueprint: bp, dataPack: dp, project: proj }
   });
+
+  const topicCodeMap: Record<string, string> = {};
+  (dp.topics || []).forEach(t => { if (t.code) topicCodeMap[t.code] = t.id; });
+  const unitCodeMap: Record<string, string> = {};
+  (dp.units || []).forEach(u => { if (u.code) unitCodeMap[u.code] = u.id; });
 
   const matrix = {
     id: "mat-" + projectId,
@@ -58,21 +64,26 @@ router.post("/:projectId/generate", async (req, res) => {
     isApproved: false,
     version: 1,
     updatedAt: new Date().toISOString(),
-    cells: result.cells.map((c, idx) => ({
-      id: "mc-" + (idx + 1),
-      topicId: dp.topics[0]?.id || "top-1",
-      unitId: dp.units[0]?.id || "unit-1",
-      questionType: c.questionType,
-      cognitiveLevel: c.cognitiveLevel,
-      count: c.count,
-      pointsPerItem: c.scorePerItem,
-      totalScore: c.totalScore,
-      note: c.note
-    }))
+    cells: (result.cells || []).map((c, idx) => {
+      const topId = (c.topicCode && topicCodeMap[c.topicCode]) || dp.topics[idx % (dp.topics.length || 1)]?.id || "top-1";
+      const matchedUnit = dp.units.find(u => u.topicId === topId);
+      const unId = (c.unitCode && unitCodeMap[c.unitCode]) || matchedUnit?.id || dp.units[0]?.id || "unit-1";
+
+      return {
+        id: "mc-" + (idx + 1),
+        topicId: topId,
+        unitId: unId,
+        questionType: c.questionType,
+        cognitiveLevel: c.cognitiveLevel,
+        count: c.count,
+        pointsPerItem: c.pointsPerItem || (c.questionType === "MULTIPLE_CHOICE" ? 0.25 : c.questionType === "SHORT_ANSWER" ? 0.5 : 1.0),
+        totalScore: Number((c.count * (c.pointsPerItem || (c.questionType === "MULTIPLE_CHOICE" ? 0.25 : c.questionType === "SHORT_ANSWER" ? 0.5 : 1.0))).toFixed(2)),
+        note: c.note
+      };
+    })
   };
 
   db.matrices[projectId] = matrix;
-  const proj = db.projects.find(p => p.id === projectId);
   if (proj) proj.status = "MATRIX_GENERATED";
 
   DatabaseService.save();

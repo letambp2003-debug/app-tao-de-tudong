@@ -56,8 +56,10 @@ export const api = {
   cloneProject: (id: string) => request<Project>(`/projects/${id}/clone`, { method: "POST" }),
   deleteProject: (id: string) => request<{ success: boolean }>(`/projects/${id}`, { method: "DELETE" }),
 
-  // Sources
+  // Sources & Appendices
   getSources: (projectId: string) => request<SourceMaterial[]>(`/sources?projectId=${projectId}`),
+  getAppendix: (projectId: string) => request<{ curriculum: any; midtermNotes: string; finalNotes: string }>(`/sources/appendix/${projectId}`),
+  getAppendixTemplates: () => request<any[]>("/sources/appendix-templates"),
   uploadSource: async (projectId: string, file: File, sourceType: string) => {
     const formData = new FormData();
     formData.append("projectId", projectId);

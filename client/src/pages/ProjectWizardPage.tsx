@@ -13,7 +13,6 @@ import { TraceabilityMatrix } from "../components/validation/TraceabilityMatrix.
 import { A4PrintPreview } from "../components/preview/A4PrintPreview.js";
 import { ExportModal } from "../components/export/ExportModal.js";
 import { Badge } from "../components/common/Badge.js";
-import { Modal } from "../components/common/Modal.js";
 import { api } from "../services/api.js";
 import { Question } from "@shared/types/index.js";
 import {
@@ -22,12 +21,11 @@ import {
   FileText,
   Upload,
   ArrowRight,
-  ArrowLeft,
   Download,
   Shuffle,
-  ShieldCheck,
-  RefreshCw,
-  Plus
+  BookOpen,
+  Layers,
+  Info
 } from "lucide-react";
 
 export const ProjectWizardPage: React.FC = () => {
@@ -59,10 +57,12 @@ export const ProjectWizardPage: React.FC = () => {
   const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
   const [isExportOpen, setIsExportOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
+  const [appendixInfo, setAppendixInfo] = useState<any>(null);
 
   useEffect(() => {
     if (id) {
       loadProject(id);
+      api.getAppendix(id).then(setAppendixInfo).catch(() => {});
     }
   }, [id, loadProject]);
 
@@ -109,9 +109,12 @@ export const ProjectWizardPage: React.FC = () => {
           <div className="flex items-center gap-2">
             <h1 className="text-lg font-extrabold text-slate-900">{project.name}</h1>
             <Badge variant="primary">{project.status}</Badge>
+            <Badge variant={project.examPeriod === "CUOI_KY" ? "purple" : "neutral"}>
+              {project.examPeriod === "CUOI_KY" ? "Đề Cuối Kỳ (Phân phối chuẩn)" : "Đề Giữa Kỳ"}
+            </Badge>
           </div>
           <p className="text-xs text-slate-500 mt-0.5">
-            {project.subject} {project.grade} • {project.organizationName} • Người tạo: {project.authorName}
+            {project.subject} {project.grade} • {project.organizationName} • Người tạo: {project.authorName} • Bộ sách: {project.textbookSeries}
           </p>
         </div>
 
@@ -148,7 +151,22 @@ export const ProjectWizardPage: React.FC = () => {
             </div>
             <div>
               <label className="font-bold text-slate-700 block mb-1">Môn học:</label>
-              <input type="text" disabled value={project.subject} className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-500" />
+              <input type="text" disabled value={project.subject} className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-500 font-bold" />
+            </div>
+            <div>
+              <label className="font-bold text-slate-700 block mb-1">Kỳ kiểm tra:</label>
+              <select
+                value={project.examPeriod || "GIUA_KY"}
+                onChange={e => saveCurrentStep("INFO", { ...project, examPeriod: e.target.value })}
+                className="w-full p-2.5 border border-slate-200 rounded-xl font-semibold bg-white"
+              >
+                <option value="GIUA_KY">Kiểm tra Giữa kỳ (Nội dung nửa đầu kì)</option>
+                <option value="CUOI_KY">Kiểm tra Cuối kỳ (Phân bổ chuẩn: 25% GĐ1 + 75% GĐ2)</option>
+              </select>
+            </div>
+            <div>
+              <label className="font-bold text-slate-700 block mb-1">Học kỳ & Khối lớp:</label>
+              <input type="text" disabled value={`${project.semester} - Lớp ${project.grade}`} className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-500 font-medium" />
             </div>
             <div>
               <label className="font-bold text-slate-700 block mb-1">Thời gian làm bài (Phút):</label>
@@ -161,7 +179,7 @@ export const ProjectWizardPage: React.FC = () => {
             </div>
             <div>
               <label className="font-bold text-slate-700 block mb-1">Thang điểm tổng:</label>
-              <input type="number" disabled value={project.totalScore} className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-500" />
+              <input type="number" disabled value={project.totalScore} className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-500 font-bold text-brand-600" />
             </div>
           </div>
           <div className="flex justify-end pt-4 border-t border-slate-100">
@@ -169,23 +187,59 @@ export const ProjectWizardPage: React.FC = () => {
               onClick={() => setCurrentStep("SOURCES")}
               className="flex items-center gap-2 px-5 py-2.5 bg-brand-600 text-white rounded-xl text-xs font-bold hover:bg-brand-700"
             >
-              Tiếp theo: Nguồn tài liệu <ArrowRight className="w-4 h-4" />
+              Tiếp theo: Nguồn tài liệu & Phụ lục <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
       )}
 
-      {/* STEP 2: SOURCES */}
+      {/* STEP 2: SOURCES & APPENDIX */}
       {currentStep === "SOURCES" && (
         <div className="space-y-6">
+          {/* Official Appendix & Curriculum Distribution Banner */}
+          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-5 shadow-xs space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-blue-900 font-bold text-sm">
+                <BookOpen className="w-5 h-5 text-blue-600" />
+                <span>Phụ lục Khung Kế hoạch dạy học & Phân phối Chương trình (Công văn 5512/BGDĐT)</span>
+              </div>
+              <Badge variant="primary">
+                {project.examPeriod === "CUOI_KY" ? "Chuẩn đề Cuối kỳ (25% GĐ1 / 75% GĐ2)" : "Chuẩn đề Giữa kỳ (100% GĐ1)"}
+              </Badge>
+            </div>
+            <p className="text-xs text-blue-800 leading-relaxed">
+              {appendixInfo?.curriculum?.finalAppendixNotes ||
+                (project.examPeriod === "CUOI_KY"
+                  ? `Phạm vi kiểm tra Cuối kì môn ${project.subject} ${project.grade}: Bao phủ toàn bộ học kì với tỉ lệ chuẩn: 25% kiến thức nửa đầu kì (mức NB, TH) và 75% kiến thức nửa sau kì (mức TH, VD, VDC).`
+                  : `Phạm vi kiểm tra Giữa kì môn ${project.subject} ${project.grade}: 100% nội dung thuộc nửa đầu học kì.`)}
+            </p>
+            {appendixInfo?.curriculum?.topics && (
+              <div className="pt-2 grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
+                {appendixInfo.curriculum.topics.map((t: any) => (
+                  <div key={t.code} className="p-2.5 bg-white/80 border border-blue-100 rounded-xl">
+                    <div className="font-bold text-slate-800 flex items-center justify-between">
+                      <span>{t.code}: {t.name}</span>
+                      <span className="text-blue-600 font-extrabold">
+                        {project.examPeriod === "CUOI_KY" ? `${t.weightPercentageFinal}%` : `${t.weightPercentageMidterm}%`}
+                      </span>
+                    </div>
+                    <div className="text-[11px] text-slate-500 mt-0.5">
+                      {t.period === "GIAI_DOAN_1" ? "🔵 Nửa đầu kì (Trước GK)" : "🟣 Nửa sau kì (Sau GK)"} • {t.units?.length || 1} bài học
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-bold text-base text-slate-900">Tài liệu nguồn & Cơ sở kiến thức (SGK / Chuẩn CT GDPT)</h3>
-                <p className="text-xs text-slate-500">Tải lên tệp SGK (PDF, DOCX) để trích xuất ngữ liệu và số trang tham chiếu</p>
+                <h3 className="font-bold text-base text-slate-900">Tài liệu SGK / SGV & Tệp đề cương của trường</h3>
+                <p className="text-xs text-slate-500">Tải lên tệp SGK hoặc Phụ lục phân phối chương trình của tổ chuyên môn (PDF, DOCX)</p>
               </div>
               <label className="flex items-center gap-2 px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-bold hover:bg-brand-700 cursor-pointer shadow-xs">
-                <Upload className="w-4 h-4" /> {isUploading ? "Đang xử lý..." : "Tải lên tệp SGK"}
+                <Upload className="w-4 h-4" /> {isUploading ? "Đang xử lý..." : "Tải lên tệp tài liệu / Phụ lục"}
                 <input type="file" accept=".pdf,.docx,.xlsx" onChange={handleFileUpload} className="hidden" disabled={isUploading} />
               </label>
             </div>
@@ -227,8 +281,8 @@ export const ProjectWizardPage: React.FC = () => {
           <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-bold text-base text-slate-900">Gói dữ liệu chuẩn hóa (Data Pack)</h3>
-                <p className="text-xs text-slate-500">Danh mục Chủ đề, Bài học và Yêu cầu cần đạt (YCCĐ) gắn mã định danh</p>
+                <h3 className="font-bold text-base text-slate-900">Gói dữ liệu chuẩn hóa môn {project.subject} (Data Pack)</h3>
+                <p className="text-xs text-slate-500">Danh mục Chủ đề, Bài học và YCCĐ gắn mã định danh chuẩn theo chương trình GDPT 2018</p>
               </div>
               <div className="flex items-center gap-2">
                 <button
@@ -236,7 +290,7 @@ export const ProjectWizardPage: React.FC = () => {
                   disabled={aiProcessing}
                   className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-xl text-xs font-bold hover:bg-purple-700 shadow-xs"
                 >
-                  <Sparkles className="w-4 h-4" /> {aiProcessing ? "AI Đang xử lý..." : "AI Tạo Data Pack"}
+                  <Sparkles className="w-4 h-4" /> {aiProcessing ? "AI Đang tạo Data Pack..." : "AI Tạo Data Pack"}
                 </button>
                 {dataPack && !dataPack.isApproved && (
                   <button
@@ -251,24 +305,40 @@ export const ProjectWizardPage: React.FC = () => {
 
             {dataPack && (
               <div className="space-y-4">
-                {dataPack.topics.map(t => (
-                  <div key={t.id} className="border border-slate-200 rounded-xl p-4 bg-slate-50/50 space-y-2">
-                    <div className="font-bold text-sm text-slate-900 flex items-center gap-2">
-                      <Badge variant="primary">{t.code}</Badge> {t.name}
-                    </div>
-                    <div className="pl-4 space-y-2">
-                      {dataPack.yccds.map(y => (
-                        <div key={y.id} className="p-3 bg-white border border-slate-200 rounded-xl text-xs flex items-start justify-between gap-3">
-                          <div className="space-y-1">
-                            <div className="font-semibold text-slate-800"><Badge variant="neutral">{y.code}</Badge> {y.description}</div>
-                            <div className="text-[11px] text-slate-400">Tham chiếu: {y.sourceReference}</div>
-                          </div>
-                          <Badge variant="primary">{y.cognitiveLevelDefault}</Badge>
+                {dataPack.topics.map(t => {
+                  const topicUnits = (dataPack.units || []).filter(u => u.topicId === t.id);
+                  const topicYccds = (dataPack.yccds || []).filter(y => y.topicId === t.id || topicUnits.some(u => u.id === y.unitId));
+
+                  return (
+                    <div key={t.id} className="border border-slate-200 rounded-xl p-4 bg-slate-50/50 space-y-3">
+                      <div className="font-bold text-sm text-slate-900 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Badge variant="primary">{t.code}</Badge> {t.name}
                         </div>
-                      ))}
+                        {t.period && (
+                          <span className="text-xs text-slate-500 font-normal">
+                            {t.period === "GIAI_DOAN_1" ? "🔵 Nửa đầu kì" : t.period === "GIAI_DOAN_2" ? "🟣 Nửa sau kì" : "Toàn diện"}
+                          </span>
+                        )}
+                      </div>
+                      <div className="pl-4 space-y-2">
+                        {topicYccds.length > 0 ? (
+                          topicYccds.map(y => (
+                            <div key={y.id} className="p-3 bg-white border border-slate-200 rounded-xl text-xs flex items-start justify-between gap-3">
+                              <div className="space-y-1">
+                                <div className="font-semibold text-slate-800"><Badge variant="neutral">{y.code}</Badge> {y.description}</div>
+                                <div className="text-[11px] text-slate-400">Tham chiếu: {y.sourceReference}</div>
+                              </div>
+                              <Badge variant="primary">{y.cognitiveLevelDefault}</Badge>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="text-xs text-slate-400 italic">Chưa có YCCĐ nào được gán cho chủ đề này</div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </div>
@@ -343,7 +413,12 @@ export const ProjectWizardPage: React.FC = () => {
               </div>
             </div>
 
-            <MatrixGrid matrix={matrix} onUpdate={m => saveCurrentStep("MATRIX", m)} readOnly={matrix.isApproved} />
+            <MatrixGrid
+              matrix={matrix}
+              topics={dataPack?.topics || []}
+              onUpdate={m => saveCurrentStep("MATRIX", m)}
+              readOnly={matrix.isApproved}
+            />
           </div>
 
           <div className="flex justify-between">
@@ -385,7 +460,10 @@ export const ProjectWizardPage: React.FC = () => {
               </div>
             </div>
 
-            <SpecificationTable specification={specification} />
+            <SpecificationTable
+              specification={specification}
+              topics={dataPack?.topics || []}
+            />
           </div>
 
           <div className="flex justify-between">

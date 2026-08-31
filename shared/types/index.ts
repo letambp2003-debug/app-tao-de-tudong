@@ -124,6 +124,9 @@ export interface DataPackTopic {
   code: string;
   name: string;
   order: number;
+  period?: "GIAI_DOAN_1" | "GIAI_DOAN_2" | "TOAN_DIEN";
+  weightPercentageMidterm?: number;
+  weightPercentageFinal?: number;
 }
 
 export interface DataPackUnit {
@@ -132,17 +135,23 @@ export interface DataPackUnit {
   code: string;
   name: string;
   order: number;
+  lessonHours?: number;
 }
 
 export interface DataPackYCCD {
   id: string;
   unitId: string;
+  topicId?: string;
   code: string;
   description: string;
   cognitiveLevelDefault: CognitiveLevel;
   competencyCode: string;
   sourceReference: string;
 }
+
+export type Topic = DataPackTopic;
+export type Unit = DataPackUnit;
+export type YCCD = DataPackYCCD;
 
 export interface DataPack {
   projectId: string;
@@ -152,6 +161,7 @@ export interface DataPack {
   topics: DataPackTopic[];
   units: DataPackUnit[];
   yccds: DataPackYCCD[];
+  appendixNotes?: string;
   version: number;
 }
 
