@@ -54,9 +54,10 @@ function enrichUserSubscription(user: User): User {
 
 // GET /api/auth/me
 router.get("/me", (req: any, res) => {
-  const db = DatabaseService.get();
-  const user = req.user || db.users[0]; // Default admin or current auth
-  res.json({ user: enrichUserSubscription(user) });
+  if (!req.user) {
+    return res.status(401).json({ error: "Chưa đăng nhập", user: null });
+  }
+  res.json({ user: enrichUserSubscription(req.user) });
 });
 
 // POST /api/auth/login

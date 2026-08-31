@@ -43,12 +43,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const refreshUser = async () => {
     try {
-      const users = await api.getUsers();
+      const token = localStorage.getItem("edutest_token");
+      if (!token) {
+        setUser(null);
+        return;
+      }
+      const users = await api.getUsers().catch(() => []);
       setAllUsers(users);
       const meRes = await api.getMe();
-      setUser(meRes.user || users[0]);
+      setUser(meRes.user || null);
     } catch (err) {
       console.error("Auth refresh error:", err);
+      setUser(null);
     }
   };
 
@@ -106,9 +112,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = () => {
     localStorage.removeItem("edutest_token");
-    if (allUsers.length > 0) {
-      setUser(allUsers[0]);
-    }
+    setUser(null);
   };
 
   const hasRole = (roles: UserRole[]) => {

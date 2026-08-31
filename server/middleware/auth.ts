@@ -19,8 +19,18 @@ export const authMiddleware = (req: AuthenticatedRequest, res: Response, next: N
     }
   }
 
-  // Default to Teacher role for easy exploration if not passed
-  req.user = db.users.find(u => u.role === "R04_TEACHER") || db.users[0];
+  // If no valid auth header provided, leave req.user undefined
+  req.user = undefined;
+  next();
+};
+
+export const requireAuth = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+  if (!req.user) {
+    return res.status(401).json({
+      error: "Yêu cầu đăng nhập để truy cập tài nguyên này.",
+      requireLogin: true
+    });
+  }
   next();
 };
 
@@ -28,7 +38,7 @@ export const requireRoles = (roles: UserRole[]) => {
   return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     if (!req.user || !roles.includes(req.user.role)) {
       return res.status(403).json({
-        error: "Bạn không có quyền thực hiện thao tác này",
+        error: "Bạn không có quyền thực hiện thao tác này.",
         requiredRoles: roles,
         userRole: req.user?.role
       });
