@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { DatabaseService } from "../services/database/mockDb.js";
 import { Project, ProjectStatus } from "../../shared/types/index.js";
-import { getRuleProfileById } from "../../shared/rules/index.js";
+import { getRuleProfileById, getRuleProfileForSubject } from "../../shared/rules/index.js";
 
 const router = Router();
 
@@ -26,7 +26,7 @@ router.post("/", (req: any, res) => {
   const { name, subject, grade, textbookSeries, semester, examPeriod, durationMinutes, totalScore, ruleProfileId } = req.body;
   const db = DatabaseService.get();
   const author = req.user || db.users[3];
-  const profile = getRuleProfileById(ruleProfileId || "KHTN_8");
+  const profile = getRuleProfileForSubject(subject || "Toán học", Number(grade) || 8);
 
   const newProject: Project = {
     id: "proj-" + Date.now(),

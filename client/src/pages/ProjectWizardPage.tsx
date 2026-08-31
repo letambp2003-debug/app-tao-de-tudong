@@ -16,6 +16,7 @@ import { ExportModal } from "../components/export/ExportModal.js";
 import { Badge } from "../components/common/Badge.js";
 import { api } from "../services/api.js";
 import { Question } from "@shared/types/index.js";
+import { TEXTBOOK_SERIES_OPTIONS } from "@shared/rules/curriculumDatabase.js";
 import {
   Sparkles,
   CheckCircle2,
@@ -180,8 +181,30 @@ export const ProjectWizardPage: React.FC = () => {
               </select>
             </div>
             <div>
+              <label className="font-bold text-slate-700 block mb-1">Bộ sách giáo khoa:</label>
+              <select
+                value={project.textbookSeries || "Bộ sách chuẩn dùng chung (GDPT 2018)"}
+                onChange={e => saveCurrentStep("INFO", { ...project, textbookSeries: e.target.value })}
+                className="w-full p-2.5 border border-slate-200 rounded-xl font-medium bg-white"
+              >
+                {TEXTBOOK_SERIES_OPTIONS.map(series => (
+                  <option key={series} value={series}>{series}</option>
+                ))}
+              </select>
+            </div>
+            <div>
               <label className="font-bold text-slate-700 block mb-1">Học kỳ & Khối lớp:</label>
-              <input type="text" disabled value={`${project.semester} - Lớp ${project.grade}`} className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-500 font-medium" />
+              <div className="grid grid-cols-2 gap-2">
+                <select
+                  value={project.semester || "HK1"}
+                  onChange={e => saveCurrentStep("INFO", { ...project, semester: e.target.value as any })}
+                  className="w-full p-2.5 border border-slate-200 rounded-xl font-medium bg-white"
+                >
+                  <option value="HK1">Học kì I (HK1)</option>
+                  <option value="HK2">Học kì II (HK2)</option>
+                </select>
+                <input type="text" disabled value={`Lớp ${project.grade}`} className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-500 font-bold" />
+              </div>
             </div>
             <div>
               <label className="font-bold text-slate-700 block mb-1">Thời gian làm bài (Phút):</label>

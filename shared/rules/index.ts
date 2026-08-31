@@ -155,5 +155,66 @@ export const SUBJECT_RULE_PROFILES: SubjectRuleProfile[] = [
 
 export function getRuleProfileById(id: string): SubjectRuleProfile {
   const profile = SUBJECT_RULE_PROFILES.find((p) => p.id === id);
-  return profile || SUBJECT_RULE_PROFILES[0];
+  if (profile) return profile;
+
+  // Fallback dynamic profile generator
+  return {
+    id: id || "GENERIC_PROFILE",
+    subject: "Toán học",
+    grade: 8,
+    name: "Cấu trúc đề kiểm tra GDPT 2018",
+    defaultDuration: 60,
+    defaultTotalScore: 10,
+    defaultCognitiveWeights: {
+      NB: 40,
+      TH: 30,
+      VD: 20,
+      VDC: 10
+    },
+    defaultQuestionTypeConfigs: [
+      { type: "MULTIPLE_CHOICE", count: 16, pointsPerItem: 0.25, totalScore: 4.0 },
+      { type: "TRUE_FALSE_4", count: 2, pointsPerItem: 1.0, totalScore: 2.0 },
+      { type: "SHORT_ANSWER", count: 4, pointsPerItem: 0.5, totalScore: 2.0 },
+      { type: "ESSAY", count: 2, pointsPerItem: 1.0, totalScore: 2.0 }
+    ],
+    allowedQuestionTypes: ["MULTIPLE_CHOICE", "TRUE_FALSE_4", "SHORT_ANSWER", "ESSAY"],
+    guidanceNotes: "Khung cấu trúc chuẩn 4 phần theo định dạng khảo thí của Bộ GD&ĐT."
+  };
+}
+
+export function getRuleProfileForSubject(subject: string, grade: number): SubjectRuleProfile {
+  const match = SUBJECT_RULE_PROFILES.find(
+    p => p.subject.toLowerCase() === subject.toLowerCase() && p.grade === Number(grade)
+  );
+  if (match) return match;
+
+  const isTHPT = grade >= 10;
+  return {
+    id: `${subject.toUpperCase().replace(/\s+/g, "_")}_${grade}`,
+    subject,
+    grade,
+    name: `${subject} ${grade} (Chương trình GDPT 2018)`,
+    defaultDuration: isTHPT ? 50 : 60,
+    defaultTotalScore: 10,
+    defaultCognitiveWeights: {
+      NB: 40,
+      TH: 30,
+      VD: 20,
+      VDC: 10
+    },
+    defaultQuestionTypeConfigs: isTHPT
+      ? [
+          { type: "MULTIPLE_CHOICE", count: 18, pointsPerItem: 0.25, totalScore: 4.5 },
+          { type: "TRUE_FALSE_4", count: 4, pointsPerItem: 1.0, totalScore: 4.0 },
+          { type: "SHORT_ANSWER", count: 3, pointsPerItem: 0.5, totalScore: 1.5 }
+        ]
+      : [
+          { type: "MULTIPLE_CHOICE", count: 16, pointsPerItem: 0.25, totalScore: 4.0 },
+          { type: "TRUE_FALSE_4", count: 2, pointsPerItem: 1.0, totalScore: 2.0 },
+          { type: "SHORT_ANSWER", count: 4, pointsPerItem: 0.5, totalScore: 2.0 },
+          { type: "ESSAY", count: 2, pointsPerItem: 1.0, totalScore: 2.0 }
+        ],
+    allowedQuestionTypes: ["MULTIPLE_CHOICE", "TRUE_FALSE_4", "SHORT_ANSWER", "ESSAY"],
+    guidanceNotes: `Cấu trúc đề kiểm tra chuẩn môn ${subject} ${grade} theo chương trình GDPT 2018.`
+  };
 }
