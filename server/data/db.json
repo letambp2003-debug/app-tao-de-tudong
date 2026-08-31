@@ -2,10 +2,15 @@
   "users": [
     {
       "id": "user-admin-01",
-      "fullName": "Quản trị viên Hệ thống",
-      "email": "admin@edutest.vn",
+      "fullName": "Quản trị viên Hệ thống (Master Admin)",
+      "email": "tailieugiaoducso@gmail.com",
+      "username": "admin",
+      "password": "Antam2025@",
       "role": "R01_SYSTEM_ADMIN",
       "organizationId": "org-001",
+      "isActivated": true,
+      "subscriptionStatus": "ACTIVE",
+      "storageLocation": "ADMIN_DRIVE",
       "createdAt": "2026-01-01T00:00:00.000Z"
     },
     {

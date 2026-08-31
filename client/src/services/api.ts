@@ -45,9 +45,16 @@ async function request<T>(endpoint: string, options: RequestInit = {}): Promise<
 export const api = {
   // Auth & Subscription
   getMe: () => request<{ user: User }>("/auth/me"),
-  login: (email: string) => request<{ token: string; user: User }>("/auth/login", { method: "POST", body: JSON.stringify({ email }) }),
-  register: (data: { fullName: string; email: string; schoolName?: string; subject?: string }) =>
+  login: (credentials: string | { usernameOrEmail?: string; email?: string; password?: string }) => {
+    const payload = typeof credentials === "string" ? { email: credentials } : credentials;
+    return request<{ token: string; user: User }>("/auth/login", { method: "POST", body: JSON.stringify(payload) });
+  },
+  googleAuth: (data: { email: string; fullName?: string; avatarUrl?: string; storageLocation?: string }) =>
+    request<{ success: boolean; token: string; user: User; message: string }>("/auth/google", { method: "POST", body: JSON.stringify(data) }),
+  register: (data: { fullName: string; email: string; schoolName?: string; subject?: string; storageLocation?: string }) =>
     request<{ success: boolean; token: string; user: User; message: string }>("/auth/register", { method: "POST", body: JSON.stringify(data) }),
+  updateStorageSettings: (storageLocation: "ADMIN_DRIVE" | "PERSONAL_DRIVE") =>
+    request<{ success: boolean; message: string; storageLocation: string }>("/auth/storage-settings", { method: "PUT", body: JSON.stringify({ storageLocation }) }),
   activateSubscription: (email: string, activationCode?: string) =>
     request<{ success: boolean; message: string; user: User }>("/auth/activate", { method: "POST", body: JSON.stringify({ email, activationCode }) }),
   getSubscriptionInfo: () =>

@@ -17,11 +17,14 @@ export interface User {
   createdAt: string;
   schoolName?: string;
   defaultSubject?: string;
+  username?: string;
+  password?: string;
   subscriptionStatus?: "TRIAL" | "ACTIVE" | "EXPIRED";
   trialEndsAt?: string;
   subscriptionExpiresAt?: string;
   activatedByEmail?: string;
   isActivated?: boolean;
+  storageLocation?: "ADMIN_DRIVE" | "PERSONAL_DRIVE";
 }
 
 export interface Organization {

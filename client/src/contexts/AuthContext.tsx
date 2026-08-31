@@ -8,8 +8,10 @@ interface AuthContextType {
   loading: boolean;
   trialDaysLeft: number;
   isExpired: boolean;
-  login: (email: string) => Promise<void>;
-  register: (data: { fullName: string; email: string; schoolName?: string; subject?: string }) => Promise<void>;
+  login: (credentials: string | { usernameOrEmail?: string; email?: string; password?: string }) => Promise<void>;
+  googleAuth: (data: { email: string; fullName?: string; avatarUrl?: string; storageLocation?: string }) => Promise<void>;
+  register: (data: { fullName: string; email: string; schoolName?: string; subject?: string; storageLocation?: string }) => Promise<void>;
+  updateStorageLocation: (storageLocation: "ADMIN_DRIVE" | "PERSONAL_DRIVE") => Promise<void>;
   activate: (email: string, code?: string) => Promise<void>;
   switchUser: (userId: string) => void;
   logout: () => void;
@@ -26,10 +28,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const calculateTrialDays = (u: User | null): { days: number; expired: boolean } => {
     if (!u) return { days: 0, expired: false };
-    if (u.isActivated || u.subscriptionStatus === "ACTIVE") return { days: 365, expired: false };
+    if (u.isActivated || u.subscriptionStatus === "ACTIVE" || u.role === "R01_SYSTEM_ADMIN") return { days: 365, expired: false };
 
     const now = Date.now();
-    const trialEnds = u.trialEndsAt ? new Date(u.trialEndsAt).getTime() : new Date(u.createdAt).getTime() + 3 * 86400000;
+    const trialEnds = u.trialEndsAt ? new Date(u.trialEndsAt).getTime() : new Date(u.createdAt).getTime() + 5 * 86400000;
     const diffMs = trialEnds - now;
     const daysLeft = Math.ceil(diffMs / 86400000);
 
@@ -44,7 +46,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const users = await api.getUsers();
       setAllUsers(users);
       const meRes = await api.getMe();
-      setUser(meRes.user || users[3]);
+      setUser(meRes.user || users[0]);
     } catch (err) {
       console.error("Auth refresh error:", err);
     }
@@ -61,17 +63,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initAuth();
   }, []);
 
-  const login = async (email: string) => {
-    const res = await api.login(email);
+  const login = async (credentials: string | { usernameOrEmail?: string; email?: string; password?: string }) => {
+    const res = await api.login(credentials);
     localStorage.setItem("edutest_token", res.token);
     setUser(res.user);
   };
 
-  const register = async (data: { fullName: string; email: string; schoolName?: string; subject?: string }) => {
+  const googleAuth = async (data: { email: string; fullName?: string; avatarUrl?: string; storageLocation?: string }) => {
+    const res = await api.googleAuth(data);
+    localStorage.setItem("edutest_token", res.token);
+    setUser(res.user);
+    await refreshUser();
+  };
+
+  const register = async (data: { fullName: string; email: string; schoolName?: string; subject?: string; storageLocation?: string }) => {
     const res = await api.register(data);
     localStorage.setItem("edutest_token", res.token);
     setUser(res.user);
     await refreshUser();
+  };
+
+  const updateStorageLocation = async (storageLocation: "ADMIN_DRIVE" | "PERSONAL_DRIVE") => {
+    const res = await api.updateStorageSettings(storageLocation);
+    if (user) {
+      setUser({ ...user, storageLocation: res.storageLocation as any });
+    }
   };
 
   const activate = async (email: string, code?: string) => {
@@ -91,7 +107,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = () => {
     localStorage.removeItem("edutest_token");
     if (allUsers.length > 0) {
-      setUser(allUsers[3]); // Switch back to teacher for demo
+      setUser(allUsers[0]);
     }
   };
 
@@ -111,7 +127,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         trialDaysLeft,
         isExpired,
         login,
+        googleAuth,
         register,
+        updateStorageLocation,
         activate,
         switchUser,
         logout,

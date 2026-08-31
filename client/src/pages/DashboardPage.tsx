@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Project } from "@shared/types/index.js";
 import { api } from "../services/api.js";
 import { Link, useNavigate } from "react-router-dom";
-import { Plus, Search, Filter, Copy, Trash2, ArrowRight, BookOpen, Clock, Award, CheckCircle2, Crown, Sparkles, BookCheck, Layers } from "lucide-react";
+import { Plus, Search, Filter, Copy, Trash2, ArrowRight, BookOpen, Clock, Award, CheckCircle2, Crown, Sparkles, BookCheck, Layers, Key, AlertTriangle, ExternalLink } from "lucide-react";
 import { Badge } from "../components/common/Badge.js";
 import { Modal } from "../components/common/Modal.js";
 import { SubscriptionModal } from "../components/common/SubscriptionModal.js";
+import { GeminiKeyModal } from "../components/common/GeminiKeyModal.js";
 import { useNotification } from "../contexts/NotificationContext.js";
 import { useAuth } from "../contexts/AuthContext.js";
 import { GRADES_ALL, getSubjectsForGrade, TEXTBOOK_SERIES_OPTIONS } from "@shared/rules/curriculumDatabase.js";
@@ -22,8 +23,21 @@ export const DashboardPage: React.FC = () => {
   const [newSemester, setNewSemester] = useState<"HK1" | "HK2">("HK1");
   const [newExamPeriod, setNewExamPeriod] = useState<"GIUA_KY" | "CUOI_KY" | "THUONG_XUYEN">("GIUA_KY");
 
+  // API Key state
+  const [isKeyModalOpen, setIsKeyModalOpen] = useState(false);
+  const [hasApiKey, setHasApiKey] = useState(true);
+
   const { showToast } = useNotification();
   const navigate = useNavigate();
+
+  const checkApiKeyStatus = async () => {
+    try {
+      const res = await api.getGeminiKeyStatus();
+      setHasApiKey(res.hasKey);
+    } catch {
+      setHasApiKey(false);
+    }
+  };
 
   const fetchProjects = async () => {
     try {
@@ -38,6 +52,7 @@ export const DashboardPage: React.FC = () => {
 
   useEffect(() => {
     fetchProjects();
+    checkApiKeyStatus();
   }, []);
 
   // Update subject list when grade changes
@@ -47,6 +62,17 @@ export const DashboardPage: React.FC = () => {
       setNewSubject(availableSubjects[0] || "Toán học");
     }
   }, [newGrade]);
+
+  const handleOpenCreateModal = () => {
+    if (!hasApiKey) {
+      showToast(
+        "warning",
+        "Chưa có Gemini API Key",
+        "Bạn chưa cấu hình API Key từ Google AI Studio. Bạn vẫn có thể tạo đề nhưng nên nhập API Key để kích hoạt AI."
+      );
+    }
+    setIsCreateOpen(true);
+  };
 
   const handleCreate = async () => {
     try {
@@ -115,15 +141,40 @@ export const DashboardPage: React.FC = () => {
           </p>
         </div>
         <button
-          onClick={() => setIsCreateOpen(true)}
+          onClick={handleOpenCreateModal}
           className="flex items-center gap-2 px-6 py-3.5 bg-white text-brand-700 font-bold rounded-2xl shadow-lg hover:bg-brand-50 transition-all hover:scale-105"
         >
           <Plus className="w-5 h-5" /> Tạo đề kiểm tra mới
         </button>
       </div>
 
+      {/* API Key Missing Warning Banner for Member */}
+      {!hasApiKey && (
+        <div className="bg-amber-500/10 border-2 border-amber-500/30 p-4 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold shrink-0">
+              <AlertTriangle className="w-5 h-5" />
+            </div>
+            <div className="text-xs">
+              <span className="font-bold text-amber-950 text-sm flex items-center gap-1.5">
+                <span>⚠️ Bạn chưa cấu hình Google Gemini API Key!</span>
+              </span>
+              <p className="text-amber-900 mt-0.5">
+                Hệ thống yêu cầu API Key từ <strong>Google AI Studio</strong> để AI có thể tự động sinh Ma trận, Bản đặc tả và Soạn câu hỏi. (Chưa đưa API Key bạn sẽ chưa sử dụng được tính năng AI).
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => setIsKeyModalOpen(true)}
+            className="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl text-xs font-bold hover:from-purple-700 hover:to-indigo-700 shadow-md transition-all shrink-0 flex items-center gap-1.5"
+          >
+            <Key className="w-4 h-4" /> Nhập Gemini API Key ngay
+          </button>
+        </div>
+      )}
+
       {/* Trial / Subscription Notice Banner */}
-      {(!user?.isActivated && user?.subscriptionStatus !== "ACTIVE") && (
+      {(!user?.isActivated && user?.subscriptionStatus !== "ACTIVE" && user?.role !== "R01_SYSTEM_ADMIN") && (
         <div className={`p-4 rounded-2xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs ${
           isExpired
             ? "bg-rose-50 border-rose-200 text-rose-950"
@@ -138,7 +189,7 @@ export const DashboardPage: React.FC = () => {
             <div className="text-xs">
               <span className="font-bold">
                 {isExpired
-                  ? "Hết hạn dùng thử 3 ngày miễn phí!"
+                  ? "Hết hạn dùng thử 5 ngày miễn phí!"
                   : `Tài khoản đang trong thời gian Dùng thử miễn phí (Còn ${trialDaysLeft} ngày)`}
               </span>
               <p className="text-slate-600 mt-0.5">
@@ -348,6 +399,7 @@ export const DashboardPage: React.FC = () => {
       </Modal>
 
       <SubscriptionModal isOpen={isSubModalOpen} onClose={() => setIsSubModalOpen(false)} />
+      <GeminiKeyModal isOpen={isKeyModalOpen} onClose={() => { setIsKeyModalOpen(false); checkApiKeyStatus(); }} onKeySaved={checkApiKeyStatus} />
     </div>
   );
 };
