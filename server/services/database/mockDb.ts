@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 import {
   User,
   Organization,
@@ -30,20 +31,35 @@ export interface DatabaseSchema {
   aiUsageLogs: AIUsageLog[];
 }
 
-const DB_FILE = path.resolve(process.cwd(), "server/data/db.json");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+function getDbFilePath(): string {
+  const candidate1 = path.resolve(process.cwd(), "server/data/db.json");
+  if (fs.existsSync(candidate1)) return candidate1;
+
+  const candidate2 = path.resolve(__dirname, "../../data/db.json");
+  if (fs.existsSync(candidate2)) return candidate2;
+
+  const candidate3 = path.resolve(process.cwd(), "dist-server/data/db.json");
+  if (fs.existsSync(candidate3)) return candidate3;
+
+  return candidate1;
+}
 
 export class DatabaseService {
   private static data: DatabaseSchema;
 
   public static initialize(): void {
-    if (fs.existsSync(DB_FILE)) {
+    const dbFile = getDbFilePath();
+    if (fs.existsSync(dbFile)) {
       try {
-        const raw = fs.readFileSync(DB_FILE, "utf-8");
+        const raw = fs.readFileSync(dbFile, "utf-8");
         DatabaseService.data = JSON.parse(raw);
-        console.log("Database successfully loaded from", DB_FILE);
+        console.log("Database successfully loaded from", dbFile);
         return;
       } catch (err) {
-        console.error("Error parsing db.json, initializing empty structure...", err);
+        console.error("Error parsing db.json, initializing default structure...", err);
       }
     }
 
@@ -66,13 +82,15 @@ export class DatabaseService {
 
   public static save(): void {
     try {
-      const dir = path.dirname(DB_FILE);
+      const dbFile = getDbFilePath();
+      const dir = path.dirname(dbFile);
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
       }
-      fs.writeFileSync(DB_FILE, JSON.stringify(DatabaseService.data, null, 2), "utf-8");
+      fs.writeFileSync(dbFile, JSON.stringify(DatabaseService.data, null, 2), "utf-8");
     } catch (err) {
-      console.error("Error saving db.json:", err);
+      // In serverless read-only environment, keep changes in memory without throwing
+      console.warn("Notice: In-memory persistence active:", err);
     }
   }
 
