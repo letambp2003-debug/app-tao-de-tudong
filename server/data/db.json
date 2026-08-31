@@ -78,7 +78,7 @@
       "examPeriod": "GIUA_KY",
       "durationMinutes": 90,
       "totalScore": 10,
-      "status": "MATRIX_GENERATED",
+      "status": "VALIDATED",
       "organizationId": "org-001",
       "authorId": "user-teacher-01",
       "authorName": "Thầy Giáo viên Nguyễn Văn An",
@@ -512,9 +512,7 @@
           "topicId": "top-3"
         }
       ],
-      "appendixNotes": "Phạm vi kiểm tra Giữa kì I: 100% nội dung thuộc Chương I (Đa thức) và Chương II (Hằng đẳng thức đáng nhớ và ứng dụng).",
-      "approvedAt": "2026-08-31T11:30:40.736Z",
-      "approvedBy": "Thầy Giáo viên Nguyễn Văn An"
+      "appendixNotes": "Phạm vi kiểm tra Giữa kì I: 100% nội dung thuộc Chương I (Đa thức) và Chương II (Hằng đẳng thức đáng nhớ và ứng dụng)."
     }
   },
   "blueprints": {
@@ -609,22 +607,21 @@
       "topicAllocations": [
         {
           "topicId": "top-1",
-          "targetScore": 1.5,
-          "targetPercentage": 15
+          "targetScore": 4,
+          "targetPercentage": 40
         },
         {
           "topicId": "top-2",
-          "targetScore": 1.5,
-          "targetPercentage": 15
+          "targetScore": 3,
+          "targetPercentage": 30
         },
         {
           "topicId": "top-3",
-          "targetScore": 3.5,
-          "targetPercentage": 35
+          "targetScore": 3,
+          "targetPercentage": 30
         }
       ],
-      "updatedAt": "2026-08-31T11:32:57.758Z",
-      "totalQuestions": 22
+      "updatedAt": "2026-08-31T11:53:06.258Z"
     }
   },
   "matrices": {
@@ -732,9 +729,11 @@
     "proj-1788148956682": {
       "id": "mat-proj-1788148956682",
       "projectId": "proj-1788148956682",
-      "isApproved": false,
+      "isApproved": true,
+      "approvedAt": "2026-08-31T11:53:06.258Z",
+      "approvedBy": "Thầy Giáo viên Nguyễn Văn An",
       "version": 1,
-      "updatedAt": "2026-08-31T11:34:20.059Z",
+      "updatedAt": "2026-08-31T11:53:06.258Z",
       "cells": [
         {
           "id": "mc-1",
@@ -748,8 +747,8 @@
         },
         {
           "id": "mc-2",
-          "topicId": "top-1",
-          "unitId": "unit-1",
+          "topicId": "top-2",
+          "unitId": "unit-2",
           "questionType": "MULTIPLE_CHOICE",
           "cognitiveLevel": "NB",
           "count": 3,
@@ -758,8 +757,8 @@
         },
         {
           "id": "mc-3",
-          "topicId": "top-2",
-          "unitId": "unit-2",
+          "topicId": "top-3",
+          "unitId": "unit-3",
           "questionType": "MULTIPLE_CHOICE",
           "cognitiveLevel": "NB",
           "count": 3,
@@ -813,18 +812,38 @@
           "questionType": "ESSAY",
           "cognitiveLevel": "VD",
           "count": 1,
-          "pointsPerItem": 1,
-          "totalScore": 1
+          "pointsPerItem": 0.75,
+          "totalScore": 0.75
         },
         {
           "id": "mc-9",
+          "topicId": "top-2",
+          "unitId": "unit-2",
+          "questionType": "ESSAY",
+          "cognitiveLevel": "VD",
+          "count": 1,
+          "pointsPerItem": 0.75,
+          "totalScore": 0.75
+        },
+        {
+          "id": "mc-10",
           "topicId": "top-3",
           "unitId": "unit-3",
           "questionType": "ESSAY",
           "cognitiveLevel": "VDC",
           "count": 1,
-          "pointsPerItem": 1,
-          "totalScore": 1
+          "pointsPerItem": 0.75,
+          "totalScore": 0.75
+        },
+        {
+          "id": "mc-11",
+          "topicId": "top-2",
+          "unitId": "unit-2",
+          "questionType": "ESSAY",
+          "cognitiveLevel": "VDC",
+          "count": 1,
+          "pointsPerItem": 0.75,
+          "totalScore": 0.75
         }
       ]
     }
@@ -970,9 +989,11 @@
     "proj-1788148956682": {
       "id": "spec-proj-1788148956682",
       "projectId": "proj-1788148956682",
-      "isApproved": false,
+      "isApproved": true,
+      "approvedAt": "2026-08-31T11:53:06.258Z",
+      "approvedBy": "Thầy Giáo viên Nguyễn Văn An",
       "version": 1,
-      "updatedAt": "2026-08-31T11:33:14.587Z",
+      "updatedAt": "2026-08-31T11:53:06.258Z",
       "rows": [
         {
           "id": "spec-row-1",
@@ -983,8 +1004,8 @@
           "yccdText": "Nhận biết đơn thức, đa thức nhiều biến, bậc của đa thức và thu gọn đa thức.",
           "cognitiveLevel": "NB",
           "questionType": "MULTIPLE_CHOICE",
-          "count": 8,
-          "score": 2,
+          "count": 6,
+          "score": 1.5,
           "competency": "TD_TOAN",
           "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14"
         },
@@ -997,8 +1018,8 @@
           "yccdText": "Vận dụng được 7 hằng đẳng thức đáng nhớ để khai triển và tính nhanh giá trị biểu thức.",
           "cognitiveLevel": "NB",
           "questionType": "MULTIPLE_CHOICE",
-          "count": 4,
-          "score": 1,
+          "count": 3,
+          "score": 0.75,
           "competency": "TD_TOAN",
           "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38"
         },
@@ -1011,8 +1032,8 @@
           "yccdText": "Nhận biết các dấu hiệu và tính chất của hình chữ nhật, hình thoi, hình vuông.",
           "cognitiveLevel": "NB",
           "questionType": "MULTIPLE_CHOICE",
-          "count": 4,
-          "score": 1,
+          "count": 3,
+          "score": 0.75,
           "competency": "TD_TOAN",
           "sourceReference": "SGK Toán 8 Tập 1 - Bài 14, 15 & 16, tr.75-88"
         },
@@ -1082,13 +1103,27 @@
           "cognitiveLevel": "VD",
           "questionType": "ESSAY",
           "count": 1,
-          "score": 1,
+          "score": 0.75,
           "competency": "TD_TOAN",
           "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14"
         },
         {
           "id": "spec-row-9",
           "matrixCellId": "mc-9",
+          "topicId": "top-2",
+          "unitId": "unit-2",
+          "yccdId": "yccd-4",
+          "yccdText": "Vận dụng các phương pháp đặt nhân tử chung, dùng hằng đẳng thức và nhóm hạng tử để phân tích đa thức thành nhân tử.",
+          "cognitiveLevel": "VD",
+          "questionType": "ESSAY",
+          "count": 1,
+          "score": 0.75,
+          "competency": "GQVD_TOAN",
+          "sourceReference": "SGK Toán 8 Tập 1 - Bài 8 & 9, tr.40-48"
+        },
+        {
+          "id": "spec-row-10",
+          "matrixCellId": "mc-10",
           "topicId": "top-3",
           "unitId": "unit-3",
           "yccdId": "yccd-5",
@@ -1096,9 +1131,23 @@
           "cognitiveLevel": "VDC",
           "questionType": "ESSAY",
           "count": 1,
-          "score": 1,
+          "score": 0.75,
           "competency": "TD_TOAN",
           "sourceReference": "SGK Toán 8 Tập 1 - Bài 14, 15 & 16, tr.75-88"
+        },
+        {
+          "id": "spec-row-11",
+          "matrixCellId": "mc-11",
+          "topicId": "top-2",
+          "unitId": "unit-2",
+          "yccdId": "yccd-3",
+          "yccdText": "Vận dụng được 7 hằng đẳng thức đáng nhớ để khai triển và tính nhanh giá trị biểu thức.",
+          "cognitiveLevel": "VDC",
+          "questionType": "ESSAY",
+          "count": 1,
+          "score": 0.75,
+          "competency": "TD_TOAN",
+          "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38"
         }
       ]
     }
@@ -2188,8 +2237,8 @@
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:11.496Z",
-        "updatedAt": "2026-08-31T06:25:11.496Z"
+        "createdAt": "2026-08-31T11:52:25.779Z",
+        "updatedAt": "2026-08-31T11:52:25.779Z"
       },
       {
         "id": "q-proj-1788148956682-multiple_choice-2",
@@ -2234,8 +2283,8 @@
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:12.412Z",
-        "updatedAt": "2026-08-31T06:25:12.412Z"
+        "createdAt": "2026-08-31T11:52:25.781Z",
+        "updatedAt": "2026-08-31T11:52:25.781Z"
       },
       {
         "id": "q-proj-1788148956682-multiple_choice-3",
@@ -2280,8 +2329,8 @@
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:13.315Z",
-        "updatedAt": "2026-08-31T06:25:13.315Z"
+        "createdAt": "2026-08-31T11:52:25.782Z",
+        "updatedAt": "2026-08-31T11:52:25.782Z"
       },
       {
         "id": "q-proj-1788148956682-multiple_choice-4",
@@ -2326,8 +2375,8 @@
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:14.398Z",
-        "updatedAt": "2026-08-31T06:25:14.398Z"
+        "createdAt": "2026-08-31T11:52:25.784Z",
+        "updatedAt": "2026-08-31T11:52:25.784Z"
       },
       {
         "id": "q-proj-1788148956682-multiple_choice-5",
@@ -2372,8 +2421,8 @@
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:15.197Z",
-        "updatedAt": "2026-08-31T06:25:15.197Z"
+        "createdAt": "2026-08-31T11:52:25.805Z",
+        "updatedAt": "2026-08-31T11:52:25.805Z"
       },
       {
         "id": "q-proj-1788148956682-multiple_choice-6",
@@ -2418,23 +2467,23 @@
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:16.837Z",
-        "updatedAt": "2026-08-31T06:25:16.837Z"
+        "createdAt": "2026-08-31T11:52:25.807Z",
+        "updatedAt": "2026-08-31T11:52:25.807Z"
       },
       {
         "id": "q-proj-1788148956682-multiple_choice-7",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-1",
+        "specificationId": "spec-row-2",
         "section": "PHAN_1",
         "orderNumber": 7,
         "type": "MULTIPLE_CHOICE",
         "stem": "Tứ giác có hai đường chéo bằng nhau và cắt nhau tại trung điểm của mỗi đường là hình gì?",
         "score": 0.25,
         "cognitiveLevel": "NB",
-        "topicId": "top-1",
-        "unitId": "unit-1",
-        "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "topicId": "top-2",
+        "unitId": "unit-2",
+        "yccdId": "yccd-3",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38",
         "explanation": "Hình bình hành có hai đường chéo bằng nhau là hình chữ nhật.",
         "mcOptions": [
           {
@@ -2464,23 +2513,23 @@
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:17.698Z",
-        "updatedAt": "2026-08-31T06:25:17.698Z"
+        "createdAt": "2026-08-31T11:52:25.820Z",
+        "updatedAt": "2026-08-31T11:52:25.820Z"
       },
       {
         "id": "q-proj-1788148956682-multiple_choice-8",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-1",
+        "specificationId": "spec-row-2",
         "section": "PHAN_1",
         "orderNumber": 8,
         "type": "MULTIPLE_CHOICE",
         "stem": "Tổng các góc trong một tứ giác lồi bất kì bằng:",
         "score": 0.25,
         "cognitiveLevel": "NB",
-        "topicId": "top-1",
-        "unitId": "unit-1",
-        "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "topicId": "top-2",
+        "unitId": "unit-2",
+        "yccdId": "yccd-3",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38",
         "explanation": "Tổng các góc trong một tứ giác bằng $360^\\circ$.",
         "mcOptions": [
           {
@@ -2510,8 +2559,8 @@
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:18.481Z",
-        "updatedAt": "2026-08-31T06:25:18.481Z"
+        "createdAt": "2026-08-31T11:52:25.834Z",
+        "updatedAt": "2026-08-31T11:52:25.834Z"
       },
       {
         "id": "q-proj-1788148956682-multiple_choice-9",
@@ -2523,10 +2572,10 @@
         "stem": "Trong các biểu thức đại số sau, biểu thức nào là đơn thức?",
         "score": 0.25,
         "cognitiveLevel": "NB",
-        "topicId": "top-1",
-        "unitId": "unit-1",
-        "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "topicId": "top-2",
+        "unitId": "unit-2",
+        "yccdId": "yccd-3",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38",
         "explanation": "Đơn thức là biểu thức đại số chỉ gồm một số, hoặc một biến, hoặc một tích giữa các số và các biến.",
         "mcOptions": [
           {
@@ -2556,23 +2605,23 @@
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:19.246Z",
-        "updatedAt": "2026-08-31T06:25:19.246Z"
+        "createdAt": "2026-08-31T11:52:25.836Z",
+        "updatedAt": "2026-08-31T11:52:25.836Z"
       },
       {
         "id": "q-proj-1788148956682-multiple_choice-10",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-2",
+        "specificationId": "spec-row-3",
         "section": "PHAN_1",
         "orderNumber": 10,
         "type": "MULTIPLE_CHOICE",
         "stem": "Bậc của đa thức $A = 4x^3y^2 - 2x^4y + 5x^2y^2 - 1$ là:",
         "score": 0.25,
         "cognitiveLevel": "NB",
-        "topicId": "top-1",
-        "unitId": "unit-1",
-        "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "topicId": "top-3",
+        "unitId": "unit-3",
+        "yccdId": "yccd-5",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 14, 15 & 16, tr.75-88",
         "explanation": "Hạng tử có bậc cao nhất là $4x^3y^2$ và $-2x^4y$ đều có bậc $3 + 2 = 5$ và $4 + 1 = 5$.",
         "mcOptions": [
           {
@@ -2602,23 +2651,23 @@
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:20.020Z",
-        "updatedAt": "2026-08-31T06:25:20.020Z"
+        "createdAt": "2026-08-31T11:52:25.837Z",
+        "updatedAt": "2026-08-31T11:52:25.837Z"
       },
       {
         "id": "q-proj-1788148956682-multiple_choice-11",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-2",
+        "specificationId": "spec-row-3",
         "section": "PHAN_1",
         "orderNumber": 11,
         "type": "MULTIPLE_CHOICE",
         "stem": "Hằng đẳng thức hiệu hai bình phương $A^2 - B^2$ bằng biểu thức nào sau đây?",
         "score": 0.25,
         "cognitiveLevel": "NB",
-        "topicId": "top-1",
-        "unitId": "unit-1",
-        "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "topicId": "top-3",
+        "unitId": "unit-3",
+        "yccdId": "yccd-5",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 14, 15 & 16, tr.75-88",
         "explanation": "Hiệu hai bình phương của hai biểu thức bằng tích của hiệu hai biểu thức với tổng của chúng: $A^2 - B^2 = (A - B)(A + B)$.",
         "mcOptions": [
           {
@@ -2648,23 +2697,23 @@
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:20.863Z",
-        "updatedAt": "2026-08-31T06:25:20.863Z"
+        "createdAt": "2026-08-31T11:52:25.839Z",
+        "updatedAt": "2026-08-31T11:52:25.839Z"
       },
       {
         "id": "q-proj-1788148956682-multiple_choice-12",
         "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-2",
+        "specificationId": "spec-row-3",
         "section": "PHAN_1",
         "orderNumber": 12,
         "type": "MULTIPLE_CHOICE",
         "stem": "Khai triển của hằng đẳng thức $(x - 3)^2$ là:",
         "score": 0.25,
         "cognitiveLevel": "NB",
-        "topicId": "top-1",
-        "unitId": "unit-1",
-        "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "topicId": "top-3",
+        "unitId": "unit-3",
+        "yccdId": "yccd-5",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 14, 15 & 16, tr.75-88",
         "explanation": "$(x - 3)^2 = x^2 - 2 \\cdot x \\cdot 3 + 3^2 = x^2 - 6x + 9$.",
         "mcOptions": [
           {
@@ -2694,199 +2743,15 @@
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:21.575Z",
-        "updatedAt": "2026-08-31T06:25:21.575Z"
+        "createdAt": "2026-08-31T11:52:25.840Z",
+        "updatedAt": "2026-08-31T11:52:25.840Z"
       },
       {
-        "id": "q-proj-1788148956682-multiple_choice-13",
-        "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-3",
-        "section": "PHAN_1",
-        "orderNumber": 13,
-        "type": "MULTIPLE_CHOICE",
-        "stem": "Điều kiện xác định của phân thức đại số $\\frac{3x - 1}{x - 2}$ là:",
-        "score": 0.25,
-        "cognitiveLevel": "NB",
-        "topicId": "top-1",
-        "unitId": "unit-2",
-        "yccdId": "yccd-3",
-        "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38",
-        "explanation": "Phân thức xác định khi mẫu thức khác 0: $x - 2 \\neq 0 \\Leftrightarrow x \\neq 2$.",
-        "mcOptions": [
-          {
-            "id": "opt-m5-a",
-            "label": "A",
-            "content": "$x \\neq 2$",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-m5-b",
-            "label": "B",
-            "content": "$x \\neq -2$",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-m5-c",
-            "label": "C",
-            "content": "$x \\neq \\frac{1}{3}$",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-m5-d",
-            "label": "D",
-            "content": "$x = 2$",
-            "isCorrect": false
-          }
-        ],
-        "aiGenerated": true,
-        "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:22.319Z",
-        "updatedAt": "2026-08-31T06:25:22.319Z"
-      },
-      {
-        "id": "q-proj-1788148956682-multiple_choice-14",
-        "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-3",
-        "section": "PHAN_1",
-        "orderNumber": 14,
-        "type": "MULTIPLE_CHOICE",
-        "stem": "Tứ giác có 4 cạnh bằng nhau là hình gì?",
-        "score": 0.25,
-        "cognitiveLevel": "NB",
-        "topicId": "top-1",
-        "unitId": "unit-2",
-        "yccdId": "yccd-3",
-        "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38",
-        "explanation": "Theo định nghĩa: Hình thoi là tứ giác có bốn cạnh bằng nhau.",
-        "mcOptions": [
-          {
-            "id": "opt-m6-a",
-            "label": "A",
-            "content": "Hình thoi",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-m6-b",
-            "label": "B",
-            "content": "Hình chữ nhật",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-m6-c",
-            "label": "C",
-            "content": "Hình thang cân",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-m6-d",
-            "label": "D",
-            "content": "Hình bình hành",
-            "isCorrect": false
-          }
-        ],
-        "aiGenerated": true,
-        "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:23.098Z",
-        "updatedAt": "2026-08-31T06:25:23.098Z"
-      },
-      {
-        "id": "q-proj-1788148956682-multiple_choice-15",
-        "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-3",
-        "section": "PHAN_1",
-        "orderNumber": 15,
-        "type": "MULTIPLE_CHOICE",
-        "stem": "Tứ giác có hai đường chéo bằng nhau và cắt nhau tại trung điểm của mỗi đường là hình gì?",
-        "score": 0.25,
-        "cognitiveLevel": "NB",
-        "topicId": "top-1",
-        "unitId": "unit-2",
-        "yccdId": "yccd-3",
-        "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38",
-        "explanation": "Hình bình hành có hai đường chéo bằng nhau là hình chữ nhật.",
-        "mcOptions": [
-          {
-            "id": "opt-m7-a",
-            "label": "A",
-            "content": "Hình chữ nhật",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-m7-b",
-            "label": "B",
-            "content": "Hình thoi",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-m7-c",
-            "label": "C",
-            "content": "Hình thang",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-m7-d",
-            "label": "D",
-            "content": "Hình vuông",
-            "isCorrect": false
-          }
-        ],
-        "aiGenerated": true,
-        "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:23.842Z",
-        "updatedAt": "2026-08-31T06:25:23.842Z"
-      },
-      {
-        "id": "q-proj-1788148956682-multiple_choice-16",
-        "projectId": "proj-1788148956682",
-        "specificationId": "spec-row-3",
-        "section": "PHAN_1",
-        "orderNumber": 16,
-        "type": "MULTIPLE_CHOICE",
-        "stem": "Tổng các góc trong một tứ giác lồi bất kì bằng:",
-        "score": 0.25,
-        "cognitiveLevel": "NB",
-        "topicId": "top-1",
-        "unitId": "unit-2",
-        "yccdId": "yccd-3",
-        "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38",
-        "explanation": "Tổng các góc trong một tứ giác bằng $360^\\circ$.",
-        "mcOptions": [
-          {
-            "id": "opt-m8-a",
-            "label": "A",
-            "content": "$360^\\circ$",
-            "isCorrect": true
-          },
-          {
-            "id": "opt-m8-b",
-            "label": "B",
-            "content": "$180^\\circ$",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-m8-c",
-            "label": "C",
-            "content": "$90^\\circ$",
-            "isCorrect": false
-          },
-          {
-            "id": "opt-m8-d",
-            "label": "D",
-            "content": "$540^\\circ$",
-            "isCorrect": false
-          }
-        ],
-        "aiGenerated": true,
-        "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:24.637Z",
-        "updatedAt": "2026-08-31T06:25:24.637Z"
-      },
-      {
-        "id": "q-proj-1788148956682-true_false_4-17",
+        "id": "q-proj-1788148956682-true_false_4-13",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-4",
         "section": "PHAN_2",
-        "orderNumber": 17,
+        "orderNumber": 13,
         "type": "TRUE_FALSE_4",
         "stem": "Cho các đẳng thức biến đổi hằng đẳng thức và đa thức sau:",
         "score": 1,
@@ -2928,20 +2793,20 @@
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:25.356Z",
-        "updatedAt": "2026-08-31T06:25:25.356Z"
+        "createdAt": "2026-08-31T11:52:25.853Z",
+        "updatedAt": "2026-08-31T11:52:25.853Z"
       },
       {
-        "id": "q-proj-1788148956682-true_false_4-18",
+        "id": "q-proj-1788148956682-true_false_4-14",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-5",
         "section": "PHAN_2",
-        "orderNumber": 18,
+        "orderNumber": 14,
         "type": "TRUE_FALSE_4",
         "stem": "Cho tứ giác $ABCD$ có $AB // CD$ và $AD // BC$. Xét tính đúng/sai của các nhận định sau:",
         "score": 1,
         "cognitiveLevel": "TH",
-        "topicId": "top-1",
+        "topicId": "top-2",
         "unitId": "unit-2",
         "yccdId": "yccd-3",
         "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38",
@@ -2978,15 +2843,15 @@
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:26.063Z",
-        "updatedAt": "2026-08-31T06:25:26.063Z"
+        "createdAt": "2026-08-31T11:52:25.855Z",
+        "updatedAt": "2026-08-31T11:52:25.855Z"
       },
       {
-        "id": "q-proj-1788148956682-short_answer-19",
+        "id": "q-proj-1788148956682-short_answer-15",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-6",
         "section": "PHAN_3",
-        "orderNumber": 19,
+        "orderNumber": 15,
         "type": "SHORT_ANSWER",
         "stem": "Thực hiện phép tính rút gọn biểu thức $P = (x + 2)^2 - x(x + 4)$. Giá trị của $P$ bằng bao nhiêu?",
         "score": 0.5,
@@ -3007,15 +2872,15 @@
         },
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:26.754Z",
-        "updatedAt": "2026-08-31T06:25:26.754Z"
+        "createdAt": "2026-08-31T11:52:25.856Z",
+        "updatedAt": "2026-08-31T11:52:25.856Z"
       },
       {
-        "id": "q-proj-1788148956682-short_answer-20",
+        "id": "q-proj-1788148956682-short_answer-16",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-6",
         "section": "PHAN_3",
-        "orderNumber": 20,
+        "orderNumber": 16,
         "type": "SHORT_ANSWER",
         "stem": "Tính giá trị của biểu thức $Q = x^2 - 4xy + 4y^2$ tại $x = 104$ và $y = 2$:",
         "score": 0.5,
@@ -3036,20 +2901,20 @@
         },
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:27.470Z",
-        "updatedAt": "2026-08-31T06:25:27.470Z"
+        "createdAt": "2026-08-31T11:52:25.865Z",
+        "updatedAt": "2026-08-31T11:52:25.865Z"
       },
       {
-        "id": "q-proj-1788148956682-short_answer-21",
+        "id": "q-proj-1788148956682-short_answer-17",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-7",
         "section": "PHAN_3",
-        "orderNumber": 21,
+        "orderNumber": 17,
         "type": "SHORT_ANSWER",
         "stem": "Cho $\\Delta ABC$ có $MN // BC$ ($M \\in AB, N \\in AC$). Biết $AM = 4\\text{ cm}, MB = 2\\text{ cm}, AN = 6\\text{ cm}$. Tính độ dài đoạn thẳng $NC$ (cm):",
         "score": 0.5,
         "cognitiveLevel": "VD",
-        "topicId": "top-1",
+        "topicId": "top-2",
         "unitId": "unit-2",
         "yccdId": "yccd-4",
         "sourceReference": "SGK Toán 8 Tập 1 - Bài 8 & 9, tr.40-48",
@@ -3065,20 +2930,20 @@
         },
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:28.101Z",
-        "updatedAt": "2026-08-31T06:25:28.101Z"
+        "createdAt": "2026-08-31T11:52:25.867Z",
+        "updatedAt": "2026-08-31T11:52:25.867Z"
       },
       {
-        "id": "q-proj-1788148956682-short_answer-22",
+        "id": "q-proj-1788148956682-short_answer-18",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-7",
         "section": "PHAN_3",
-        "orderNumber": 22,
+        "orderNumber": 18,
         "type": "SHORT_ANSWER",
         "stem": "Một hình thoi có độ dài hai đường chéo là $d_1 = 8\\text{ cm}$ và $d_2 = 6\\text{ cm}$. Diện tích hình thoi bằng bao nhiêu $\\text{cm}^2$?",
         "score": 0.5,
         "cognitiveLevel": "VD",
-        "topicId": "top-1",
+        "topicId": "top-2",
         "unitId": "unit-2",
         "yccdId": "yccd-4",
         "sourceReference": "SGK Toán 8 Tập 1 - Bài 8 & 9, tr.40-48",
@@ -3094,18 +2959,18 @@
         },
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:28.766Z",
-        "updatedAt": "2026-08-31T06:25:28.766Z"
+        "createdAt": "2026-08-31T11:52:25.868Z",
+        "updatedAt": "2026-08-31T11:52:25.868Z"
       },
       {
-        "id": "q-proj-1788148956682-essay-23",
+        "id": "q-proj-1788148956682-essay-19",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-8",
         "section": "PHAN_4",
-        "orderNumber": 23,
+        "orderNumber": 19,
         "type": "ESSAY",
         "stem": "Cho đa thức $M = x^2 - 25 - 4xy + 4y^2$.\na) Phân tích đa thức $M$ thành nhân tử.\nb) Tính giá trị của biểu thức $M$ khi $x - 2y = 15$.",
-        "score": 1,
+        "score": 0.75,
         "cognitiveLevel": "VD",
         "topicId": "top-1",
         "unitId": "unit-1",
@@ -3118,35 +2983,71 @@
             "stepNumber": 1,
             "criterion": "Nhóm hạng tử tạo hằng đẳng thức",
             "expectedContent": "$M = (x^2 - 4xy + 4y^2) - 25 = (x - 2y)^2 - 5^2 = (x - 2y - 5)(x - 2y + 5)$.",
-            "score": 0.5
+            "score": 0.38
           },
           {
             "id": "rb-m1-2",
             "stepNumber": 2,
             "criterion": "Thay giá trị và tính đúng kết quả",
             "expectedContent": "Thay $x - 2y = 15$ vào: $M = (15 - 5)(15 + 5) = 10 \\times 20 = 200$.",
-            "score": 0.5
+            "score": 0.38
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:29.413Z",
-        "updatedAt": "2026-08-31T06:25:29.413Z"
+        "createdAt": "2026-08-31T11:52:25.869Z",
+        "updatedAt": "2026-08-31T11:52:25.869Z"
       },
       {
-        "id": "q-proj-1788148956682-essay-24",
+        "id": "q-proj-1788148956682-essay-20",
         "projectId": "proj-1788148956682",
         "specificationId": "spec-row-9",
         "section": "PHAN_4",
-        "orderNumber": 24,
+        "orderNumber": 20,
+        "type": "ESSAY",
+        "stem": "Cho đa thức $M = x^2 - 25 - 4xy + 4y^2$.\na) Phân tích đa thức $M$ thành nhân tử.\nb) Tính giá trị của biểu thức $M$ khi $x - 2y = 15$.",
+        "score": 0.75,
+        "cognitiveLevel": "VD",
+        "topicId": "top-2",
+        "unitId": "unit-2",
+        "yccdId": "yccd-4",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 8 & 9, tr.40-48",
+        "explanation": "Nhóm (x^2 - 4xy + 4y^2) - 25 = (x - 2y)^2 - 5^2 = (x - 2y - 5)(x - 2y + 5).",
+        "rubricSteps": [
+          {
+            "id": "rb-m1-1",
+            "stepNumber": 1,
+            "criterion": "Nhóm hạng tử tạo hằng đẳng thức",
+            "expectedContent": "$M = (x^2 - 4xy + 4y^2) - 25 = (x - 2y)^2 - 5^2 = (x - 2y - 5)(x - 2y + 5)$.",
+            "score": 0.38
+          },
+          {
+            "id": "rb-m1-2",
+            "stepNumber": 2,
+            "criterion": "Thay giá trị và tính đúng kết quả",
+            "expectedContent": "Thay $x - 2y = 15$ vào: $M = (15 - 5)(15 + 5) = 10 \\times 20 = 200$.",
+            "score": 0.38
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T11:52:25.871Z",
+        "updatedAt": "2026-08-31T11:52:25.871Z"
+      },
+      {
+        "id": "q-proj-1788148956682-essay-21",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-10",
+        "section": "PHAN_4",
+        "orderNumber": 21,
         "type": "ESSAY",
         "stem": "Cho biểu thức $A = \\left( \\frac{x}{x^2 - 9} + \\frac{1}{x + 3} \\right) : \\frac{2}{x - 3}$ với $x \\neq \\pm 3$.\na) Rút gọn biểu thức $A$.\nb) Tìm giá trị nguyên của $x$ để $A$ nhận giá trị nguyên.",
-        "score": 1,
+        "score": 0.75,
         "cognitiveLevel": "VDC",
-        "topicId": "top-1",
-        "unitId": "unit-1",
-        "yccdId": "yccd-1",
-        "sourceReference": "SGK Toán 8 Tập 1 - Bài 1 & 2, tr.6-14",
+        "topicId": "top-3",
+        "unitId": "unit-3",
+        "yccdId": "yccd-5",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 14, 15 & 16, tr.75-88",
         "explanation": "Biểu thức rút gọn ra A = (2x - 3) / (2(x + 3)). Tìm x nguyên để A nguyên.",
         "rubricSteps": [
           {
@@ -3154,34 +3055,84 @@
             "stepNumber": 1,
             "criterion": "Quy đồng và thực hiện phép cộng trong ngoặc",
             "expectedContent": "$\\frac{x + x - 3}{(x - 3)(x + 3)} = \\frac{2x - 3}{(x - 3)(x + 3)}$.",
-            "score": 0.25
+            "score": 0.19
           },
           {
             "id": "rb-m2-2",
             "stepNumber": 2,
             "criterion": "Nhân đảo ngược và rút gọn ra $A$",
             "expectedContent": "$A = \\frac{2x - 3}{(x - 3)(x + 3)} \\cdot \\frac{x - 3}{2} = \\frac{2x - 3}{2(x + 3)}$.",
-            "score": 0.25
+            "score": 0.19
           },
           {
             "id": "rb-m2-3",
             "stepNumber": 3,
             "criterion": "Biến đổi tìm điều kiện $x$ nguyên",
             "expectedContent": "$2A = \\frac{2x - 3}{x + 3} = 2 - \\frac{9}{x + 3}$. Để $2A$ nguyên thì $(x + 3) \\in Ư(9) = \\{\\pm 1, \\pm 3, \\pm 9\\}$.",
-            "score": 0.25
+            "score": 0.19
           },
           {
             "id": "rb-m2-4",
             "stepNumber": 4,
             "criterion": "Đối chiếu ĐKXĐ và kết luận các giá trị $x$",
             "expectedContent": "Tìm được $x \\in \\{-12, -6, -4, -2, 0, 6\\}$ (loại $x = \\pm 3$). Kiểm tra để $A$ nhận giá trị nguyên.",
-            "score": 0.25
+            "score": 0.19
           }
         ],
         "aiGenerated": true,
         "status": "APPROVED",
-        "createdAt": "2026-08-31T06:25:30.100Z",
-        "updatedAt": "2026-08-31T06:25:30.100Z"
+        "createdAt": "2026-08-31T11:52:25.873Z",
+        "updatedAt": "2026-08-31T11:52:25.873Z"
+      },
+      {
+        "id": "q-proj-1788148956682-essay-22",
+        "projectId": "proj-1788148956682",
+        "specificationId": "spec-row-11",
+        "section": "PHAN_4",
+        "orderNumber": 22,
+        "type": "ESSAY",
+        "stem": "Cho biểu thức $A = \\left( \\frac{x}{x^2 - 9} + \\frac{1}{x + 3} \\right) : \\frac{2}{x - 3}$ với $x \\neq \\pm 3$.\na) Rút gọn biểu thức $A$.\nb) Tìm giá trị nguyên của $x$ để $A$ nhận giá trị nguyên.",
+        "score": 0.75,
+        "cognitiveLevel": "VDC",
+        "topicId": "top-2",
+        "unitId": "unit-2",
+        "yccdId": "yccd-3",
+        "sourceReference": "SGK Toán 8 Tập 1 - Bài 6 & 7, tr.30-38",
+        "explanation": "Biểu thức rút gọn ra A = (2x - 3) / (2(x + 3)). Tìm x nguyên để A nguyên.",
+        "rubricSteps": [
+          {
+            "id": "rb-m2-1",
+            "stepNumber": 1,
+            "criterion": "Quy đồng và thực hiện phép cộng trong ngoặc",
+            "expectedContent": "$\\frac{x + x - 3}{(x - 3)(x + 3)} = \\frac{2x - 3}{(x - 3)(x + 3)}$.",
+            "score": 0.19
+          },
+          {
+            "id": "rb-m2-2",
+            "stepNumber": 2,
+            "criterion": "Nhân đảo ngược và rút gọn ra $A$",
+            "expectedContent": "$A = \\frac{2x - 3}{(x - 3)(x + 3)} \\cdot \\frac{x - 3}{2} = \\frac{2x - 3}{2(x + 3)}$.",
+            "score": 0.19
+          },
+          {
+            "id": "rb-m2-3",
+            "stepNumber": 3,
+            "criterion": "Biến đổi tìm điều kiện $x$ nguyên",
+            "expectedContent": "$2A = \\frac{2x - 3}{x + 3} = 2 - \\frac{9}{x + 3}$. Để $2A$ nguyên thì $(x + 3) \\in Ư(9) = \\{\\pm 1, \\pm 3, \\pm 9\\}$.",
+            "score": 0.19
+          },
+          {
+            "id": "rb-m2-4",
+            "stepNumber": 4,
+            "criterion": "Đối chiếu ĐKXĐ và kết luận các giá trị $x$",
+            "expectedContent": "Tìm được $x \\in \\{-12, -6, -4, -2, 0, 6\\}$ (loại $x = \\pm 3$). Kiểm tra để $A$ nhận giá trị nguyên.",
+            "score": 0.19
+          }
+        ],
+        "aiGenerated": true,
+        "status": "APPROVED",
+        "createdAt": "2026-08-31T11:52:25.874Z",
+        "updatedAt": "2026-08-31T11:52:25.874Z"
       }
     ]
   },
@@ -3287,6 +3238,281 @@
     }
   ],
   "aiUsageLogs": [
+    {
+      "id": "ai-log-1788177145873-2wr5t",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.873Z"
+    },
+    {
+      "id": "ai-log-1788177145871-0tjxy",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.871Z"
+    },
+    {
+      "id": "ai-log-1788177145869-dwlo4",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.869Z"
+    },
+    {
+      "id": "ai-log-1788177145868-ufmjw",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.868Z"
+    },
+    {
+      "id": "ai-log-1788177145867-ce7sp",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.867Z"
+    },
+    {
+      "id": "ai-log-1788177145865-el7aw",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.865Z"
+    },
+    {
+      "id": "ai-log-1788177145856-dvx4q",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.856Z"
+    },
+    {
+      "id": "ai-log-1788177145855-xxayy",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.855Z"
+    },
+    {
+      "id": "ai-log-1788177145853-fvt60",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.853Z"
+    },
+    {
+      "id": "ai-log-1788177145840-7slvj",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.840Z"
+    },
+    {
+      "id": "ai-log-1788177145839-qjwhj",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.839Z"
+    },
+    {
+      "id": "ai-log-1788177145837-f6mde",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.837Z"
+    },
+    {
+      "id": "ai-log-1788177145836-lyu5z",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.836Z"
+    },
+    {
+      "id": "ai-log-1788177145834-1rd7e",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.834Z"
+    },
+    {
+      "id": "ai-log-1788177145820-lwb5p",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.820Z"
+    },
+    {
+      "id": "ai-log-1788177145807-9llti",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.807Z"
+    },
+    {
+      "id": "ai-log-1788177145805-r179m",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.805Z"
+    },
+    {
+      "id": "ai-log-1788177145784-8g4ku",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.784Z"
+    },
+    {
+      "id": "ai-log-1788177145782-mgikf",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.782Z"
+    },
+    {
+      "id": "ai-log-1788177145781-s5gr2",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.781Z"
+    },
+    {
+      "id": "ai-log-1788177145779-npmee",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.779Z"
+    },
+    {
+      "id": "ai-log-1788177145778-5mqag",
+      "moduleCode": "AI05_QUESTION_AUTHOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v2.0",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:52:25.778Z"
+    },
+    {
+      "id": "ai-log-1788177019828-dspv7",
+      "moduleCode": "AI03_MATRIX_ADVISOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v1.1",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:50:19.828Z"
+    },
+    {
+      "id": "ai-log-1788176996835-l6lls",
+      "moduleCode": "AI03_MATRIX_ADVISOR",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v1.1",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 0,
+      "timestamp": "2026-08-31T11:49:56.835Z"
+    },
+    {
+      "id": "ai-log-1788176981095-a8yiq",
+      "moduleCode": "AI02_CURRICULUM_MAPPER",
+      "projectId": "proj-1788148956682",
+      "promptVersion": "v1.3",
+      "status": "FALLBACK_MOCK",
+      "inputTokens": 500,
+      "outputTokens": 800,
+      "durationMs": 1,
+      "timestamp": "2026-08-31T11:49:41.095Z"
+    },
     {
       "id": "ai-log-1788176019448-xsqvt",
       "moduleCode": "AI03_MATRIX_ADVISOR",

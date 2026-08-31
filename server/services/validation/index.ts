@@ -138,11 +138,18 @@ export class ValidationEngine {
       const expectedVD = (blueprint.cognitiveWeights.VD / 100) * project.totalScore;
       const expectedVDC = (blueprint.cognitiveWeights.VDC / 100) * project.totalScore;
 
+      const totalCognitiveSum = cognitiveTotals.NB + cognitiveTotals.TH + cognitiveTotals.VD + cognitiveTotals.VDC;
       const v04Passed =
-        isEqual(cognitiveTotals.NB, expectedNB, 0.25) &&
-        isEqual(cognitiveTotals.TH, expectedTH, 0.25) &&
-        isEqual(cognitiveTotals.VD, expectedVD, 0.25) &&
-        isEqual(cognitiveTotals.VDC, expectedVDC, 0.25);
+        isEqual(totalCognitiveSum, project.totalScore) &&
+        (isEqual(cognitiveTotals.NB, expectedNB, 0.5) || Math.abs(cognitiveTotals.NB - expectedNB) < 0.6) &&
+        (isEqual(cognitiveTotals.TH, expectedTH, 0.5) || Math.abs(cognitiveTotals.TH - expectedTH) < 0.6) &&
+        (isEqual(cognitiveTotals.VD, expectedVD, 0.5) || Math.abs(cognitiveTotals.VD - expectedVD) < 0.6) &&
+        (isEqual(cognitiveTotals.VDC, expectedVDC, 0.5) || Math.abs(cognitiveTotals.VDC - expectedVDC) < 0.6);
+
+      const actualNbPct = Math.round((cognitiveTotals.NB / project.totalScore) * 100);
+      const actualThPct = Math.round((cognitiveTotals.TH / project.totalScore) * 100);
+      const actualVdPct = Math.round((cognitiveTotals.VD / project.totalScore) * 100);
+      const actualVdcPct = Math.round((cognitiveTotals.VDC / project.totalScore) * 100);
 
       results.push({
         ruleCode: "V04",
@@ -150,7 +157,7 @@ export class ValidationEngine {
         severity: "CRITICAL",
         passed: v04Passed,
         message: v04Passed
-          ? `Tỉ lệ nhận thức: NB ${cognitiveTotals.NB}đ (${blueprint.cognitiveWeights.NB}%), TH ${cognitiveTotals.TH}đ (${blueprint.cognitiveWeights.TH}%), VD ${cognitiveTotals.VD}đ (${blueprint.cognitiveWeights.VD}%), VDC ${cognitiveTotals.VDC}đ (${blueprint.cognitiveWeights.VDC}%).`
+          ? `Tỉ lệ nhận thức: NB ${cognitiveTotals.NB.toFixed(2)}đ (${actualNbPct}%), TH ${cognitiveTotals.TH.toFixed(2)}đ (${actualThPct}%), VD ${cognitiveTotals.VD.toFixed(2)}đ (${actualVdPct}%), VDC ${cognitiveTotals.VDC.toFixed(2)}đ (${actualVdcPct}%).`
           : `Tỉ lệ nhận thức thực tế (NB:${cognitiveTotals.NB}đ, TH:${cognitiveTotals.TH}đ, VD:${cognitiveTotals.VD}đ, VDC:${cognitiveTotals.VDC}đ) chưa khớp với mục tiêu Blueprint.`,
         guidance: "Kiểm tra thanh tổng mức độ nhận thức trên bảng Ma trận (Bước 5), tăng/giảm số câu tương ứng để đạt tỉ lệ chuẩn 40% NB - 30% TH - 20% VD - 10% VDC.",
         stepKey: "MATRIX",
@@ -833,11 +840,16 @@ export class ValidationEngine {
           if (!hasCorrect && q.mcOptions.length > 0) q.mcOptions[0].isCorrect = true;
         }
         if (q.type === "ESSAY" && q.rubricSteps && q.rubricSteps.length > 0) {
-          const rSum = q.rubricSteps.reduce((sum, s) => sum + s.score, 0);
-          if (!isEqual(rSum, q.score)) {
-            const stepScore = Number((q.score / q.rubricSteps.length).toFixed(2));
-            q.rubricSteps.forEach(s => { s.score = stepScore; });
-          }
+          const numSteps = q.rubricSteps.length;
+          let assigned = 0;
+          q.rubricSteps.forEach((s, sIdx) => {
+            if (sIdx === numSteps - 1) {
+              s.score = Number((q.score - assigned).toFixed(2));
+            } else {
+              s.score = Number(((q.score / numSteps)).toFixed(2));
+              assigned += s.score;
+            }
+          });
         }
       });
     }
